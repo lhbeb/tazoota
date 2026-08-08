@@ -1,0 +1,235 @@
+'use client';
+
+import { useEffect, useState, Suspense } from 'react';
+import Link from 'next/link';
+import { CheckCircle, Mail, Clock, Package, ArrowLeft, Loader2 } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { trackPixelEvent } from '@/lib/pixel';
+import { CART_STORAGE_KEY, clearCart } from '@/utils/cart';
+
+function ThankYouContent() {
+  const searchParams = useSearchParams();
+  const [orderDetails, setOrderDetails] = useState<any>(null);
+  const sessionId = searchParams.get('session_id');
+  const isStaticSuccess = !sessionId;
+  const isSuccessful = isStaticSuccess || orderDetails?.status === 'paid';
+
+  useEffect(() => {
+    // Non-Stripe returns use cart data for Purchase tracking before clearing checkout state.
+    // Use sessionStorage to prevent duplicate fires on page refresh
+    const alreadyTracked = sessionStorage.getItem('purchase_tracked');
+    if (!alreadyTracked) {
+      try {
+        const stored = localStorage.getItem(CART_STORAGE_KEY);
+        if (stored) {
+          const cartItem = JSON.parse(stored);
+          const product = cartItem?.product;
+          if (product) {
+            trackPixelEvent('Purchase', {
+              value: product.price || 0,
+              currency: product.currency || 'USD',
+              content_ids: [product.slug || product.id || ''],
+              content_name: product.title || '',
+              content_type: 'product',
+              num_items: cartItem.quantity || 1,
+            });
+            sessionStorage.setItem('purchase_tracked', '1');
+          }
+        }
+      } catch (e) {
+        console.error('Purchase pixel error:', e);
+      }
+    }
+
+    // PayPal and other redirect flows only reach this route after provider success.
+    if (!sessionId) {
+      clearCart();
+      return;
+    }
+
+    // Verify payment in background (but don't block UI)
+    const verifyInBackground = async () => {
+      try {
+        const response = await fetch('/api/verify-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setOrderDetails(data);
+
+          // Meta Pixel Purchase Event (Stripe flow — only if not already tracked)
+          if (data.status === 'paid' && !alreadyTracked) {
+            trackPixelEvent('Purchase', {
+              value: data.amount ? data.amount / 100 : 0,
+              currency: data.currency ? data.currency.toUpperCase() : 'USD',
+              content_ids: data.orderId ? [data.orderId] : [],
+              content_type: 'product'
+            });
+            sessionStorage.setItem('purchase_tracked', '1');
+          }
+        } else {
+          console.warn('⚠️ Payment verification failed, falling back to pending UI');
+          setOrderDetails({ status: 'pending' });
+        }
+      } catch (error) {
+        console.error('❌ Background verification error:', error);
+        setOrderDetails({ status: 'pending' });
+      }
+    };
+
+    verifyInBackground();
+  }, [searchParams, sessionId]);
+
+  // Always show success (Stripe only redirects here if payment succeeded)
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center p-4">
+      <div className="max-w-2xl w-full">
+        {/* Success Card */}
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-12 text-center">
+          {/* Success Icon */}
+          <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+            <CheckCircle className="w-12 h-12 text-green-600" />
+          </div>
+
+          {/* Main Message */}
+          <h1 className="text-3xl md:text-4xl font-bold text-[#262626] mb-4">
+            {isSuccessful ? 'Thank You for Your Order!' : 'Payment Verification Pending...'}
+          </h1>
+
+          <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+            {isSuccessful
+              ? 'Your payment has been successfully recorded and your order is queued for manual processing. We will send you an email confirmation shortly once verified.' 
+              : 'Your payment is still processing or awaiting backend verification. We will process your order and send a confirmation email once it is completely confirmed.'}
+          </p>
+
+          {/* Order Details */}
+          {orderDetails && (
+            <div className="bg-gray-50 rounded-xl p-6 mb-8">
+              <p className="text-sm text-gray-500 mb-2">Order ID</p>
+              <p className="text-lg font-mono font-semibold text-[#262626] mb-4">
+                {orderDetails.orderId || orderDetails.sessionId}
+              </p>
+              {orderDetails.amount && (
+                <p className="text-2xl font-bold text-green-600">
+                  ${(orderDetails.amount / 100).toFixed(2)} {orderDetails.currency?.toUpperCase()}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Next Steps */}
+          <div className="bg-gray-50 rounded-xl p-6 mb-8">
+            <h2 className="text-xl font-semibold text-[#262626] mb-4">
+              What happens next?
+            </h2>
+
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Clock className="w-4 h-4 text-blue-600" />
+                </div>
+                <div className="text-left">
+                  <h3 className="font-medium text-[#262626]">Order Processing</h3>
+                  <p className="text-sm text-gray-600">We&apos;ll process your order within 24-48 hours</p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3">
+                <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Mail className="w-4 h-4 text-purple-600" />
+                </div>
+                <div className="text-left">
+                  <h3 className="font-medium text-[#262626]">Email Confirmation</h3>
+                  <p className="text-sm text-gray-600">You&apos;ll receive an email with your order details and tracking number</p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3">
+                <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Package className="w-4 h-4 text-orange-600" />
+                </div>
+                <div className="text-left">
+                  <h3 className="font-medium text-[#262626]">Shipping</h3>
+                  <p className="text-sm text-gray-600">Your order will arrive within 5-9 business days</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Info */}
+          <div className="bg-blue-50 rounded-xl p-6 mb-8">
+            <h3 className="font-semibold text-[#262626] mb-2">Need Help?</h3>
+            <p className="text-sm text-gray-600 mb-3">
+              If you have any questions about your order, don&apos;t hesitate to reach out:
+            </p>
+            <div className="space-y-1 text-sm">
+              <p className="text-gray-700">
+                📧 <a href="mailto:contact@tazoota.com" className="text-blue-600 hover:text-blue-700 font-medium">
+                  contact@tazoota.com
+                </a>
+              </p>
+              <p className="text-gray-700">
+                📞 <a href="tel:+19129231747" className="text-blue-600 hover:text-blue-700 font-medium">
+                  +19129231747
+                </a>
+              </p>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex justify-center">
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center px-6 py-3 bg-[#090A28] hover:bg-[#1c2070] text-white font-medium rounded-lg transition-colors duration-200"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Continue Shopping
+            </Link>
+          </div>
+        </div>
+
+        {/* Footer Note */}
+        <div className="text-center mt-8">
+          <p className="text-sm text-gray-500">
+            {isSuccessful
+              ? 'You will receive a confirmation email once our team reviews your order' 
+              : 'We will notify you by email once your payment clears'}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Loading fallback component
+function LoadingState() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center p-4">
+      <div className="max-w-2xl w-full">
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-12 text-center">
+          <div className="mx-auto w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+            <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold text-[#262626] mb-4">
+            Loading...
+          </h1>
+          <p className="text-lg text-gray-600">
+            Please wait a moment.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main export with Suspense boundary
+export default function ThankYouPage() {
+  return (
+    <Suspense fallback={<LoadingState />}>
+      <ThankYouContent />
+    </Suspense>
+  );
+}
