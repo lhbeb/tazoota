@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Roboto } from "next/font/google";
 import "./globals.css";
 import ClientHeader from "@/components/ClientHeader";
 import Footer from "@/components/Footer";
@@ -15,14 +14,6 @@ import FacebookPixel from "@/components/FacebookPixel";
 import { AdminRouteCheck, PublicRouteOnly, AdminRouteOnly, CheckoutRouteOnly } from "@/components/AdminRouteCheck";
 import GlobalErrorReporter from "@/components/GlobalErrorReporter";
 import TidioChat from "@/components/TidioChat";
-
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-roboto",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Tazoota - Power Your Outdoor and Home Projects With Confidence",
@@ -88,7 +79,7 @@ export default function RootLayout({
         {/* Google Merchant Center Domain Claim Verification */}
         <meta name="google-site-verification" content="o8gC6haURQ1t7L9G8xfh_-5imCYNPmnhjnt2IrgEPco" />
       </head>
-      <body suppressHydrationWarning className={`${roboto.variable} font-sans antialiased text-[#262626]`}>
+      <body suppressHydrationWarning className="font-sans antialiased text-[#262626]">
         <GlobalErrorReporter />
         <Suspense fallback={null}>
           <FacebookPixel />

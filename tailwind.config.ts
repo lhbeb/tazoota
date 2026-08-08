@@ -19,8 +19,8 @@ const config: Config = {
         'nav-gray': '#e8e8e8', // Navigation bar gray
       },
       fontFamily: {
-        sans: ['var(--font-roboto)', 'sans-serif'],
-        heading: ['var(--font-roboto)', 'sans-serif'],
+        sans: ['Helvetica', 'Arial', 'sans-serif'],
+        heading: ['Helvetica', 'Arial', 'sans-serif'],
       },
       screens: {
         'xs': '475px',
