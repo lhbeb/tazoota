@@ -76,7 +76,7 @@ function LoginFormInner() {
   return (
     <div className="relative w-full max-w-md">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#0a3075] to-[#0a3075] rounded-2xl shadow-2xl shadow-[#0a3075]/30 mb-4">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#1e0e8b] to-[#1e0e8b] rounded-2xl shadow-2xl shadow-[#1e0e8b]/30 mb-4">
           <Lock className="h-8 w-8 text-[#F0F6FF]" />
         </div>
         <h1 className="text-2xl font-bold text-white">Admin Portal</h1>
@@ -142,7 +142,7 @@ function LoginFormInner() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 bg-[#0a3075] text-[#F0F6FF] font-bold rounded-xl hover:bg-[#0a0f32] focus:outline-none focus:ring-2 focus:ring-[#0a3075] focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#0a3075]/25"
+            className="w-full py-3.5 bg-[#1e0e8b] text-[#F0F6FF] font-bold rounded-xl hover:bg-[#0a0f32] focus:outline-none focus:ring-2 focus:ring-[#1e0e8b] focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#1e0e8b]/25"
           >
             {loading ? (
               <div className="w-5 h-5 border-2 border-[#F0F6FF]/30 border-t-[#F0F6FF] rounded-full animate-spin"></div>
@@ -168,7 +168,7 @@ export default function AdminLoginForm() {
     <Suspense
       fallback={
         <div className="relative w-full max-w-md bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/10 shadow-2xl flex items-center justify-center min-h-[400px]">
-          <div className="w-10 h-10 border-4 border-[#0a3075]/20 border-t-[#0a3075] rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[#1e0e8b]/20 border-t-[#1e0e8b] rounded-full animate-spin"></div>
         </div>
       }
     >

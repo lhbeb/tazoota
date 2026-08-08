@@ -20,10 +20,10 @@ const catalogNavigation = [
 ] as const;
 
 const desktopNavLinkClass =
-  'relative py-1 text-sm font-medium text-[#003099] transition-colors duration-200 hover:text-[#4575ba] focus-visible:text-[#4575ba] focus-visible:outline-none after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-[#4575ba] after:transition-transform after:duration-200 hover:after:scale-x-100 focus-visible:after:scale-x-100';
+  'relative py-1 text-sm font-medium text-[#efefef] transition-colors duration-200 hover:text-[#d4da3b] focus-visible:text-[#d4da3b] focus-visible:outline-none after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-[#d4da3b] after:transition-transform after:duration-200 hover:after:scale-x-100 focus-visible:after:scale-x-100';
 
 const mobileMenuLinkClass =
-  'text-center font-medium text-[#003099] transition-colors duration-200 hover:text-[#4575ba] focus-visible:text-[#4575ba] focus-visible:outline-none';
+  'text-center font-medium text-[#efefef] transition-colors duration-200 hover:text-[#d4da3b] focus-visible:text-[#d4da3b] focus-visible:outline-none';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -140,8 +140,8 @@ const Header = () => {
 
   return (
     <>
-      {/* Announcement bar - Deep Blue background with white text */}
-      <div suppressHydrationWarning={true} className="bg-[#003099] text-[#ffffff] py-2 relative overflow-hidden h-[40px] flex items-center">
+      {/* Announcement bar - Yellow background with dark blue text */}
+      <div suppressHydrationWarning={true} className="bg-[#d4da3b] text-[#1e0e8b] py-2 relative overflow-hidden h-[40px] flex items-center">
         <div suppressHydrationWarning={true} className="container mx-auto px-4 flex items-center justify-center relative w-full h-full">
           {/* Announcement Text - PRESERVED */}
           <div suppressHydrationWarning={true} className="text-center font-medium px-4 sm:px-16 transition-all duration-500 ease-in-out h-full flex items-center justify-center min-h-[24px]">
@@ -160,7 +160,7 @@ const Header = () => {
                     width={20}
                     height={20}
                     className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
-                    style={{ filter: 'brightness(0) invert(1)' }}
+                    style={{ filter: 'brightness(0)' }}
                   />
                   <span className="whitespace-nowrap">Need a hand? <span className="font-bold">Message us on WhatsApp</span></span>
                   <span className="underline whitespace-nowrap font-bold">+19129231747</span>
@@ -176,7 +176,7 @@ const Header = () => {
           {/* Desktop Arrows */}
           <button
             onClick={() => handleAnnouncementNavigation('prev')}
-            className="hidden sm:block absolute left-1/2 transform -translate-x-56 p-1 hover:bg-white/10 rounded-full transition-colors duration-200 z-10 text-[#ffffff]"
+            className="hidden sm:block absolute left-1/2 transform -translate-x-56 p-1 hover:bg-[#1e0e8b]/10 rounded-full transition-colors duration-200 z-10 text-[#1e0e8b]"
             aria-label="Previous announcement"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -184,7 +184,7 @@ const Header = () => {
 
           <button
             onClick={() => handleAnnouncementNavigation('next')}
-            className="hidden sm:block absolute left-1/2 transform translate-x-52 p-1 hover:bg-white/10 rounded-full transition-colors duration-200 z-10 text-[#ffffff]"
+            className="hidden sm:block absolute left-1/2 transform translate-x-52 p-1 hover:bg-[#1e0e8b]/10 rounded-full transition-colors duration-200 z-10 text-[#1e0e8b]"
             aria-label="Next announcement"
           >
             <ChevronRight className="h-4 w-4" />
@@ -202,7 +202,7 @@ const Header = () => {
           }`}
       >
         {/* Top Row: Logo, Search, Actions */}
-        <div suppressHydrationWarning={true} className="bg-[#f3f4f6] text-[#0a3075]">
+        <div suppressHydrationWarning={true} className="bg-[#1e0e8b] text-[#efefef]">
           <div suppressHydrationWarning={true} className="container mx-auto px-4 py-3">
             <div suppressHydrationWarning={true} className="flex items-center justify-between gap-4">
             {/* Logo - PRESERVED */}
@@ -240,7 +240,7 @@ const Header = () => {
               {isSticky && (
                 <button
                   onClick={() => setIsSearchOpen(true)}
-                  className="lg:hidden text-[#0a3075] hover:text-[#f5970c] transition-colors duration-300"
+                  className="lg:hidden bg-[#d4da3b] text-[#1e0e8b] hover:opacity-90 rounded-full p-2"
                   aria-label="Search products"
                 >
                   <Search className="h-5 w-5" />
@@ -250,7 +250,7 @@ const Header = () => {
               {/* Help Center Icon - Desktop */}
               <Link
                 href="/contact"
-                className="hidden sm:flex text-[#0a3075] hover:text-[#f5970c] transition-colors duration-300"
+                className="hidden sm:flex bg-[#d4da3b] text-[#1e0e8b] hover:opacity-90 rounded-full p-2"
                 aria-label="Help Center"
               >
                 <Info className="h-5 w-5" />
@@ -259,12 +259,12 @@ const Header = () => {
               {/* Cart - PRESERVED with color update */}
               <button
                 onClick={handleCartClick}
-                className="relative text-[#0a3075] hover:text-[#f5970c] transition-colors duration-300"
+                className="relative bg-[#d4da3b] text-[#1e0e8b] hover:opacity-90 rounded-full p-2"
                 aria-label={`Shopping cart ${cartCount > 0 ? `with ${cartCount} items` : '(empty)'}`}
               >
                 <ShoppingCart className="h-5 w-5" />
                 <ClientOnly>
-                  <span className={`absolute -top-2 -right-2 bg-[#f5970c] text-[#0a3075] text-xs rounded-full h-5 min-w-[1.25rem] px-1 flex items-center justify-center font-semibold transition-opacity duration-300 ${cartCount > 0 ? 'opacity-100' : 'opacity-0'}`}>
+                  <span className={`absolute -top-2 -right-2 bg-[#efefef] text-[#1e0e8b] text-xs rounded-full h-5 min-w-[1.25rem] px-1 flex items-center justify-center font-semibold transition-opacity duration-300 ${cartCount > 0 ? 'opacity-100' : 'opacity-0'}`}>
                     {cartCount}
                   </span>
                 </ClientOnly>
@@ -273,7 +273,7 @@ const Header = () => {
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="lg:hidden text-[#0a3075] hover:text-[#f5970c] transition-colors duration-300"
+                className="lg:hidden bg-[#d4da3b] text-[#1e0e8b] hover:opacity-90 rounded-full p-2"
                 aria-label="Toggle mobile menu"
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -285,7 +285,7 @@ const Header = () => {
 
         {/* Mobile Search Bar - Below header on mobile (hidden when scrolling or on checkout page) */}
         {!isSticky && !isCheckoutPage && (
-          <div suppressHydrationWarning={true} className="lg:hidden bg-[#f3f4f6] border-t border-b border-[#0a3075]/10">
+          <div suppressHydrationWarning={true} className="lg:hidden bg-[#1e0e8b] border-t border-b border-[#efefef]/10">
             <div suppressHydrationWarning={true} className="container mx-auto px-4 py-3">
               <div
                 suppressHydrationWarning={true}
@@ -295,19 +295,19 @@ const Header = () => {
                 <input
                   type="text"
                   placeholder="Search for items..."
-                  className="flex-1 bg-transparent outline-none text-sm text-[#0a3075] placeholder-[#0a3075]/60 cursor-pointer"
+                  className="flex-1 bg-transparent outline-none text-sm text-[#1e0e8b] placeholder-[#1e0e8b]/60 cursor-pointer"
                   readOnly
                 />
-                <Search className="h-5 w-5 text-[#0a3075]" />
+                <Search className="h-5 w-5 text-[#1e0e8b]" />
               </div>
             </div>
           </div>
         )}
 
         {/* Navigation Bar */}
-        <div suppressHydrationWarning={true} className="hidden lg:block bg-[#f3f4f6] border-t border-[#0a3075]/10">
+        <div suppressHydrationWarning={true} className="hidden lg:block bg-[#1e0e8b] border-t border-[#efefef]/10">
           <div suppressHydrationWarning={true} className="container mx-auto px-4">
-            <nav className="flex items-center gap-6 bg-[#f3f4f6] py-3 font-heading">
+            <nav className="flex items-center gap-6 bg-[#1e0e8b] py-3 font-heading">
               {catalogNavigation.map((item) => (
                 <Link
                   key={item.label}
@@ -335,16 +335,16 @@ const Header = () => {
 
         {/* Mobile menu - Only Track Order, Contact Us, and Sell Now */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-[#f3f4f6] border-t border-[#0a3075]/10">
+          <div className="lg:hidden bg-[#1e0e8b] border-t border-[#efefef]/10">
             <div className="container mx-auto px-4 py-4">
-              <nav className="flex flex-col bg-[#f3f4f6] font-heading">
-                <Link href="/track" className={`${mobileMenuLinkClass} pb-4 border-b border-[#0a3075]/10`} onClick={handleMobileMenuClose}>
+              <nav className="flex flex-col bg-[#1e0e8b] font-heading">
+                <Link href="/track" className={`${mobileMenuLinkClass} pb-4 border-b border-[#efefef]/10`} onClick={handleMobileMenuClose}>
                   Track Order
                 </Link>
-                <Link href="/frequently-asked-questions" className={`${mobileMenuLinkClass} py-4 border-b border-[#0a3075]/10`} onClick={handleMobileMenuClose}>
+                <Link href="/frequently-asked-questions" className={`${mobileMenuLinkClass} py-4 border-b border-[#efefef]/10`} onClick={handleMobileMenuClose}>
                   FAQs
                 </Link>
-                <Link href="/contact" className={`${mobileMenuLinkClass} py-4 border-b border-[#0a3075]/10`} onClick={handleMobileMenuClose}>
+                <Link href="/contact" className={`${mobileMenuLinkClass} py-4 border-b border-[#efefef]/10`} onClick={handleMobileMenuClose}>
                   Contact Us
                 </Link>
               </nav>
@@ -358,21 +358,21 @@ const Header = () => {
 
       {/* Mobile Swipeable Menu - Outside header, stays at top of page (hidden on checkout page) */}
       {!isCheckoutPage && (
-        <div suppressHydrationWarning={true} className="lg:hidden bg-[#f3f4f6] border-t border-[#0a3075]/10">
+        <div suppressHydrationWarning={true} className="lg:hidden bg-[#1e0e8b] border-t border-[#efefef]/10">
           <div suppressHydrationWarning={true} className="overflow-x-auto scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
-            <nav className="flex min-w-max items-center gap-3 bg-[#f3f4f6] px-4 py-3">
+            <nav className="flex min-w-max items-center gap-3 bg-[#1e0e8b] px-4 py-3">
               {catalogNavigation.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="flex-shrink-0 whitespace-nowrap rounded-full border border-[#0a3075]/20 px-4 py-2 text-sm font-medium text-[#003099] transition-colors duration-300 hover:border-[#0a3075]/40 hover:bg-[#0a3075]/5"
+                  className="flex-shrink-0 whitespace-nowrap rounded-full border border-[#efefef]/20 px-4 py-2 text-sm font-medium text-[#efefef] transition-colors duration-300 hover:border-[#d4da3b]/60 hover:bg-[#d4da3b]/15"
                 >
                   {item.label}
                 </Link>
               ))}
               <Link
                 href="/#featured"
-                className="flex-shrink-0 px-4 py-2 border border-[#0a3075]/20 rounded-full text-sm font-medium text-[#003099] hover:border-[#0a3075]/40 hover:bg-[#0a3075]/5 transition-colors duration-300 whitespace-nowrap"
+                className="flex-shrink-0 px-4 py-2 border border-[#efefef]/20 rounded-full text-sm font-medium text-[#efefef] hover:border-[#d4da3b]/60 hover:bg-[#d4da3b]/15 transition-colors duration-300 whitespace-nowrap"
               >
                 Featured
               </Link>

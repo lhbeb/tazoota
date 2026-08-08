@@ -70,7 +70,7 @@ export default function SellerPageClient({ seller }: Props) {
     <div className="min-h-screen bg-[#F0F6FF] flex flex-col font-sans">
       
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-[#0a3075] to-[#0a3075] text-[#F0F6FF] pt-24 pb-12 rounded-b-[40px] shadow-lg relative overflow-hidden">
+      <div className="bg-gradient-to-br from-[#1e0e8b] to-[#1e0e8b] text-[#F0F6FF] pt-24 pb-12 rounded-b-[40px] shadow-lg relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#4575ba] rounded-full filter blur-[120px] opacity-10 -translate-y-1/2 translate-x-1/2"></div>
         
@@ -83,7 +83,7 @@ export default function SellerPageClient({ seller }: Props) {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={seller.avatarUrl} alt={seller.name} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-[#0a3075] to-[#0a3075] flex items-center justify-center text-5xl font-bold text-[#F0F6FF]">
+                <div className="w-full h-full bg-gradient-to-br from-[#1e0e8b] to-[#1e0e8b] flex items-center justify-center text-5xl font-bold text-[#F0F6FF]">
                   {seller.name.charAt(0).toUpperCase()}
                 </div>
               )}
@@ -102,7 +102,7 @@ export default function SellerPageClient({ seller }: Props) {
                   {/* Tooltip */}
                   <div className="absolute top-full mt-3 left-0 md:left-auto md:right-auto w-72 p-4 bg-white text-gray-600 text-sm leading-relaxed rounded-2xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top translate-y-2 group-hover:translate-y-0">
                     <div className="font-bold mb-1.5 flex items-center gap-1.5 text-[#262626]">
-                      <Star className="w-4 h-4 text-[#0a3075] fill-[#0a3075]" /> Star Seller
+                      <Star className="w-4 h-4 text-[#1e0e8b] fill-[#1e0e8b]" /> Star Seller
                     </div>
                     Star Sellers have an outstanding track record for providing a great customer experience – they consistently earned 5-star reviews, dispatched orders on time, and replied quickly to any messages they received.
                   </div>
@@ -170,9 +170,9 @@ export default function SellerPageClient({ seller }: Props) {
             
             {/* Sidebar Details / Policies */}
             <div className="w-full lg:w-1/3 xl:w-1/4 space-y-6 lg:sticky lg:top-24">
-              <div className="bg-white p-6 rounded-3xl shadow-sm border border-[#0a3075]/10">
+              <div className="bg-white p-6 rounded-3xl shadow-sm border border-[#1e0e8b]/10">
                 <h2 className="text-lg font-bold text-[#262626] mb-4 flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-[#0a3075]" />
+                  <ShieldCheck className="w-5 h-5 text-[#1e0e8b]" />
                   Seller Policies
                 </h2>
                 
@@ -194,7 +194,7 @@ export default function SellerPageClient({ seller }: Props) {
                 </div>
               </div>
               
-              <div className="bg-gradient-to-br from-[#0a3075] to-[#0a3075] p-6 rounded-3xl border border-[#0a3075]/10 flex flex-col items-center text-center text-[#F0F6FF] shadow-sm">
+              <div className="bg-gradient-to-br from-[#1e0e8b] to-[#1e0e8b] p-6 rounded-3xl border border-[#1e0e8b]/10 flex flex-col items-center text-center text-[#F0F6FF] shadow-sm">
                 <div className="w-12 h-12 bg-[#4575ba]/15 text-[#4575ba] rounded-full flex items-center justify-center mb-3">
                   <HelpCircle className="w-6 h-6" />
                 </div>
@@ -236,7 +236,7 @@ export default function SellerPageClient({ seller }: Props) {
                         <button
                           onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                           disabled={currentPage === 1}
-                          className="flex items-center justify-center w-10 h-10 rounded-full border border-[#0a3075]/15 bg-white text-gray-600 hover:bg-[#F0F6FF] hover:text-[#0a3075] disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-600 transition-colors"
+                          className="flex items-center justify-center w-10 h-10 rounded-full border border-[#1e0e8b]/15 bg-white text-gray-600 hover:bg-[#F0F6FF] hover:text-[#1e0e8b] disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-600 transition-colors"
                           aria-label="Previous page"
                         >
                           <ChevronLeft className="w-5 h-5" />
@@ -252,8 +252,8 @@ export default function SellerPageClient({ seller }: Props) {
                                 page === '...'
                                   ? 'text-gray-400 cursor-default bg-transparent'
                                   : currentPage === page
-                                  ? 'bg-[#0a3075] text-[#F0F6FF]'
-                                  : 'text-gray-600 hover:bg-[#F0F6FF] hover:text-[#0a3075]'
+                                  ? 'bg-[#1e0e8b] text-[#F0F6FF]'
+                                  : 'text-gray-600 hover:bg-[#F0F6FF] hover:text-[#1e0e8b]'
                               }`}
                             >
                               {page}
@@ -264,7 +264,7 @@ export default function SellerPageClient({ seller }: Props) {
                         <button
                           onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                           disabled={currentPage === totalPages}
-                          className="flex items-center justify-center w-10 h-10 rounded-full border border-[#0a3075]/15 bg-white text-gray-600 hover:bg-[#F0F6FF] hover:text-[#0a3075] disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-600 transition-colors"
+                          className="flex items-center justify-center w-10 h-10 rounded-full border border-[#1e0e8b]/15 bg-white text-gray-600 hover:bg-[#F0F6FF] hover:text-[#1e0e8b] disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-gray-600 transition-colors"
                           aria-label="Next page"
                         >
                           <ChevronRight className="w-5 h-5" />
@@ -273,7 +273,7 @@ export default function SellerPageClient({ seller }: Props) {
                     )}
                   </>
                 ) : (
-                  <div className="flex-1 bg-white rounded-3xl border border-[#0a3075]/10 flex flex-col items-center justify-center p-12 text-center">
+                  <div className="flex-1 bg-white rounded-3xl border border-[#1e0e8b]/10 flex flex-col items-center justify-center p-12 text-center">
                     <Package className="w-16 h-16 text-gray-200 mb-4" />
                     <h3 className="text-xl font-semibold text-[#262626] mb-2">No active listings</h3>
                     <p className="text-gray-500 max-w-sm">{seller.name} currently doesn&apos;t have any items for sale. Check back later!</p>

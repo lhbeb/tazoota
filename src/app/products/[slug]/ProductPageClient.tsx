@@ -463,7 +463,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
           <p className="text-gray-600 mb-8">The product you&apos;re looking for doesn&apos;t exist.</p>
           <Link
             href="/"
-            className="inline-block bg-[#0a3075] hover:bg-[#0a0f32] text-[#F0F6FF] px-6 py-3 rounded-lg transition-colors duration-300"
+            className="inline-block bg-[#1e0e8b] hover:bg-[#0a0f32] text-[#F0F6FF] px-6 py-3 rounded-lg transition-colors duration-300"
           >
             Return to Home
           </Link>
@@ -483,7 +483,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
           <p className="text-gray-600 mb-8">The product information is incomplete.</p>
           <Link
             href="/"
-            className="inline-block bg-[#0a3075] hover:bg-[#0a0f32] text-[#F0F6FF] px-6 py-3 rounded-lg transition-colors duration-300"
+            className="inline-block bg-[#1e0e8b] hover:bg-[#0a0f32] text-[#F0F6FF] px-6 py-3 rounded-lg transition-colors duration-300"
           >
             Return to Home
           </Link>
@@ -538,7 +538,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                       <button
                         key={idx}
                         onClick={() => setActiveImage(idx)}
-                        className={`relative flex-shrink-0 w-20 h-20 rounded-md overflow-hidden ${activeImage === idx ? 'ring-2 ring-[#0a3075]' : 'ring-1 ring-gray-200'}`}
+                        className={`relative flex-shrink-0 w-20 h-20 rounded-md overflow-hidden ${activeImage === idx ? 'ring-2 ring-[#1e0e8b]' : 'ring-1 ring-gray-200'}`}
                       >
                         <Image
                           src={image}
@@ -560,10 +560,10 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
               )}
               {images.length > 1 && (
                 <>
-                  <button onClick={() => setActiveImage((prev) => (prev > 0 ? prev - 1 : images.length - 1))} className="absolute left-4 top-1/2 -translate-y-1/2 transform bg-white/80 hover:bg-[#0a3075] hover:text-[#F0F6FF] p-2 rounded-full transition-all duration-300 z-10">
+                  <button onClick={() => setActiveImage((prev) => (prev > 0 ? prev - 1 : images.length - 1))} className="absolute left-4 top-1/2 -translate-y-1/2 transform bg-white/80 hover:bg-[#1e0e8b] hover:text-[#F0F6FF] p-2 rounded-full transition-all duration-300 z-10">
                     <ChevronLeft className="h-6 w-6" />
                   </button>
-                  <button onClick={() => setActiveImage((prev) => (prev < images.length - 1 ? prev + 1 : 0))} className="absolute right-4 top-1/2 -translate-y-1/2 transform bg-white/80 hover:bg-[#0a3075] hover:text-[#F0F6FF] p-2 rounded-full transition-all duration-300 z-10">
+                  <button onClick={() => setActiveImage((prev) => (prev < images.length - 1 ? prev + 1 : 0))} className="absolute right-4 top-1/2 -translate-y-1/2 transform bg-white/80 hover:bg-[#1e0e8b] hover:text-[#F0F6FF] p-2 rounded-full transition-all duration-300 z-10">
                     <ChevronRight className="h-6 w-6" />
                   </button>
                 </>
@@ -594,11 +594,11 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                     </div>
                     {getConditionTooltip(condition) && isConditionTooltipVisible && (
                       <div
-                        className="pointer-events-none z-[70] w-72 max-w-[calc(100vw-2rem)] rounded-xl border border-[#0a3075]/10 bg-[#0a3075] px-3 py-2 text-xs leading-5 text-[#F0F6FF] shadow-xl"
+                        className="pointer-events-none z-[70] w-72 max-w-[calc(100vw-2rem)] rounded-xl border border-[#1e0e8b]/10 bg-[#1e0e8b] px-3 py-2 text-xs leading-5 text-[#F0F6FF] shadow-xl"
                         style={conditionTooltipStyle}
                       >
                         {getConditionTooltip(condition)}
-                        <div className="absolute bottom-full left-5 border-4 border-transparent border-b-[#0a3075] md:bottom-auto md:left-[-8px] md:right-auto md:top-1/2 md:-translate-y-1/2 md:border-b-transparent md:border-r-[#0a3075] md:border-l-transparent"></div>
+                        <div className="absolute bottom-full left-5 border-4 border-transparent border-b-[#1e0e8b] md:bottom-auto md:left-[-8px] md:right-auto md:top-1/2 md:-translate-y-1/2 md:border-b-transparent md:border-r-[#1e0e8b] md:border-l-transparent"></div>
                       </div>
                     )}
                   </div>
@@ -629,10 +629,10 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
 
               <ClientOnly>
                 {viewedCount !== null && viewedCount > 0 && (
-                  <div className="mt-6 bg-[#0a3075]/10 border border-[#0a3075]/30 rounded-xl p-3 sm:p-4">
+                  <div className="mt-6 bg-[#1e0e8b]/10 border border-[#1e0e8b]/30 rounded-xl p-3 sm:p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2 sm:space-x-4">
-                        <div className="flex items-center text-[#0a3075]">
+                        <div className="flex items-center text-[#1e0e8b]">
                           <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-1.5" />
                           <span className="text-xs sm:text-sm font-medium">
                             {viewedCount.toLocaleString()} viewed in the last 24 hours
@@ -640,8 +640,8 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                         </div>
                       </div>
                       <div className="flex items-center">
-                        <div className="w-2 h-2 bg-[#0a3075] rounded-full animate-pulse mr-2"></div>
-                        <span className="text-xs text-[#0a3075] font-medium hidden sm:inline">Live activity</span>
+                        <div className="w-2 h-2 bg-[#1e0e8b] rounded-full animate-pulse mr-2"></div>
+                        <span className="text-xs text-[#1e0e8b] font-medium hidden sm:inline">Live activity</span>
                       </div>
                     </div>
                   </div>
@@ -739,7 +739,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                           <path d="M13.3334 14.666V7.33268H11.3334C10.9652 7.33268 10.6667 7.0342 10.6667 6.66602C10.6667 6.29783 10.9652 5.99935 11.3334 5.99935H14C14.3682 5.99935 14.6667 6.29783 14.6667 6.66602V15.3327C14.6667 15.7009 14.3682 15.9993 14 15.9993H2.00004C1.63185 15.9993 1.33337 15.7009 1.33337 15.3327V6.66602C1.33337 6.29783 1.63185 5.99935 2.00004 5.99935H4.66671C5.0349 5.99935 5.33337 6.29783 5.33337 6.66602C5.33337 7.0342 5.0349 7.33268 4.66671 7.33268H2.66671V14.666H13.3334Z"></path>
                         </svg>
                       </button>
-                      <button onClick={handleAddToCart} disabled={isAddingToCart || isBuyingNow} className="flex-1 lg:w-full bg-[#0a3075] hover:bg-[#0a0f32] text-[#F0F6FF] py-3 lg:py-4 px-6 rounded-xl font-semibold transition-colors duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base">
+                      <button onClick={handleAddToCart} disabled={isAddingToCart || isBuyingNow} className="flex-1 lg:w-full bg-[#1e0e8b] hover:bg-[#0a0f32] text-[#F0F6FF] py-3 lg:py-4 px-6 rounded-xl font-semibold transition-colors duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base">
                         {isAddingToCart ? <><div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#F0F6FF] mr-2"></div>Adding to Cart...</> : <><ShoppingCart className="h-5 w-5 mr-2" />Add to Cart</>}
                       </button>
                     </div>
@@ -778,11 +778,11 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                       <button
                         onClick={handleBuyNow}
                         disabled={isAddingToCart || isBuyingNow}
-                        className="hidden lg:flex w-full bg-transparent border-2 border-[#0a3075] hover:border-[#0a0f32] text-[#0a3075] hover:text-[#0a0f32] py-4 px-6 rounded-xl font-semibold transition-colors duration-200 items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="hidden lg:flex w-full bg-transparent border-2 border-[#1e0e8b] hover:border-[#0a0f32] text-[#1e0e8b] hover:text-[#0a0f32] py-4 px-6 rounded-xl font-semibold transition-colors duration-200 items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {isBuyingNow ? (
                           <>
-                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#0a3075] mr-2"></div>
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#1e0e8b] mr-2"></div>
                             Processing...
                           </>
                         ) : (
@@ -810,7 +810,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                     <button
                       type="button"
                       onClick={() => setShowFullDescription((current) => !current)}
-                      className="mt-4 text-sm font-semibold text-[#0a3075] transition hover:text-[#00297F]"
+                      className="mt-4 text-sm font-semibold text-[#1e0e8b] transition hover:text-[#00297F]"
                     >
                       {showFullDescription ? "Show less" : "Show more"}
                     </button>
@@ -830,7 +830,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                 <button
                   type="button"
                   onClick={() => setShowFullDescription((current) => !current)}
-                  className="mt-5 text-sm font-semibold text-[#0a3075] transition hover:text-[#00297F]"
+                  className="mt-5 text-sm font-semibold text-[#1e0e8b] transition hover:text-[#00297F]"
                 >
                   {showFullDescription ? "Show less" : "Show more"}
                 </button>
@@ -870,7 +870,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                             </p>
                           )}
                         </div>
-                        <span className="mt-0.5 flex-shrink-0 text-[#0a3075]" aria-hidden="true">
+                        <span className="mt-0.5 flex-shrink-0 text-[#1e0e8b]" aria-hidden="true">
                           {isOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
                         </span>
                       </button>
@@ -880,7 +880,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                           {item.linkHref && item.linkLabel && (
                             <Link
                               href={item.linkHref}
-                              className="mt-2 inline-flex text-sm font-semibold text-[#0a3075] transition hover:text-[#00297F]"
+                              className="mt-2 inline-flex text-sm font-semibold text-[#1e0e8b] transition hover:text-[#00297F]"
                             >
                               {item.linkLabel}
                             </Link>
@@ -902,7 +902,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                           setOpenFaqIndex(-1);
                         }
                       }}
-                    className="text-sm font-semibold text-[#0a3075] transition hover:text-[#00297F]"
+                    className="text-sm font-semibold text-[#1e0e8b] transition hover:text-[#00297F]"
                   >
                     {showAllFaqs ? "Show fewer answers" : "View more answers"}
                   </button>
@@ -954,8 +954,8 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
               />
               {images.length > 1 && (
                 <>
-                  <button onClick={(e) => { e.stopPropagation(); setActiveImage((prev) => (prev > 0 ? prev - 1 : images.length - 1)); setZoomLevel(1); }} className="absolute left-4 top-1/2 -translate-y-1/2 transform bg-white/10 hover:bg-[#0a3075] p-3 rounded-full text-white transition-colors duration-200" aria-label="Previous image"><ChevronLeft className="h-8 w-8" /></button>
-                  <button onClick={(e) => { e.stopPropagation(); setActiveImage((prev) => (prev < images.length - 1 ? prev + 1 : 0)); setZoomLevel(1); }} className="absolute right-4 top-1/2 -translate-y-1/2 transform bg-white/10 hover:bg-[#0a3075] p-3 rounded-full text-white transition-colors duration-200" aria-label="Next image"><ChevronRight className="h-8 w-8" /></button>
+                  <button onClick={(e) => { e.stopPropagation(); setActiveImage((prev) => (prev > 0 ? prev - 1 : images.length - 1)); setZoomLevel(1); }} className="absolute left-4 top-1/2 -translate-y-1/2 transform bg-white/10 hover:bg-[#1e0e8b] p-3 rounded-full text-white transition-colors duration-200" aria-label="Previous image"><ChevronLeft className="h-8 w-8" /></button>
+                  <button onClick={(e) => { e.stopPropagation(); setActiveImage((prev) => (prev < images.length - 1 ? prev + 1 : 0)); setZoomLevel(1); }} className="absolute right-4 top-1/2 -translate-y-1/2 transform bg-white/10 hover:bg-[#1e0e8b] p-3 rounded-full text-white transition-colors duration-200" aria-label="Next image"><ChevronRight className="h-8 w-8" /></button>
                 </>
               )}
             </div>

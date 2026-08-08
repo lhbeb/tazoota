@@ -4,11 +4,11 @@ import Image from 'next/image';
 import { Mail, Phone, MapPin, Instagram } from 'lucide-react';
 
 const socialIconClass =
-  'inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#4575ba]/60 text-[#F0F6FF] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#4575ba] hover:bg-[#4575ba] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a3075]';
+  'inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#d4da3b]/60 text-[#F0F6FF] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#d4da3b] hover:bg-[#d4da3b] hover:text-[#1e0e8b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4da3b] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e0e8b]';
 
 const Footer = () => {
   return (
-    <footer className="bg-[#0a3075] text-[#F0F6FF]">
+    <footer className="bg-[#1e0e8b] text-[#F0F6FF]">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           <div>
@@ -26,26 +26,26 @@ const Footer = () => {
             </p>
             <div className="space-y-2">
               <div className="flex items-center">
-                <Phone className="h-5 w-5 shrink-0 text-[#4575ba] mr-2" />
-                <a href="tel:+19129231747" className="hover:text-[#f5970c] transition-colors duration-300">
+                <Phone className="h-5 w-5 shrink-0 text-[#d4da3b] mr-2" />
+                <a href="tel:+19129231747" className="hover:text-[#d4da3b] transition-colors duration-300">
                   <span className="font-semibold">United States:</span> +19129231747
                 </a>
               </div>
               <div className="flex items-center">
-                <Mail className="h-5 w-5 text-[#4575ba] mr-2" />
-                <a href="mailto:contact@tazoota.com" className="hover:text-[#f5970c] transition-colors duration-300">
+                <Mail className="h-5 w-5 text-[#d4da3b] mr-2" />
+                <a href="mailto:contact@tazoota.com" className="hover:text-[#d4da3b] transition-colors duration-300">
                   contact@tazoota.com
                 </a>
               </div>
               <div className="flex items-start">
-                <MapPin className="h-5 w-5 shrink-0 text-[#4575ba] mr-2 mt-1" />
+                <MapPin className="h-5 w-5 shrink-0 text-[#d4da3b] mr-2 mt-1" />
                 <div>
                   <span className="block font-semibold text-white">UK Registered Office</span>
                   <span>Choats Rd, Barking, Dagenham RM9 6BF, United Kingdom</span>
                 </div>
               </div>
               <div className="flex items-start">
-                <MapPin className="h-5 w-5 shrink-0 text-[#4575ba] mr-2 mt-1" />
+                <MapPin className="h-5 w-5 shrink-0 text-[#d4da3b] mr-2 mt-1" />
                 <div>
                   <span className="block font-semibold text-white">US Dispatch Center</span>
                   <span>5850 E Raines Rd, Memphis, TN 38115, United States</span>
@@ -90,26 +90,26 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold text-[#F0F6FF] mb-4">Navigation</h3>
             <ul className="space-y-2">
-              <li><Link href="/" className="hover:text-[#f5970c] transition-colors duration-300">Home</Link></li>
-              <li><Link href="/#products" className="hover:text-[#f5970c] transition-colors duration-300">Products</Link></li>
-              <li><Link href="/#featured" className="hover:text-[#f5970c] transition-colors duration-300">Featured</Link></li>
-              <li><Link href="/track" className="hover:text-[#f5970c] transition-colors duration-300">Track Order</Link></li>
-              <li><Link href="/contact" className="hover:text-[#f5970c] transition-colors duration-300">Contact Us</Link></li>
+              <li><Link href="/" className="hover:text-[#d4da3b] transition-colors duration-300">Home</Link></li>
+              <li><Link href="/#products" className="hover:text-[#d4da3b] transition-colors duration-300">Products</Link></li>
+              <li><Link href="/#featured" className="hover:text-[#d4da3b] transition-colors duration-300">Featured</Link></li>
+              <li><Link href="/track" className="hover:text-[#d4da3b] transition-colors duration-300">Track Order</Link></li>
+              <li><Link href="/contact" className="hover:text-[#d4da3b] transition-colors duration-300">Contact Us</Link></li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-lg font-semibold text-[#F0F6FF] mb-4">Policies & Info</h3>
             <ul className="space-y-2">
-              <li><Link href="/privacy-policy" className="hover:text-[#f5970c] transition-colors duration-300">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="hover:text-[#f5970c] transition-colors duration-300">Terms of Service</Link></li>
-              <li><Link href="/about" className="hover:text-[#f5970c] transition-colors duration-300">About Us</Link></li>
-              <li><Link href="/frequently-asked-questions" className="hover:text-[#f5970c] transition-colors duration-300">FAQs</Link></li>
-              <li><Link href="/return-policy" className="hover:text-[#f5970c] transition-colors duration-300">Refund & Return Policy</Link></li>
-              <li><Link href="/shipping-policy" className="hover:text-[#f5970c] transition-colors duration-300">Shipping Policy</Link></li>
-              <li><Link href="/local-pickup" className="hover:text-[#f5970c] transition-colors duration-300">Local Pickup Guide</Link></li>
-              <li><Link href="/contact" className="hover:text-[#f5970c] transition-colors duration-300">Contact Us</Link></li>
-              <li><Link href="/cookies" className="hover:text-[#f5970c] transition-colors duration-300">Cookies Policy</Link></li>
+              <li><Link href="/privacy-policy" className="hover:text-[#d4da3b] transition-colors duration-300">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-[#d4da3b] transition-colors duration-300">Terms of Service</Link></li>
+              <li><Link href="/about" className="hover:text-[#d4da3b] transition-colors duration-300">About Us</Link></li>
+              <li><Link href="/frequently-asked-questions" className="hover:text-[#d4da3b] transition-colors duration-300">FAQs</Link></li>
+              <li><Link href="/return-policy" className="hover:text-[#d4da3b] transition-colors duration-300">Refund & Return Policy</Link></li>
+              <li><Link href="/shipping-policy" className="hover:text-[#d4da3b] transition-colors duration-300">Shipping Policy</Link></li>
+              <li><Link href="/local-pickup" className="hover:text-[#d4da3b] transition-colors duration-300">Local Pickup Guide</Link></li>
+              <li><Link href="/contact" className="hover:text-[#d4da3b] transition-colors duration-300">Contact Us</Link></li>
+              <li><Link href="/cookies" className="hover:text-[#d4da3b] transition-colors duration-300">Cookies Policy</Link></li>
             </ul>
           </div>
         </div>

@@ -145,7 +145,7 @@ const TrackPage = () => {
         <div className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-[#D6E3FF] bg-white">
           <div className="grid lg:grid-cols-[minmax(0,1.1fr)_360px]">
             <section className="px-6 py-8 sm:px-8 sm:py-10 lg:px-10">
-              <div className="mb-3 text-sm font-medium text-[#0a3075]">
+              <div className="mb-3 text-sm font-medium text-[#1e0e8b]">
                 Tazoota order tracking
               </div>
               <h1 className="max-w-2xl text-3xl font-semibold text-[#262626] sm:text-4xl">
@@ -173,12 +173,12 @@ const TrackPage = () => {
                     placeholder="Enter your tracking number"
                     maxLength={50}
                     autoComplete="off"
-                    className="h-14 flex-1 rounded-2xl border border-[#D6E3FF] bg-white px-4 text-sm font-medium text-[#262626] outline-none transition focus:border-[#0a3075]/35 focus:ring-2 focus:ring-[#0a3075]/10"
+                    className="h-14 flex-1 rounded-2xl border border-[#D6E3FF] bg-white px-4 text-sm font-medium text-[#262626] outline-none transition focus:border-[#1e0e8b]/35 focus:ring-2 focus:ring-[#1e0e8b]/10"
                   />
                   <button
                     type="submit"
                     disabled={!isScriptReady || isSubmitting}
-                    className="inline-flex h-14 items-center justify-center rounded-2xl bg-[#f5970c] px-6 text-sm font-semibold text-[#0a3075] transition hover:bg-[#FFF7A0] disabled:cursor-not-allowed disabled:bg-[#D7DEF0] disabled:text-[#6E7AA1]"
+                    className="inline-flex h-14 items-center justify-center rounded-2xl bg-[#f5970c] px-6 text-sm font-semibold text-[#1e0e8b] transition hover:bg-[#FFF7A0] disabled:cursor-not-allowed disabled:bg-[#D7DEF0] disabled:text-[#6E7AA1]"
                   >
                     {isSubmitting ? "Loading..." : "Track Order"}
                   </button>
@@ -228,7 +228,7 @@ const TrackPage = () => {
                 </p>
                 <a
                   href="mailto:contact@tazoota.com"
-                  className="mt-5 inline-flex items-center justify-center rounded-2xl border border-[#0a3075]/15 bg-[#f5970c] px-5 py-3 text-sm font-semibold text-[#0a3075] transition hover:bg-[#FFF7A0]"
+                  className="mt-5 inline-flex items-center justify-center rounded-2xl border border-[#1e0e8b]/15 bg-[#f5970c] px-5 py-3 text-sm font-semibold text-[#1e0e8b] transition hover:bg-[#FFF7A0]"
                 >
                   Contact Support
                 </a>

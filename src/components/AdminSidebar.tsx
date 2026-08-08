@@ -250,7 +250,7 @@ export default function AdminSidebar() {
         {/* Admin Profile Card */}
         <div className="mx-4 my-4 p-4 bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-2xl border border-gray-100">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#090A28] to-[#0a3075] rounded-full flex items-center justify-center ring-2 ring-white shadow-lg">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#090A28] to-[#1e0e8b] rounded-full flex items-center justify-center ring-2 ring-white shadow-lg">
               <span className="text-white font-bold text-sm">A</span>
             </div>
             <div className="flex-1 min-w-0">
@@ -302,7 +302,7 @@ export default function AdminSidebar() {
                       )}
                     </div>
                     {item.badge !== undefined && item.badge > 0 && (
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-semibold min-w-[1.5rem] text-center ${active ? 'bg-[#0a3075]/20 text-[#F0F6FF]' : 'bg-red-500 text-white'
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-semibold min-w-[1.5rem] text-center ${active ? 'bg-[#1e0e8b]/20 text-[#F0F6FF]' : 'bg-red-500 text-white'
                         }`}>
                         {item.badge}
                       </span>

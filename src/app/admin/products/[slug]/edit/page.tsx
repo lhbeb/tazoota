@@ -684,7 +684,7 @@ export default function EditProductPage() {
                     onClick={() => {
                       updateField('checkout_links', [...(formData.checkout_links || ['']), '']);
                     }}
-                    className="flex items-center gap-1.5 text-xs font-bold text-[#090A28] hover:text-[#0a3075] bg-white border border-gray-200 px-3 py-2 rounded-lg shadow-sm transition-all"
+                    className="flex items-center gap-1.5 text-xs font-bold text-[#090A28] hover:text-[#1e0e8b] bg-white border border-gray-200 px-3 py-2 rounded-lg shadow-sm transition-all"
                   >
                     <Plus className="h-3 w-3" /> Add checkout link
                   </button>
@@ -970,7 +970,7 @@ export default function EditProductPage() {
                   disabled={featuredCount >= FEATURE_LIMIT && !formData.is_featured}
                   className="sr-only peer"
                 />
-                <div className="relative w-10 h-6 bg-gray-200 rounded-full peer-checked:bg-[#0a3075] transition-colors">
+                <div className="relative w-10 h-6 bg-gray-200 rounded-full peer-checked:bg-[#1e0e8b] transition-colors">
                   <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow peer-checked:translate-x-4 transition-transform" />
                 </div>
                 <span className="text-sm text-gray-700">Featured</span>

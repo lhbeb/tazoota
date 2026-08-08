@@ -36,7 +36,7 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
           <div className="mb-8 md:mb-10">
             <h2
               id="popular-categories-title"
-              className="text-3xl font-bold tracking-tight text-[#0a3075] md:text-4xl"
+              className="text-3xl font-bold tracking-tight text-[#1e0e8b] md:text-4xl"
             >
               Explore Popular Categories
             </h2>
@@ -47,7 +47,7 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
               <Link
                 key={category.name}
                 href={`/search?category=${encodeURIComponent(category.name)}`}
-                className="relative overflow-hidden rounded-2xl border border-[#0a3075]/10 bg-white shadow-[0_12px_30px_rgba(10,48,117,0.06)] transition-colors duration-200 hover:border-[#0a3075]/25"
+                className="relative overflow-hidden rounded-2xl border border-[#1e0e8b]/10 bg-white shadow-[0_12px_30px_rgba(10,48,117,0.06)] transition-colors duration-200 hover:border-[#1e0e8b]/25"
                 aria-label={`Shop ${category.name}`}
               >
                 <div className="relative aspect-square overflow-hidden bg-white p-3 sm:p-5">
@@ -60,7 +60,7 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
                   />
                 </div>
 
-                <div className="flex min-h-20 items-center bg-[#0a3075] px-4 py-4 text-[#F0F6FF] sm:px-5">
+                <div className="flex min-h-20 items-center bg-[#1e0e8b] px-4 py-4 text-[#F0F6FF] sm:px-5">
                   <div className="min-w-0">
                     <h3 className="text-sm font-bold leading-tight sm:text-base">
                       {category.name}

@@ -1227,7 +1227,7 @@ export default function AdminProductsPage() {
                     }}
                     disabled={togglingFeatured === product.slug || (!(product.isFeatured || product.is_featured) && featuredCount >= FEATURE_LIMIT)}
                     className={`p-2 rounded-lg transition-colors ${(product.isFeatured || product.is_featured)
-                      ? 'bg-[#0a3075] hover:bg-[#0a0f32]'
+                      ? 'bg-[#1e0e8b] hover:bg-[#0a0f32]'
                       : 'bg-white hover:bg-gray-100'
                       } disabled:opacity-50`}
                     title={(product.isFeatured || product.is_featured) ? 'Remove from featured' : 'Add to featured'}
@@ -1488,7 +1488,7 @@ export default function AdminProductsPage() {
                       }}
                       disabled={togglingFeatured === product.slug || (!(product.isFeatured || product.is_featured) && featuredCount >= FEATURE_LIMIT)}
                       className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium transition-colors ${(product.isFeatured || product.is_featured)
-                        ? 'bg-[#0a3075]/10 text-[#0a3075] hover:bg-[#0a3075]/15'
+                        ? 'bg-[#1e0e8b]/10 text-[#1e0e8b] hover:bg-[#1e0e8b]/15'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                         } disabled:opacity-50`}
                       title={(product.isFeatured || product.is_featured) ? 'Remove from featured' : 'Add to featured'}
@@ -1496,7 +1496,7 @@ export default function AdminProductsPage() {
                       {togglingFeatured === product.slug ? (
                         <RefreshCw className="h-3 w-3 animate-spin" />
                       ) : (
-                        <Star className={`h-3 w-3 ${(product.isFeatured || product.is_featured) ? 'fill-[#0a3075]' : ''}`} />
+                        <Star className={`h-3 w-3 ${(product.isFeatured || product.is_featured) ? 'fill-[#1e0e8b]' : ''}`} />
                       )}
                       {(product.isFeatured || product.is_featured) ? 'Featured' : 'Feature'}
                     </button>
@@ -1561,15 +1561,15 @@ export default function AdminProductsPage() {
                           }}
                           disabled={togglingFeatured === product.slug || (!(product.isFeatured || product.is_featured) && featuredCount >= FEATURE_LIMIT)}
                           className={`p-2 rounded-lg transition-colors disabled:opacity-50 ${(product.isFeatured || product.is_featured)
-                            ? 'hover:bg-[#0a3075]/10'
+                            ? 'hover:bg-[#1e0e8b]/10'
                             : 'hover:bg-gray-100'
                             }`}
                           title={(product.isFeatured || product.is_featured) ? 'Unfeature product' : 'Feature product'}
                         >
                           {togglingFeatured === product.slug ? (
-                            <RefreshCw className="h-4 w-4 text-[#0a3075] animate-spin" />
+                            <RefreshCw className="h-4 w-4 text-[#1e0e8b] animate-spin" />
                           ) : (
-                            <Star className={`h-4 w-4 ${(product.isFeatured || product.is_featured) ? 'text-[#0a3075] fill-[#0a3075]' : 'text-gray-500'}`} />
+                            <Star className={`h-4 w-4 ${(product.isFeatured || product.is_featured) ? 'text-[#1e0e8b] fill-[#1e0e8b]' : 'text-gray-500'}`} />
                           )}
                         </button>
                         <Link
@@ -1634,9 +1634,9 @@ export default function AdminProductsPage() {
                               className="w-full px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                               {togglingFeatured === product.slug ? (
-                                <RefreshCw className="h-4 w-4 text-[#0a3075] animate-spin" />
+                                <RefreshCw className="h-4 w-4 text-[#1e0e8b] animate-spin" />
                               ) : (
-                                <Star className={`h-4 w-4 ${(product.isFeatured || product.is_featured) ? 'text-[#0a3075] fill-[#0a3075]' : 'text-gray-400'}`} />
+                                <Star className={`h-4 w-4 ${(product.isFeatured || product.is_featured) ? 'text-[#1e0e8b] fill-[#1e0e8b]' : 'text-gray-400'}`} />
                               )}
                               <span>{(product.isFeatured || product.is_featured) ? 'Unfeature Product' : 'Feature Product'}</span>
                             </button>

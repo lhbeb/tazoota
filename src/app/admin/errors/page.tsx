@@ -21,7 +21,7 @@ interface ErrorLog {
 }
 
 const TYPE_COLORS: Record<string, string> = {
-  client: 'bg-[#0a3075]/10 text-[#0a3075] border-[#0a3075]/20',
+  client: 'bg-[#1e0e8b]/10 text-[#1e0e8b] border-[#1e0e8b]/20',
   api: 'bg-blue-100 text-blue-700 border-blue-200',
   server: 'bg-red-100 text-red-700 border-red-200',
 };
@@ -234,7 +234,7 @@ export default function ErrorLogPage() {
                     onClick={() => markResolved(log.id, !log.resolved)}
                     disabled={resolving === log.id}
                     title={log.resolved ? 'Mark unresolved' : 'Mark resolved'}
-                    className={`p-1.5 rounded-lg transition-colors ${log.resolved ? 'hover:bg-[#0a3075]/10 text-[#0a3075]' : 'hover:bg-green-50 text-green-500'}`}
+                    className={`p-1.5 rounded-lg transition-colors ${log.resolved ? 'hover:bg-[#1e0e8b]/10 text-[#1e0e8b]' : 'hover:bg-green-50 text-green-500'}`}
                   >
                     <CheckCircle className="h-4 w-4" />
                   </button>

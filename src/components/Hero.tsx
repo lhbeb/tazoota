@@ -72,7 +72,7 @@ const Hero = () => {
       <div className="container relative z-10 mx-auto px-4 py-8 md:py-10">
         <div className="mx-auto grid w-full max-w-7xl overflow-hidden rounded-xl shadow-xl md:min-h-[420px] md:grid-cols-[0.9fr_1.1fr] md:items-stretch">
           {/* Content panel */}
-          <div className="order-2 flex w-full flex-col justify-center bg-[#0a3075] p-6 sm:p-8 md:order-1 md:p-10 lg:p-12">
+          <div className="order-2 flex w-full flex-col justify-center bg-[#1e0e8b] p-6 sm:p-8 md:order-1 md:p-10 lg:p-12">
             {/* Heading with typing animation - PRESERVED */}
             <h1 className="max-w-[620px] text-2xl font-bold leading-tight text-[#F0F6FF] md:text-3xl lg:text-[38px]">
               <span
@@ -94,7 +94,7 @@ const Hero = () => {
             {/* Shop Now Button - PRESERVED href */}
             <a
               href="#products"
-              className="mt-6 inline-flex w-fit items-center justify-center rounded-lg bg-white px-7 py-3 text-sm font-medium text-[#0a3075] shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#f3f4f6] hover:shadow-lg"
+              className="mt-6 inline-flex w-fit items-center justify-center rounded-lg bg-[#d4da3b] px-7 py-3 text-sm font-medium text-[#1e0e8b] shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#d4da3b]/90 hover:shadow-lg"
             >
               Explore the Collection
             </a>
@@ -110,7 +110,7 @@ const Hero = () => {
               sizes="(max-width: 767px) 100vw, 45vw"
               className="object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a3075]/25 via-transparent to-transparent" aria-hidden="true" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1e0e8b]/25 via-transparent to-transparent" aria-hidden="true" />
           </div>
         </div>
       </div>

@@ -1148,7 +1148,7 @@ export default function AdminOrdersPage() {
                           handleRetryEmail(order.id);
                         }}
                         disabled={retryingOrderId === order.id}
-                        className="inline-flex items-center gap-2 px-3 py-2 bg-[#0a3075]/10 text-[#0a3075] rounded-lg text-sm font-medium hover:bg-[#0a3075]/15 disabled:opacity-50 transition-all"
+                        className="inline-flex items-center gap-2 px-3 py-2 bg-[#1e0e8b]/10 text-[#1e0e8b] rounded-lg text-sm font-medium hover:bg-[#1e0e8b]/15 disabled:opacity-50 transition-all"
                       >
                         {retryingOrderId === order.id ? (
                           <RefreshCw className="h-4 w-4 animate-spin" />

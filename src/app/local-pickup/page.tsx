@@ -24,7 +24,7 @@ export default function LocalPickupPage() {
     <div className="min-h-screen bg-[#F0F6FF] py-10 sm:py-14">
       <div className="container mx-auto px-4">
         <div className="overflow-hidden rounded-[32px] border border-[#D6E3FF] bg-white shadow-[0_24px_80px_rgba(0,48,153,0.10)]">
-          <section className="bg-gradient-to-br from-[#0a3075] via-[#0a3075] to-[#0a3075] px-6 py-10 text-[#F0F6FF] sm:px-10 sm:py-12">
+          <section className="bg-gradient-to-br from-[#1e0e8b] via-[#1e0e8b] to-[#1e0e8b] px-6 py-10 text-[#F0F6FF] sm:px-10 sm:py-12">
             <div className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#f5970c]">
               Local Pickup Guide
             </div>
@@ -46,7 +46,7 @@ export default function LocalPickupPage() {
                     return (
                       <div key={step.title} className="rounded-[20px] border border-[#E8EEF8] bg-[#F8FBFF] p-5">
                         <div className="flex items-start gap-4">
-                          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-[#EEF4FF] text-[#0a3075]">
+                          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-[#EEF4FF] text-[#1e0e8b]">
                             <Icon className="h-5 w-5" />
                           </div>
                           <div>
@@ -78,13 +78,13 @@ export default function LocalPickupPage() {
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                   <a
                     href="mailto:contact@tazoota.com"
-                    className="inline-flex items-center justify-center rounded-2xl bg-[#0a3075] px-5 py-3 text-sm font-semibold text-[#F0F6FF] transition hover:bg-[#0a0f32]"
+                    className="inline-flex items-center justify-center rounded-2xl bg-[#1e0e8b] px-5 py-3 text-sm font-semibold text-[#F0F6FF] transition hover:bg-[#0a0f32]"
                   >
                     Email Support
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center rounded-2xl border border-[#0a3075]/20 bg-white px-5 py-3 text-sm font-semibold text-[#0a3075] transition hover:bg-[#EEF4FF]"
+                    className="inline-flex items-center justify-center rounded-2xl border border-[#1e0e8b]/20 bg-white px-5 py-3 text-sm font-semibold text-[#1e0e8b] transition hover:bg-[#EEF4FF]"
                   >
                     Contact Page
                   </Link>
@@ -95,7 +95,7 @@ export default function LocalPickupPage() {
             <aside className="space-y-6">
               <section className="rounded-[24px] border border-[#DCE5F5] bg-[#F8FBFF] p-6">
                 <div className="flex items-start gap-3">
-                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-[#EEF4FF] text-[#0a3075]">
+                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-[#EEF4FF] text-[#1e0e8b]">
                     <MapPin className="h-5 w-5" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -117,7 +117,7 @@ export default function LocalPickupPage() {
 
               <section className="rounded-[24px] border border-[#DCE5F5] bg-[#F8FBFF] p-6">
                 <div className="flex items-start gap-3">
-                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-[#EEF4FF] text-[#0a3075]">
+                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-[#EEF4FF] text-[#1e0e8b]">
                     <Clock3 className="h-5 w-5" />
                   </div>
                   <div>
