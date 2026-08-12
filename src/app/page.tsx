@@ -17,9 +17,12 @@ export default async function HomePage() {
       getProducts(),
     ]);
 
-    const lawnGardenProducts = featuredProducts.filter(p =>
-      p.collections?.includes('lawn-garden')
-    );
+    const lawnGardenProducts = products
+      .filter(p =>
+        p.collections?.includes('lawn-garden') ||
+        p.category?.trim().toLowerCase() === 'lawn mowers'
+      )
+      .sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
 
     const smallToolProducts = products.filter((product) =>
       product.collections?.includes('power-tools') &&

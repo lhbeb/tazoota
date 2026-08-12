@@ -20,10 +20,14 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
       (product) => product.category?.trim().toLowerCase() === name.toLowerCase(),
     );
 
+    const chosenProduct =
+      categoryProducts.find((product) => product.isFeatured && product.images?.[0]) ||
+      categoryProducts.find((product) => product.images?.[0]);
+
     return {
       name,
       count: categoryProducts.length,
-      image: categoryProducts.find((product) => product.images?.[0])?.images[0],
+      image: chosenProduct?.images[0],
     };
   }).filter((category) => category.count > 0 && category.image);
 
