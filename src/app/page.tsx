@@ -20,7 +20,8 @@ export default async function HomePage() {
     const lawnGardenProducts = products
       .filter(p =>
         p.collections?.includes('lawn-garden') ||
-        p.category?.trim().toLowerCase() === 'lawn mowers'
+        p.category?.trim().toLowerCase() === 'lawn mowers' ||
+        p.category?.trim().toLowerCase().includes('mower')
       )
       .sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
 

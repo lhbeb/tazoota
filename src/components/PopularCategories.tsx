@@ -14,10 +14,23 @@ interface PopularCategoriesProps {
   products: Product[];
 }
 
+function matchesCategory(productCategory: string | undefined, categoryName: string): boolean {
+  if (!productCategory) return false;
+  const cat = productCategory.trim().toLowerCase();
+  const target = categoryName.trim().toLowerCase();
+  if (cat === target) return true;
+  if (target === 'lawn mowers') return cat.includes('mower');
+  if (target === 'blowers') return cat.includes('blower');
+  if (target === 'pressure washers') return cat.includes('pressure washer');
+  if (target === 'vacuum cleaners') return cat.includes('vacuum');
+  if (target === 'hardware') return cat.includes('hardware') || cat.includes('tool');
+  return false;
+}
+
 export default function PopularCategories({ products }: PopularCategoriesProps) {
   const categories = POPULAR_CATEGORY_NAMES.map((name) => {
-    const categoryProducts = products.filter(
-      (product) => product.category?.trim().toLowerCase() === name.toLowerCase(),
+    const categoryProducts = products.filter((product) =>
+      matchesCategory(product.category, name),
     );
 
     const chosenProduct =
