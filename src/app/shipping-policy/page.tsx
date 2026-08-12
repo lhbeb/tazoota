@@ -5,14 +5,16 @@ import { Clock, Mail, MapPin, PackageCheck, ShieldCheck, Truck } from 'lucide-re
 export const metadata: Metadata = {
   title: 'Shipping Policy | Tazoota',
   description:
-    'Official Tazoota Shipping Policy. Free standard shipping across the United States and United Kingdom. Same-day processing for orders placed before 2:00 PM EST.',
+    'Official Tazoota Shipping Policy. Free standard shipping across the United States and United Kingdom. Estimated delivery 5–10 business days. Same-day processing for orders placed before 2:00 PM EST.',
 };
 
 const timeline = [
   ['Same-day orders', 'Ships same day when placed before 2:00 PM EST'],
-  ['Standard processing', '0-1 business day'],
-  ['United States delivery', '5-9 business days (Free Standard Shipping)'],
-  ['United Kingdom delivery', '5-9 business days (Free Standard Delivery)'],
+  ['Standard processing', '0–1 business day'],
+  ['Transit time (carrier)', '5–9 business days'],
+  ['Total estimated delivery', '5–10 business days'],
+  ['United States delivery', '5–10 business days (Free Standard Shipping)'],
+  ['United Kingdom delivery', '5–10 business days (Free Standard Delivery)'],
 ];
 
 const policySections = [
@@ -175,7 +177,7 @@ export default function ShippingPolicyPage() {
           <div className="flex flex-col gap-3 border-b border-gray-100 pb-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-2xl font-bold text-[#262626]">Delivery Timelines</h2>
-              <p className="mt-2 text-sm text-gray-600">Same-day dispatch applies to orders placed before 2:00 PM EST on business days.</p>
+              <p className="mt-2 text-sm text-gray-600">Estimated total delivery: <strong>5–10 business days</strong> (0–1 day handling + 5–9 days transit). Same-day dispatch applies to orders placed before 2:00 PM EST on business days.</p>
             </div>
             <span className="inline-flex w-fit rounded-full bg-[#e3e823] px-3.5 py-1 text-sm font-semibold text-[#2e6b3e]">
               Same-day dispatch cutoff: 2:00 PM EST

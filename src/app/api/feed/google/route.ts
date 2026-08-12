@@ -18,6 +18,40 @@ const SHIPPING_BY_COUNTRY: Record<FeedCountry, {
   US: { service: 'Free Standard Shipping', currency: 'USD' },
 };
 
+/**
+ * Maps store categories to Google's official product taxonomy IDs.
+ * Full taxonomy: https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt
+ */
+const GOOGLE_PRODUCT_CATEGORY_MAP: Record<string, string> = {
+  'Lawn Mowers': '2962',
+  'Ride Mowers': '2962',
+  'Power Tools': '1167',
+  'Generators': '696',
+  'Garden Equipment': '4217',
+  'Garden Tools': '4217',
+  'Pressure Washers': '2211',
+  'Outdoor Power Equipment': '2211',
+  'Electronics': '222',
+  'Fashion': '1604',
+  'Hobbies': '8',
+  'Entertainment': '8',
+  'Home & Garden': '536',
+  'default': '536',
+};
+
+function getGoogleProductCategory(category: string | undefined): string {
+  if (!category) return GOOGLE_PRODUCT_CATEGORY_MAP['default'];
+  const exactMatch = GOOGLE_PRODUCT_CATEGORY_MAP[category];
+  if (exactMatch) return exactMatch;
+  const lowerCategory = category.toLowerCase();
+  for (const [key, value] of Object.entries(GOOGLE_PRODUCT_CATEGORY_MAP)) {
+    if (key !== 'default' && lowerCategory.includes(key.toLowerCase())) {
+      return value;
+    }
+  }
+  return GOOGLE_PRODUCT_CATEGORY_MAP['default'];
+}
+
 function escapeXml(value: unknown): string {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -106,7 +140,13 @@ export async function GET(request: NextRequest) {
       .map((product) => {
         const sku = escapeXml(formatValidSku(product));
         const title = escapeXml(product.title || 'Product');
-        const description = escapeXml(product.description || product.title || '');
+
+        // GMC caps description at 5000 characters
+        const rawDesc = product.description || product.title || '';
+        const description = escapeXml(
+          rawDesc.length > 5000 ? rawDesc.substring(0, 4997) + '...' : rawDesc
+        );
+
         const link = escapeXml(`${BASE_URL}/products/${encodeURIComponent(product.slug)}`);
         const productCurrency = (product.currency || 'USD').toUpperCase();
         const price = `${Number(product.price).toFixed(2)} ${productCurrency}`;
@@ -114,7 +154,32 @@ export async function GET(request: NextRequest) {
         const condition = mapConditionToGmc(product.condition);
         const brand = escapeXml(product.brand || 'Tazoota');
         const category = escapeXml(product.category || 'Home & Garden');
+        const googleProductCategory = getGoogleProductCategory(product.category);
         const imageLink = escapeXml(new URL(product.images[0], BASE_URL).toString());
+
+        // Additional image links (GMC supports up to 10 extra images)
+        const additionalImages = (product.images || [])
+          .slice(1, 11)
+          .map((img) => {
+            try {
+              return `\n      <g:additional_image_link>${escapeXml(new URL(img, BASE_URL).toString())}</g:additional_image_link>`;
+            } catch { return ''; }
+          })
+          .join('');
+
+        // GTIN / MPN — conditional: only emit identifier_exists=yes if we have real identifiers
+        const hasGtin = product.meta?.gtin && String(product.meta.gtin).length >= 8;
+        const hasMpn = product.meta?.mpn && String(product.meta.mpn).length >= 1;
+        const identifierXml = hasGtin
+          ? `\n      <g:gtin>${escapeXml(String(product.meta!.gtin))}</g:gtin>\n      <g:identifier_exists>yes</g:identifier_exists>`
+          : hasMpn
+            ? `\n      <g:mpn>${escapeXml(String(product.meta!.mpn))}</g:mpn>\n      <g:identifier_exists>yes</g:identifier_exists>`
+            : `\n      <g:identifier_exists>no</g:identifier_exists>`;
+
+        // priceValidUntil: 1 year from today (required by GMC)
+        const priceValidUntil = new Date();
+        priceValidUntil.setFullYear(priceValidUntil.getFullYear() + 1);
+        const priceValidUntilStr = priceValidUntil.toISOString().slice(0, 10);
 
         return `
     <item>
@@ -122,13 +187,16 @@ export async function GET(request: NextRequest) {
       <title>${title}</title>
       <description>${description}</description>
       <link>${link}</link>
-      <g:image_link>${imageLink}</g:image_link>
+      <g:image_link>${imageLink}</g:image_link>${additionalImages}
       <g:price>${price}</g:price>
       <g:availability>${availability}</g:availability>
       <g:condition>${condition}</g:condition>
       <g:brand>${brand}</g:brand>
       <g:product_type>${category}</g:product_type>
-      <g:identifier_exists>no</g:identifier_exists>${buildShippingXml(targetCountries, productCurrency)}
+      <g:google_product_category>${googleProductCategory}</g:google_product_category>
+      <g:custom_label_0>${escapeXml(product.condition || 'New')}</g:custom_label_0>
+      <g:return_policy_label>default_return_policy</g:return_policy_label>
+      <g:price_valid_until>${priceValidUntilStr}</g:price_valid_until>${identifierXml}${buildShippingXml(targetCountries, productCurrency)}
     </item>`;
       })
       .join('');

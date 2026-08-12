@@ -141,7 +141,7 @@ const Header = () => {
   return (
     <>
       {/* Announcement bar - Yellow background with dark blue text */}
-      <div suppressHydrationWarning={true} className="bg-[#e3e823] text-[#2e6b3e] py-2 relative overflow-hidden h-[40px] flex items-center">
+      <div suppressHydrationWarning={true} className="bg-[#efefef] text-[#275e34] py-2 relative overflow-hidden h-[40px] flex items-center">
         <div suppressHydrationWarning={true} className="container mx-auto px-4 flex items-center justify-center relative w-full h-full">
           {/* Announcement Text - PRESERVED */}
           <div suppressHydrationWarning={true} className="text-center font-medium px-4 sm:px-16 transition-all duration-500 ease-in-out h-full flex items-center justify-center min-h-[24px]">
@@ -176,7 +176,7 @@ const Header = () => {
           {/* Desktop Arrows */}
           <button
             onClick={() => handleAnnouncementNavigation('prev')}
-            className="hidden sm:block absolute left-1/2 transform -translate-x-56 p-1 hover:bg-[#2e6b3e]/10 rounded-full transition-colors duration-200 z-10 text-[#2e6b3e]"
+            className="hidden sm:block absolute left-1/2 transform -translate-x-56 p-1 hover:bg-[#275e34]/10 rounded-full transition-colors duration-200 z-10 text-[#275e34]"
             aria-label="Previous announcement"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -184,7 +184,7 @@ const Header = () => {
 
           <button
             onClick={() => handleAnnouncementNavigation('next')}
-            className="hidden sm:block absolute left-1/2 transform translate-x-52 p-1 hover:bg-[#2e6b3e]/10 rounded-full transition-colors duration-200 z-10 text-[#2e6b3e]"
+            className="hidden sm:block absolute left-1/2 transform translate-x-52 p-1 hover:bg-[#275e34]/10 rounded-full transition-colors duration-200 z-10 text-[#275e34]"
             aria-label="Next announcement"
           >
             <ChevronRight className="h-4 w-4" />

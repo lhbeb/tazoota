@@ -53,6 +53,9 @@ export interface Product {
     rotate_links?: boolean;
     checkout_links?: string[];
     gmc_enabled?: boolean;
+    gtin?: string; // Global Trade Item Number (barcode) — used in GMC feed for branded products
+    mpn?: string;  // Manufacturer Part Number — used in GMC feed when GTIN unavailable
+    sku?: string;  // Product SKU — alternative product identifier
   };
   published?: boolean; // Extracted from meta.published for easier access
   isFeatured?: boolean;
