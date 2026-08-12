@@ -202,7 +202,7 @@ const Header = () => {
           }`}
       >
         {/* Top Row: Logo, Search, Actions */}
-        <div suppressHydrationWarning={true} className="bg-white text-[#262626]">
+        <div suppressHydrationWarning={true} className="bg-[#275e34] text-[#efefef]">
           <div suppressHydrationWarning={true} className="container mx-auto px-4 py-3">
             <div suppressHydrationWarning={true} className="flex items-center justify-between gap-4">
             {/* Logo - PRESERVED */}
@@ -240,7 +240,7 @@ const Header = () => {
               {isSticky && (
                 <button
                   onClick={() => setIsSearchOpen(true)}
-                  className="lg:hidden bg-[#2e6b3e] text-white hover:opacity-90 rounded-full p-2"
+                  className="lg:hidden bg-[#e3e823] text-[#2e6b3e] hover:opacity-90 rounded-full p-2"
                   aria-label="Search products"
                 >
                   <Search className="h-5 w-5" />
@@ -250,7 +250,7 @@ const Header = () => {
               {/* Help Center Icon - Desktop */}
               <Link
                 href="/contact"
-                className="hidden sm:flex bg-[#2e6b3e] text-white hover:opacity-90 rounded-full p-2"
+                className="hidden sm:flex bg-[#e3e823] text-[#2e6b3e] hover:opacity-90 rounded-full p-2"
                 aria-label="Help Center"
               >
                 <Info className="h-5 w-5" />
@@ -259,7 +259,7 @@ const Header = () => {
               {/* Cart - PRESERVED with color update */}
               <button
                 onClick={handleCartClick}
-                className="relative bg-[#2e6b3e] text-white hover:opacity-90 rounded-full p-2"
+                className="relative bg-[#e3e823] text-[#2e6b3e] hover:opacity-90 rounded-full p-2"
                 aria-label={`Shopping cart ${cartCount > 0 ? `with ${cartCount} items` : '(empty)'}`}
               >
                 <ShoppingCart className="h-5 w-5" />
@@ -273,7 +273,7 @@ const Header = () => {
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="lg:hidden bg-[#2e6b3e] text-white hover:opacity-90 rounded-full p-2"
+                className="lg:hidden bg-[#e3e823] text-[#2e6b3e] hover:opacity-90 rounded-full p-2"
                 aria-label="Toggle mobile menu"
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
