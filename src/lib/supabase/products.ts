@@ -313,8 +313,9 @@ export async function getFeaturedProducts(): Promise<Product[]> {
 
     const products = (data || []).map(transformProduct);
 
-    // Filter out drafts - only return published products
-    return products.filter(p => p.published !== false);
+    // Keep the application-level guard as well as the database filter so this
+    // function can never return a published product that is not featured.
+    return products.filter(p => p.published !== false && p.isFeatured === true);
   } catch (error) {
     console.error('Error loading featured products:', error);
     return [];

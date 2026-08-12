@@ -84,15 +84,26 @@ function isLawnMowerReview(review: Review): boolean {
   return isLawnMowerText(review.productTitle) || isLawnMowerText(review.productSlug);
 }
 
-function shouldIncludeNativeSellerReview(review: Review): boolean {
+function shouldIncludeNativeSellerReview(
+  review: Review,
+  featuredProductTitles: Set<string>,
+  featuredProductSlugs: Set<string>,
+): boolean {
   const hasProductReference = [review.productTitle, review.productSlug].some(
     (value) => typeof value === 'string' && value.trim().length > 0,
   );
 
-  // Seller-level reviews are commonly stored without a product reference. Keep
-  // those reviews in the store feed, while continuing to reject reviews that
-  // are explicitly tagged to a non-lawn-mower legacy product.
-  return !hasProductReference || isLawnMowerReview(review);
+  // Keep generic store reviews, but a review that names a product may appear on
+  // the homepage only when that lawn-mower product is currently featured.
+  if (!hasProductReference) return true;
+
+  const productTitle = review.productTitle?.trim().toLowerCase();
+  const productSlug = review.productSlug?.trim().toLowerCase();
+
+  return isLawnMowerReview(review) && (
+    (Boolean(productTitle) && featuredProductTitles.has(productTitle!)) ||
+    (Boolean(productSlug) && featuredProductSlugs.has(productSlug!))
+  );
 }
 
 export async function getHomeReviewsFeed(limit: number = 6): Promise<{
@@ -108,23 +119,34 @@ export async function getHomeReviewsFeed(limit: number = 6): Promise<{
       supabaseAdmin
         .from('products')
         .select('*')
+        .eq('is_featured', true)
         .order('created_at', { ascending: false }),
     ]);
 
     const sellerRows = sellersResult.data || [];
     const productRows = productsResult.data || [];
 
+    const featuredProducts = productRows
+      .map((row) => transformProduct(row))
+      .filter((product) => product.published !== false && product.isFeatured === true);
+    const featuredProductTitles = new Set(
+      featuredProducts.map((product) => product.title.trim().toLowerCase()),
+    );
+    const featuredProductSlugs = new Set(
+      featuredProducts.map((product) => product.slug.trim().toLowerCase()),
+    );
+
     const nativeSellerReviews = sellerRows
       .flatMap((seller) =>
         Array.isArray(seller.reviews) ? (seller.reviews as Review[]) : [],
       )
-      .filter(shouldIncludeNativeSellerReview);
+      .filter((review) =>
+        shouldIncludeNativeSellerReview(review, featuredProductTitles, featuredProductSlugs),
+      );
 
-    const publishedProductReviews = productRows
-      .map((row) => transformProduct(row))
+    const publishedProductReviews = featuredProducts
       .filter(
         (product) =>
-          product.published !== false &&
           [product.title, product.slug, product.category].some(isLawnMowerText),
       )
       .flatMap((product) =>

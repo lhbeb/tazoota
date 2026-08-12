@@ -5,27 +5,28 @@ import ProductGrid from '@/components/ProductGrid';
 import HomeReviews from '@/components/HomeReviews';
 import CategorySection from '@/components/CategorySection';
 import PopularCategories from '@/components/PopularCategories';
-import { getFeaturedProducts, getProducts } from '@/lib/data';
+import { getFeaturedProducts } from '@/lib/data';
 import { homeReviews, homeReviewsStats } from '@/lib/homeReviews';
 import ScrollToTop from '@/components/ScrollToTop';
 import { FEATURED_PRODUCT_LIMIT } from '@/config/products';
 
 export default async function HomePage() {
   try {
-    const [featuredProducts, products] = await Promise.all([
-      getFeaturedProducts(),
-      getProducts(),
-    ]);
+    // Treat featured status as the homepage's data boundary. Keeping this
+    // defensive check here prevents any future data-source regression from
+    // leaking a non-featured product into a homepage section.
+    const featuredProducts = (await getFeaturedProducts()).filter(
+      (product) => product.isFeatured === true,
+    );
 
-    const lawnGardenProducts = products
+    const lawnGardenProducts = featuredProducts
       .filter(p =>
         p.collections?.includes('lawn-garden') ||
         p.category?.trim().toLowerCase() === 'lawn mowers' ||
         p.category?.trim().toLowerCase().includes('mower')
-      )
-      .sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
+      );
 
-    const smallToolProducts = products.filter((product) =>
+    const smallToolProducts = featuredProducts.filter((product) =>
       product.collections?.includes('power-tools') &&
       product.category.trim().toLowerCase() === 'hardware'
     );
@@ -37,7 +38,7 @@ export default async function HomePage() {
       </Suspense>
       <Hero />
 
-      <PopularCategories products={products} />
+      <PopularCategories products={featuredProducts} />
 
       <CategorySection
         products={featuredProducts}
