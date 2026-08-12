@@ -46,7 +46,7 @@ const Footer = () => {
               </div>
               <div className="pt-2 flex gap-3">
                 <a
-                  href="https://www.tiktok.com/@tazoota_officiel"
+                  href="https://www.tiktok.com/@tazoota"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={socialIconClass}
@@ -57,7 +57,7 @@ const Footer = () => {
                   </svg>
                 </a>
                 <a
-                  href="https://www.instagram.com/tazoota_officiel/"
+                  href="https://www.instagram.com/tazoota_official/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={socialIconClass}
@@ -66,7 +66,7 @@ const Footer = () => {
                   <Instagram className="h-5 w-5" />
                 </a>
                 <a
-                  href="https://www.pinterest.com/tazoota_officiel/"
+                  href="https://www.pinterest.com/tazoota_official"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={socialIconClass}

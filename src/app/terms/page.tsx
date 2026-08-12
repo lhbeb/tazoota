@@ -118,7 +118,7 @@ const TermsPage = () => {
               Free standard shipping applies to all orders within the United States and United Kingdom.
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Same-day shipping is available for orders placed before 2:00 PM EST.</li>
+              <li>Same-day shipping is available for orders placed before 2:00 PM CST.</li>
               <li>Standard processing time is 0 to 1 business day.</li>
               <li>Domestic USA delivery time is 5 to 9 business days.</li>
               <li>United Kingdom delivery time is 5 to 9 business days.</li>
@@ -212,8 +212,8 @@ const TermsPage = () => {
               </div>
               <div>
                 <div className="font-medium text-[#262626] mb-1">Hours:</div>
-                <div className="text-gray-600">Monday to Friday, 9:00 AM to 5:00 PM EST</div>
-                <div className="text-gray-600">Saturday, 10:00 AM to 3:00 PM EST</div>
+                <div className="text-gray-600">Monday to Friday, 9:00 AM to 5:00 PM CST</div>
+                <div className="text-gray-600">Saturday, 10:00 AM to 3:00 PM CST</div>
                 <div className="text-gray-600">Sunday, Closed</div>
               </div>
             </div>

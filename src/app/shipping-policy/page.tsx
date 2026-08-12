@@ -5,11 +5,11 @@ import { Clock, Mail, MapPin, PackageCheck, ShieldCheck, Truck } from 'lucide-re
 export const metadata: Metadata = {
   title: 'Shipping Policy | Tazoota',
   description:
-    'Official Tazoota Shipping Policy. Free standard shipping across the United States. Estimated delivery 5–10 business days. Same-day processing for orders placed before 2:00 PM EST.',
+    'Official Tazoota Shipping Policy. Free standard shipping across the United States. Estimated delivery 5–10 business days. Same-day processing for orders placed before 2:00 PM CST.',
 };
 
 const timeline = [
-  ['Same-day orders', 'Ships same day when placed before 2:00 PM EST'],
+  ['Same-day orders', 'Ships same day when placed before 2:00 PM CST'],
   ['Standard processing', '0–1 business day'],
   ['Transit time (carrier)', '5–9 business days'],
   ['Total estimated delivery', '5–10 business days (Free Standard Shipping)'],
@@ -63,7 +63,7 @@ export default function ShippingPolicyPage() {
         'url': 'https://tazoota.com/shipping-policy',
         'name': 'Shipping Policy | Tazoota',
         'description':
-          'Tazoota Shipping Policy: Free standard shipping across the United States. Same-day processing for orders placed before 2:00 PM EST.',
+          'Tazoota Shipping Policy: Free standard shipping across the United States. Same-day processing for orders placed before 2:00 PM CST.',
       },
       {
         '@type': 'OfferShippingDetails',
@@ -91,7 +91,7 @@ export default function ShippingPolicyPage() {
             'maxValue': 9,
             'unitCode': 'DAY',
           },
-          'cutoffTime': '14:00:00-05:00',
+          'cutoffTime': '14:00:00-06:00',
         },
       },
     ],
@@ -122,9 +122,9 @@ export default function ShippingPolicyPage() {
         <section className="mb-8 grid gap-4 md:grid-cols-3">
           <div className="rounded-xl border border-[#2e6b3e]/10 bg-white p-5 shadow-sm">
             <Clock className="mb-4 h-6 w-6 text-[#2e6b3e]" />
-            <h2 className="text-lg font-bold text-[#262626]">Order by 2:00 PM EST</h2>
+            <h2 className="text-lg font-bold text-[#262626]">Order by 2:00 PM CST</h2>
             <p className="mt-2 text-sm leading-6 text-gray-600">
-              Orders placed before the 2:00 PM EST cutoff are processed, packed, and shipped the same business day.
+              Orders placed before the 2:00 PM CST cutoff are processed, packed, and shipped the same business day.
             </p>
           </div>
           <div className="rounded-xl border border-[#2e6b3e]/10 bg-white p-5 shadow-sm">
@@ -147,10 +147,10 @@ export default function ShippingPolicyPage() {
           <div className="flex flex-col gap-3 border-b border-gray-100 pb-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-2xl font-bold text-[#262626]">Delivery Timelines</h2>
-              <p className="mt-2 text-sm text-gray-600">Estimated total delivery: <strong>5–10 business days</strong> (0–1 day handling + 5–9 days transit). Same-day dispatch applies to orders placed before 2:00 PM EST on business days.</p>
+              <p className="mt-2 text-sm text-gray-600">Estimated total delivery: <strong>5–10 business days</strong> (0–1 day handling + 5–9 days transit). Same-day dispatch applies to orders placed before 2:00 PM CST on business days.</p>
             </div>
             <span className="inline-flex w-fit rounded-full bg-[#e3e823] px-3.5 py-1 text-sm font-semibold text-[#2e6b3e]">
-              Same-day dispatch cutoff: 2:00 PM EST
+              Same-day dispatch cutoff: 2:00 PM CST
             </span>
           </div>
 
@@ -197,7 +197,7 @@ export default function ShippingPolicyPage() {
             </div>
             <div className="flex items-center gap-3 rounded-xl bg-[#f4f7f5] p-4">
               <Clock className="h-5 w-5 text-[#2e6b3e]" />
-              <span className="text-sm font-medium text-[#262626]">Mon-Fri, 9 AM-5 PM EST</span>
+              <span className="text-sm font-medium text-[#262626]">Mon-Fri, 9 AM-5 PM CST</span>
             </div>
           </div>
 

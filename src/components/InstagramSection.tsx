@@ -26,7 +26,7 @@ const InstagramSection: React.FC = () => {
 
                 {/* Profile Details */}
                 <div className="flex-grow">
-                  <h3 className="font-bold text-[#262626] text-lg sm:text-xl mb-1">@tazoota_officiel</h3>
+                  <h3 className="font-bold text-[#262626] text-lg sm:text-xl mb-1">@tazoota_official</h3>
                   <p className="text-gray-600 text-sm sm:text-base mb-2">Tazoota</p>
 
                   {/* Statistics */}
@@ -50,14 +50,14 @@ const InstagramSection: React.FC = () => {
               {/* Follow Us Button */}
               <div className="flex-shrink-0">
                 <a
-                  href="https://www.instagram.com/tazoota_officiel/"
+                  href="https://www.instagram.com/tazoota_official/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
                 >
                   <Instagram className="h-5 w-5 mr-2" />
-                  <span className="hidden sm:inline">Follow Us</span>
-                  <span className="sm:hidden">Follow</span>
+                  <span className="hidden sm:inline">Follow on Instagram</span>
+                  <span className="sm:hidden">Instagram</span>
                   <ExternalLink className="h-4 w-4 ml-2" />
                 </a>
               </div>

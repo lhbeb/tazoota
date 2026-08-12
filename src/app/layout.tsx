@@ -111,9 +111,9 @@ export default function RootLayout({
                 "logo": "https://tazoota.com/logosvg.svg",
                 "description": "Tazoota - Power Your Outdoor and Home Projects With Confidence. Discover reliable lawn mowers, power tools, generators, and garden essentials.",
                 "sameAs": [
-                  "https://www.tiktok.com/@tazoota_officiel",
-                  "https://www.instagram.com/tazoota_officiel/",
-                  "https://www.pinterest.com/tazoota_officiel/"
+                  "https://www.tiktok.com/@tazoota",
+                  "https://www.instagram.com/tazoota_official/",
+                  "https://www.pinterest.com/tazoota_official"
                 ],
                 "contactPoint": {
                   "@type": "ContactPoint",

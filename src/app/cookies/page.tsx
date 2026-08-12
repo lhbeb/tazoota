@@ -116,8 +116,8 @@ const CookiesPage = () => (
             </div>
             <div>
               <div className="font-medium text-[#262626] mb-1">Hours:</div>
-              <div className="text-gray-600">Monday to Friday: 9:00 AM to 5:00 PM EST</div>
-              <div className="text-gray-600">Saturday: 10:00 AM to 3:00 PM EST</div>
+              <div className="text-gray-600">Monday to Friday: 9:00 AM to 5:00 PM CST</div>
+              <div className="text-gray-600">Saturday: 10:00 AM to 3:00 PM CST</div>
             </div>
           </div>
         </div>
