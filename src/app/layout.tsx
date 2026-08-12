@@ -120,17 +120,9 @@ export default function RootLayout({
                   "contactType": "customer service",
                   "email": "contact@tazoota.com",
                   "telephone": "+19083256283",
-                  "areaServed": ["GB", "US"]
+                  "areaServed": ["US"]
                 },
                 "address": [
-                  {
-                    "@type": "PostalAddress",
-                    "streetAddress": "Choats Rd",
-                    "addressLocality": "Barking",
-                    "addressRegion": "Dagenham",
-                    "postalCode": "RM9 6BF",
-                    "addressCountry": "GB"
-                  },
                   {
                     "@type": "PostalAddress",
                     "streetAddress": "5850 E Raines Rd",

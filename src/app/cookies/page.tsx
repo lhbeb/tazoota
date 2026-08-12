@@ -111,11 +111,7 @@ const CookiesPage = () => (
               <div className="text-gray-600">contact@tazoota.com</div>
             </div>
             <div>
-              <div className="font-medium text-[#262626] mb-1">UK Registered Office:</div>
-              <div className="text-gray-600">Choats Rd, Barking, Dagenham RM9 6BF, United Kingdom</div>
-            </div>
-            <div>
-              <div className="font-medium text-[#262626] mb-1">US Dispatch Center:</div>
+              <div className="font-medium text-[#262626] mb-1">Address:</div>
               <div className="text-gray-600">5850 E Raines Rd, Memphis, TN 38115, United States</div>
             </div>
             <div>
