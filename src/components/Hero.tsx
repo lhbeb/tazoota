@@ -94,7 +94,7 @@ const Hero = () => {
             {/* Shop Now Button - PRESERVED href */}
             <a
               href="#products"
-              className="mt-6 inline-flex w-fit items-center justify-center rounded-lg bg-[#d4da3b] px-7 py-3 text-sm font-medium text-[#2e6b3e] shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#d4da3b]/90 hover:shadow-lg"
+              className="mt-6 inline-flex w-fit items-center justify-center rounded-lg bg-[#e3e823] px-7 py-3 text-sm font-medium text-[#2e6b3e] shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#e3e823]/90 hover:shadow-lg"
             >
               Explore the Collection
             </a>

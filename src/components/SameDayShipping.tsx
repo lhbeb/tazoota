@@ -30,7 +30,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
 
           {/* Right Section - Content */}
           <div className="md:w-[55%] bg-[#2e6b3e] text-[#f0f7f2] p-12 flex flex-col justify-center">
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 text-[#d4da3b]">
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 text-[#e3e823]">
               Same-Day Dispatch
             </h1>
 
@@ -113,7 +113,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
         </div>
         <a
           href="#products"
-          className="bg-[#d4da3b] hover:bg-[#d4da3b]/90 text-[#2e6b3e] font-bold py-4 px-10 rounded-xl text-lg transition-colors whitespace-nowrap"
+          className="bg-[#e3e823] hover:bg-[#e3e823]/90 text-[#2e6b3e] font-bold py-4 px-10 rounded-xl text-lg transition-colors whitespace-nowrap"
         >
           Browse Products
         </a>

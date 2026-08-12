@@ -286,7 +286,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
               <p className="text-gray-600 mb-6">Share your experience and help other customers choose with confidence.</p>
               <button
                 onClick={() => setShowReviewForm(true)}
-                className="bg-[#d4da3b] hover:bg-[#d4da3b]/90 text-[#2e6b3e] px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                className="bg-[#e3e823] hover:bg-[#e3e823]/90 text-[#2e6b3e] px-6 py-3 rounded-lg font-medium transition-colors duration-200"
               >
                 Write a Review
               </button>
@@ -329,7 +329,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                 <div className="flex items-center">
                   <button
                     onClick={() => setShowReviewForm(true)}
-                    className="bg-[#d4da3b] hover:bg-[#d4da3b]/90 text-[#2e6b3e] px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                    className="bg-[#e3e823] hover:bg-[#e3e823]/90 text-[#2e6b3e] px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
                   >
                     <Send className="h-4 w-4" />
                     Write a Review
@@ -643,7 +643,7 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                     className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
                       isSubmitting 
                         ? 'bg-gray-400 cursor-not-allowed text-white' 
-                        : 'bg-[#d4da3b] hover:bg-[#d4da3b]/90 text-[#2e6b3e]'
+                        : 'bg-[#e3e823] hover:bg-[#e3e823]/90 text-[#2e6b3e]'
                     }`}
                   >
                     {isSubmitting ? 'Submitting...' : 'Submit Review'}

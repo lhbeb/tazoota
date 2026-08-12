@@ -264,7 +264,7 @@ export default function AboutPage() {
 
         {/* Our Mission */}
         <div className="bg-gradient-to-r from-[#2e6b3e] to-[#2e6b3e] rounded-2xl shadow-lg p-10 mb-12 text-[#f0f7f2] text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-[#d4da3b]/15 rounded-full mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-[#e3e823]/15 rounded-full mb-6">
             <Target className="h-8 w-8" />
           </div>
           <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
@@ -279,7 +279,7 @@ export default function AboutPage() {
         {/* What Makes Us Different */}
         <div className="bg-white rounded-2xl shadow-lg border border-[#2e6b3e]/10 p-8 mb-12">
           <div className="flex items-center gap-4 mb-8">
-            <div className="p-3 bg-[#d4da3b] rounded-xl">
+            <div className="p-3 bg-[#e3e823] rounded-xl">
               <Sparkles className="h-8 w-8 text-[#2e6b3e]" />
             </div>
             <h2 className="text-3xl font-bold text-[#262626]">What Makes Us Different</h2>
@@ -331,7 +331,7 @@ export default function AboutPage() {
         {/* Our Values */}
         <div className="bg-white rounded-2xl shadow-lg border border-[#2e6b3e]/10 p-8 mb-12">
           <div className="flex items-center gap-4 mb-8">
-            <div className="p-3 bg-[#d4da3b] rounded-xl">
+            <div className="p-3 bg-[#e3e823] rounded-xl">
               <Heart className="h-8 w-8 text-[#2e6b3e]" />
             </div>
             <h2 className="text-3xl font-bold text-[#262626]">Our Values</h2>
@@ -339,25 +339,25 @@ export default function AboutPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-[#f0f7f2] rounded-xl p-6 text-center border border-[#2e6b3e]/10">
-              <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#d4da3b]">
+              <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#e3e823]">
                 <Shield className="h-8 w-8 text-[#2e6b3e]" />
               </div>
               <h3 className="font-bold text-[#262626] text-lg">Integrity</h3>
             </div>
             <div className="bg-[#f0f7f2] rounded-xl p-6 text-center border border-[#2e6b3e]/10">
-              <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#d4da3b]">
+              <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#e3e823]">
                 <Award className="h-8 w-8 text-[#2e6b3e]" />
               </div>
               <h3 className="font-bold text-[#262626] text-lg">Quality</h3>
             </div>
             <div className="bg-[#f0f7f2] rounded-xl p-6 text-center border border-[#2e6b3e]/10">
-              <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#d4da3b]">
+              <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#e3e823]">
                 <Users className="h-8 w-8 text-[#2e6b3e]" />
               </div>
               <h3 className="font-bold text-[#262626] text-lg">Customer Trust</h3>
             </div>
             <div className="bg-[#f0f7f2] rounded-xl p-6 text-center border border-[#2e6b3e]/10">
-              <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#d4da3b]">
+              <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#e3e823]">
                 <Zap className="h-8 w-8 text-[#2e6b3e]" />
               </div>
               <h3 className="font-bold text-[#262626] text-lg">Innovation and continuous improvement</h3>

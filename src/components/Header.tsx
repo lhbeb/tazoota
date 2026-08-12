@@ -20,7 +20,7 @@ const catalogNavigation = [
 ] as const;
 
 const desktopNavLinkClass =
-  'relative py-1 text-sm font-bold text-[#efefef] transition-colors duration-200 hover:text-[#d4da3b] focus-visible:text-[#d4da3b] focus-visible:outline-none after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-[#d4da3b] after:transition-transform after:duration-200 hover:after:scale-x-100 focus-visible:after:scale-x-100';
+  'relative py-1 text-sm font-bold text-[#efefef] transition-colors duration-200 hover:text-[#e3e823] focus-visible:text-[#e3e823] focus-visible:outline-none after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-[#e3e823] after:transition-transform after:duration-200 hover:after:scale-x-100 focus-visible:after:scale-x-100';
 
 const mobileMenuLinkClass =
   'text-center font-bold text-[#262626] transition-colors duration-200 hover:text-[#2e6b3e] focus-visible:text-[#2e6b3e] focus-visible:outline-none';
@@ -141,7 +141,7 @@ const Header = () => {
   return (
     <>
       {/* Announcement bar - Yellow background with dark blue text */}
-      <div suppressHydrationWarning={true} className="bg-[#d4da3b] text-[#2e6b3e] py-2 relative overflow-hidden h-[40px] flex items-center">
+      <div suppressHydrationWarning={true} className="bg-[#e3e823] text-[#2e6b3e] py-2 relative overflow-hidden h-[40px] flex items-center">
         <div suppressHydrationWarning={true} className="container mx-auto px-4 flex items-center justify-center relative w-full h-full">
           {/* Announcement Text - PRESERVED */}
           <div suppressHydrationWarning={true} className="text-center font-medium px-4 sm:px-16 transition-all duration-500 ease-in-out h-full flex items-center justify-center min-h-[24px]">
@@ -285,7 +285,7 @@ const Header = () => {
 
         {/* Mobile Search Bar - Below header on mobile (hidden when scrolling or on checkout page) */}
         {!isSticky && !isCheckoutPage && (
-          <div suppressHydrationWarning={true} className="lg:hidden bg-white border-t border-b border-gray-200">
+          <div suppressHydrationWarning={true} className="lg:hidden bg-[#2e6b3e] border-t border-b border-white/10">
             <div suppressHydrationWarning={true} className="container mx-auto px-4 py-3">
               <div
                 suppressHydrationWarning={true}
@@ -365,14 +365,14 @@ const Header = () => {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="flex-shrink-0 whitespace-nowrap rounded-full border border-white/20 px-4 py-2 text-sm font-bold text-[#efefef] transition-colors duration-300 hover:border-[#d4da3b]/60 hover:bg-[#d4da3b]/15"
+                  className="flex-shrink-0 whitespace-nowrap rounded-full border border-white/20 px-4 py-2 text-sm font-bold text-[#efefef] transition-colors duration-300 hover:border-[#e3e823]/60 hover:bg-[#e3e823]/15"
                 >
                   {item.label}
                 </Link>
               ))}
               <Link
                 href="/#featured"
-                className="flex-shrink-0 px-4 py-2 border border-white/20 rounded-full text-sm font-bold text-[#efefef] hover:border-[#d4da3b]/60 hover:bg-[#d4da3b]/15 transition-colors duration-300 whitespace-nowrap"
+                className="flex-shrink-0 px-4 py-2 border border-white/20 rounded-full text-sm font-bold text-[#efefef] hover:border-[#e3e823]/60 hover:bg-[#e3e823]/15 transition-colors duration-300 whitespace-nowrap"
               >
                 Featured
               </Link>

@@ -88,7 +88,7 @@ const NewsletterSection = () => {
               <button
                 type="submit"
                 disabled={isSubmitting || isSuccess}
-                className="bg-[#d4da3b] text-[#2e6b3e] hover:bg-[#d4da3b]/90 disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-lg font-bold transition-all duration-200 flex items-center justify-center gap-2 min-w-[140px] shadow-lg shadow-black/10"
+                className="bg-[#e3e823] text-[#2e6b3e] hover:bg-[#e3e823]/90 disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-lg font-bold transition-all duration-200 flex items-center justify-center gap-2 min-w-[140px] shadow-lg shadow-black/10"
               >
                 {isSubmitting ? (
                   <>

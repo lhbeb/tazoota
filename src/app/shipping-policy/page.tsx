@@ -135,7 +135,7 @@ export default function ShippingPolicyPage() {
 
       <div className="container mx-auto max-w-5xl px-4">
         <section className="mb-10 rounded-2xl bg-[#2e6b3e] px-6 py-8 text-[#f0f7f2] sm:px-8 sm:py-10 shadow-lg">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#f0f7f2]/10 bg-[#2e6b3e]/25 px-3.5 py-1.5 text-sm font-semibold text-[#f5970c]">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#f0f7f2]/10 bg-[#2e6b3e]/25 px-3.5 py-1.5 text-sm font-semibold text-[#e3e823]">
             <Truck className="h-4 w-4" />
             Fast & Free Shipping Across US & UK
           </div>
@@ -177,7 +177,7 @@ export default function ShippingPolicyPage() {
               <h2 className="text-2xl font-bold text-[#262626]">Delivery Timelines</h2>
               <p className="mt-2 text-sm text-gray-600">Same-day dispatch applies to orders placed before 2:00 PM EST on business days.</p>
             </div>
-            <span className="inline-flex w-fit rounded-full bg-[#f5970c] px-3.5 py-1 text-sm font-semibold text-[#2e6b3e]">
+            <span className="inline-flex w-fit rounded-full bg-[#e3e823] px-3.5 py-1 text-sm font-semibold text-[#2e6b3e]">
               Same-day dispatch cutoff: 2:00 PM EST
             </span>
           </div>
