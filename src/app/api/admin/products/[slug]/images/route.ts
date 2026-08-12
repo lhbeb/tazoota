@@ -39,6 +39,7 @@ export async function GET(
       return NextResponse.json({ images: [] });
     }
 
+    const cacheBuster = Date.now();
     const images = data
       .filter((file) => !file.name?.startsWith('.') && !file?.metadata?.isFolder)
       .map((file) => {
@@ -46,7 +47,7 @@ export async function GET(
         const {
           data: { publicUrl },
         } = supabaseAdmin.storage.from(BUCKET).getPublicUrl(path);
-        return publicUrl;
+        return `${publicUrl}?v=${cacheBuster}`;
       })
       .filter(Boolean);
 

@@ -93,8 +93,12 @@ export async function POST(request: NextRequest) {
         );
       }
 
+      // Append cache-buster so browsers and Next.js Image cache don't serve the old file
+      const cacheBuster = Date.now();
+      const bustUrl = `${publicUrl}?v=${cacheBuster}`;
+
       return NextResponse.json({
-        url: publicUrl,
+        url: bustUrl,
         path: data.path,
       });
     } catch (error: any) {

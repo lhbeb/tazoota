@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   // corrupt a running dev server's manifests.
   distDir: process.env.NODE_ENV === 'development' ? '.next-dev' : '.next',
   images: {
+    minimumCacheTTL: 1, // Don't persist stale optimised images — let Supabase CDN control TTL
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     remotePatterns: [
       {
