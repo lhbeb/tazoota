@@ -498,7 +498,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:items-start">
             <div className="relative lg:sticky lg:top-0 lg:self-start">
-              <div onClick={() => handleImageClick(activeImage)} className="cursor-zoom-in relative group aspect-[4/3] w-full">
+              <div onClick={() => handleImageClick(activeImage)} className="cursor-zoom-in relative group aspect-[4/3] w-full rounded-md lg:bg-white">
                 {images && images.length > 0 && images[activeImage] ? (
                   <>
                     {!imgLoaded && (
@@ -514,7 +514,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                       priority
                       quality={PRODUCT_IMAGE_QUALITY}
                       sizes="(max-width: 1024px) 100vw, 50vw"
-                      className={`object-cover rounded-md transition-opacity duration-300 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+                      className={`object-cover rounded-md transition-opacity duration-300 lg:object-contain ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
                       onError={(e) => {
                         console.error('Image failed to load:', images[activeImage]);
                         (e.target as HTMLImageElement).src = '/placeholder.png';
@@ -546,7 +546,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                           fill
                           quality={90}
                           sizes="80px"
-                          className="object-cover"
+                          className="object-cover lg:object-contain"
                           onError={(e) => {
                             console.error('Thumbnail failed to load:', image);
                             (e.target as HTMLImageElement).src = '/placeholder.png';
