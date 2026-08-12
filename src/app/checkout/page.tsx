@@ -520,7 +520,7 @@ const CheckoutPage: React.FC = () => {
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-[#262626] mb-4">Your Cart Is Empty</h1>
-            <Link href="/" className="text-[#090A28] hover:text-[#1c2070]">
+            <Link href="/" className="text-[#0b2a17] hover:text-[#3a7f4b]">
               Continue Shopping
             </Link>
           </div>

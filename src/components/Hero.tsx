@@ -72,12 +72,12 @@ const Hero = () => {
       <div className="container relative z-10 mx-auto px-4 py-8 md:py-10">
         <div className="mx-auto grid w-full max-w-7xl overflow-hidden rounded-xl shadow-xl md:min-h-[420px] md:grid-cols-[0.9fr_1.1fr] md:items-stretch">
           {/* Content panel */}
-          <div className="order-2 flex w-full flex-col justify-center bg-[#1e0e8b] p-6 sm:p-8 md:order-1 md:p-10 lg:p-12">
+          <div className="order-2 flex w-full flex-col justify-center bg-[#2e6b3e] p-6 sm:p-8 md:order-1 md:p-10 lg:p-12">
             {/* Heading with typing animation - PRESERVED */}
-            <h1 className="max-w-[620px] text-2xl font-bold leading-tight text-[#F0F6FF] md:text-3xl lg:text-[38px]">
+            <h1 className="max-w-[620px] text-2xl font-bold leading-tight text-[#f0f7f2] md:text-3xl lg:text-[38px]">
               <span
                 ref={typingTextRef}
-                className="mb-1 block h-[1.2em] text-[#F0F6FF]"
+                className="mb-1 block h-[1.2em] text-[#f0f7f2]"
               >
                 {placeholder}
               </span>
@@ -87,14 +87,14 @@ const Hero = () => {
             </h1>
 
             {/* Description - PRESERVED content */}
-            <p className="mt-4 max-w-[580px] text-sm leading-relaxed text-[#F0F6FF]/90 md:text-base">
+            <p className="mt-4 max-w-[580px] text-sm leading-relaxed text-[#f0f7f2]/90 md:text-base">
               Find dependable lawn and garden equipment, hard-working power tools, portable generators, and ride-on mowers built to perform from start to finish.
             </p>
 
             {/* Shop Now Button - PRESERVED href */}
             <a
               href="#products"
-              className="mt-6 inline-flex w-fit items-center justify-center rounded-lg bg-[#d4da3b] px-7 py-3 text-sm font-medium text-[#1e0e8b] shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#d4da3b]/90 hover:shadow-lg"
+              className="mt-6 inline-flex w-fit items-center justify-center rounded-lg bg-[#d4da3b] px-7 py-3 text-sm font-medium text-[#2e6b3e] shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#d4da3b]/90 hover:shadow-lg"
             >
               Explore the Collection
             </a>
@@ -110,7 +110,7 @@ const Hero = () => {
               sizes="(max-width: 767px) 100vw, 45vw"
               className="object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1e0e8b]/25 via-transparent to-transparent" aria-hidden="true" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#2e6b3e]/25 via-transparent to-transparent" aria-hidden="true" />
           </div>
         </div>
       </div>

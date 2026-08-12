@@ -4,11 +4,11 @@ import Image from 'next/image';
 import { Mail, Phone, MapPin, Instagram } from 'lucide-react';
 
 const socialIconClass =
-  'inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#d4da3b]/60 text-[#F0F6FF] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#d4da3b] hover:bg-[#d4da3b] hover:text-[#1e0e8b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4da3b] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e0e8b]';
+  'inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#d4da3b]/60 text-[#f0f7f2] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#d4da3b] hover:bg-[#d4da3b] hover:text-[#2e6b3e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4da3b] focus-visible:ring-offset-2 focus-visible:ring-offset-[#2e6b3e]';
 
 const Footer = () => {
   return (
-    <footer className="bg-[#1e0e8b] text-[#F0F6FF]">
+    <footer className="bg-[#2e6b3e] text-[#f0f7f2]">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           <div>
@@ -18,10 +18,10 @@ const Footer = () => {
                 alt="Tazoota Logo"
                 width={160}
                 height={36}
-                className="h-auto w-36 brightness-0 invert sm:w-40"
+                className="h-auto w-36 sm:w-40"
               />
             </Link>
-            <p className="mb-4 text-[#F0F6FF]">
+            <p className="mb-4 text-[#f0f7f2]">
               Dependable lawn mowers, power tools, generators, and garden essentials for projects of every size.
             </p>
             <div className="space-y-2">
@@ -88,7 +88,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#F0F6FF] mb-4">Navigation</h3>
+            <h3 className="text-lg font-semibold text-[#f0f7f2] mb-4">Navigation</h3>
             <ul className="space-y-2">
               <li><Link href="/" className="hover:text-[#d4da3b] transition-colors duration-300">Home</Link></li>
               <li><Link href="/#products" className="hover:text-[#d4da3b] transition-colors duration-300">Products</Link></li>
@@ -99,7 +99,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#F0F6FF] mb-4">Policies & Info</h3>
+            <h3 className="text-lg font-semibold text-[#f0f7f2] mb-4">Policies & Info</h3>
             <ul className="space-y-2">
               <li><Link href="/privacy-policy" className="hover:text-[#d4da3b] transition-colors duration-300">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-[#d4da3b] transition-colors duration-300">Terms of Service</Link></li>
@@ -114,7 +114,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-[#F0F6FF]/20 mt-12 pt-8">
+        <div className="border-t border-[#f0f7f2]/20 mt-12 pt-8">
           <div className="flex flex-col items-center space-y-4">
             <div className="flex items-center justify-center">
               <Image

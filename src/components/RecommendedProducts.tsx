@@ -105,7 +105,7 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ currentProduc
               </div>
 
               <div className="p-4 space-y-3">
-                <h3 className="font-semibold text-[#262626] group-hover:text-[#1e0e8b] transition-colors line-clamp-2 sm:line-clamp-1">
+                <h3 className="font-semibold text-[#262626] group-hover:text-[#2e6b3e] transition-colors line-clamp-2 sm:line-clamp-1">
                   {product.title}
                 </h3>
 
@@ -117,12 +117,12 @@ const RecommendedProducts: React.FC<RecommendedProductsProps> = ({ currentProduc
 
                 <div className="text-xl font-bold text-[#262626]">${new Intl.NumberFormat('en-US').format(product.price)}</div>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mt-2">
-                  <div className="flex items-center text-sm font-medium text-[#1e0e8b]">
+                  <div className="flex items-center text-sm font-medium text-[#2e6b3e]">
                     <Eye className="h-4 w-4 mr-1" />
                     <span>View Details</span>
                   </div>
-                  <div className="h-8 w-8 bg-[#1e0e8b] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <ShoppingCart className="h-4 w-4 text-[#F0F6FF]" />
+                  <div className="h-8 w-8 bg-[#2e6b3e] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <ShoppingCart className="h-4 w-4 text-[#f0f7f2]" />
                   </div>
                 </div>
               </div>

@@ -140,22 +140,22 @@ const TrackPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F6FF] py-10 sm:py-14">
+    <div className="min-h-screen bg-[#f0f7f2] py-10 sm:py-14">
       <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-[#D6E3FF] bg-white">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-[#d8e6da] bg-white">
           <div className="grid lg:grid-cols-[minmax(0,1.1fr)_360px]">
             <section className="px-6 py-8 sm:px-8 sm:py-10 lg:px-10">
-              <div className="mb-3 text-sm font-medium text-[#1e0e8b]">
+              <div className="mb-3 text-sm font-medium text-[#2e6b3e]">
                 Tazoota order tracking
               </div>
               <h1 className="max-w-2xl text-3xl font-semibold text-[#262626] sm:text-4xl">
                 Track your order
               </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#5B6785] sm:text-base">
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#5d6b62] sm:text-base">
                 Enter your tracking number below to see the latest carrier updates for your Tazoota order.
               </p>
 
-              <form onSubmit={handleTrack} className="mt-8 rounded-[24px] border border-[#E8EEF8] bg-[#F8FBFF] p-4 sm:p-5">
+              <form onSubmit={handleTrack} className="mt-8 rounded-[24px] border border-[#e5ede6] bg-[#f7faf8] p-4 sm:p-5">
                 <label htmlFor="trackingNumber" className="mb-3 block text-sm font-medium text-[#262626]">
                   Tracking number
                 </label>
@@ -173,12 +173,12 @@ const TrackPage = () => {
                     placeholder="Enter your tracking number"
                     maxLength={50}
                     autoComplete="off"
-                    className="h-14 flex-1 rounded-2xl border border-[#D6E3FF] bg-white px-4 text-sm font-medium text-[#262626] outline-none transition focus:border-[#1e0e8b]/35 focus:ring-2 focus:ring-[#1e0e8b]/10"
+                    className="h-14 flex-1 rounded-2xl border border-[#d8e6da] bg-white px-4 text-sm font-medium text-[#262626] outline-none transition focus:border-[#2e6b3e]/35 focus:ring-2 focus:ring-[#2e6b3e]/10"
                   />
                   <button
                     type="submit"
                     disabled={!isScriptReady || isSubmitting}
-                    className="inline-flex h-14 items-center justify-center rounded-2xl bg-[#f5970c] px-6 text-sm font-semibold text-[#1e0e8b] transition hover:bg-[#FFF7A0] disabled:cursor-not-allowed disabled:bg-[#D7DEF0] disabled:text-[#6E7AA1]"
+                    className="inline-flex h-14 items-center justify-center rounded-2xl bg-[#f5970c] px-6 text-sm font-semibold text-[#2e6b3e] transition hover:bg-[#FFF7A0] disabled:cursor-not-allowed disabled:bg-[#d4dcd6] disabled:text-[#6d7b72]"
                   >
                     {isSubmitting ? "Loading..." : "Track Order"}
                   </button>
@@ -195,20 +195,20 @@ const TrackPage = () => {
                 )}
               </form>
 
-              <div className="mt-8 overflow-hidden rounded-[24px] border border-[#E8EEF8] bg-white p-2">
+              <div className="mt-8 overflow-hidden rounded-[24px] border border-[#e5ede6] bg-white p-2">
                 <div
                   id="YQContainer"
-                  className="min-h-[560px] rounded-[24px] bg-[#F8FBFF]"
+                  className="min-h-[560px] rounded-[24px] bg-[#f7faf8]"
                 />
               </div>
             </section>
 
-            <aside className="border-t border-[#D6E3FF] bg-[#F8FBFF] px-6 py-8 lg:border-l lg:border-t-0">
-              <div className="rounded-[24px] border border-[#DCE5F5] bg-white p-6">
+            <aside className="border-t border-[#d8e6da] bg-[#f7faf8] px-6 py-8 lg:border-l lg:border-t-0">
+              <div className="rounded-[24px] border border-[#dce7de] bg-white p-6">
                 <h2 className="text-xl font-semibold text-[#262626]">
                   Before you search
                 </h2>
-                <div className="mt-4 space-y-4 text-sm leading-7 text-[#5B6785]">
+                <div className="mt-4 space-y-4 text-sm leading-7 text-[#5d6b62]">
                   <p>
                     Use the exact tracking number from your Tazoota shipping confirmation email.
                   </p>
@@ -221,14 +221,14 @@ const TrackPage = () => {
                 </div>
               </div>
 
-              <div className="mt-6 rounded-[24px] border border-[#DCE5F5] bg-white p-6">
+              <div className="mt-6 rounded-[24px] border border-[#dce7de] bg-white p-6">
                 <h3 className="text-lg font-semibold text-[#262626]">Need help with your order?</h3>
-                <p className="mt-3 text-sm leading-7 text-[#5B6785]">
+                <p className="mt-3 text-sm leading-7 text-[#5d6b62]">
                   Reach out to our team with your order number and tracking number, and we’ll help you from there.
                 </p>
                 <a
                   href="mailto:contact@tazoota.com"
-                  className="mt-5 inline-flex items-center justify-center rounded-2xl border border-[#1e0e8b]/15 bg-[#f5970c] px-5 py-3 text-sm font-semibold text-[#1e0e8b] transition hover:bg-[#FFF7A0]"
+                  className="mt-5 inline-flex items-center justify-center rounded-2xl border border-[#2e6b3e]/15 bg-[#f5970c] px-5 py-3 text-sm font-semibold text-[#2e6b3e] transition hover:bg-[#FFF7A0]"
                 >
                   Contact Support
                 </a>

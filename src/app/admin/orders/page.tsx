@@ -530,7 +530,7 @@ export default function AdminOrdersPage() {
       <div className="mb-4 flex justify-end">
         <button
           onClick={() => setShowExportDialog(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#090A28] text-white rounded-lg hover:bg-[#1c2070] transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#0b2a17] text-white rounded-lg hover:bg-[#3a7f4b] transition-colors"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" /></svg>
           Export Orders (CSV)
@@ -579,7 +579,7 @@ export default function AdminOrdersPage() {
 
               <button
                 onClick={() => handleExport('all')}
-                className="w-full text-left p-4 border-2 border-[#090A28]/20 bg-[#090A28]/5 rounded-xl hover:bg-[#090A28]/10 hover:border-[#090A28]/30 transition-colors"
+                className="w-full text-left p-4 border-2 border-[#0b2a17]/20 bg-[#0b2a17]/5 rounded-xl hover:bg-[#0b2a17]/10 hover:border-[#0b2a17]/30 transition-colors"
               >
                 <div className="flex items-center justify-between">
                   <div>
@@ -588,7 +588,7 @@ export default function AdminOrdersPage() {
                       Export all orders regardless of conversion status ({orders.length} orders)
                     </div>
                   </div>
-                  <Package className="h-6 w-6 text-[#090A28] flex-shrink-0" />
+                  <Package className="h-6 w-6 text-[#0b2a17] flex-shrink-0" />
                 </div>
               </button>
             </div>
@@ -673,7 +673,7 @@ export default function AdminOrdersPage() {
               placeholder="Search by customer name, email, product, or address..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0046be] focus:border-[#0046be] outline-none"
+              className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2e6b3e] focus:border-[#2e6b3e] outline-none"
             />
             {searchQuery && (
               <button
@@ -693,7 +693,7 @@ export default function AdminOrdersPage() {
               <select
                 value={emailFilter}
                 onChange={(e) => setEmailFilter(e.target.value as 'all' | 'sent' | 'failed')}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0046be] focus:border-[#0046be] outline-none bg-white"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2e6b3e] focus:border-[#2e6b3e] outline-none bg-white"
               >
                 <option value="all">All Orders</option>
                 <option value="sent">Email Sent ✅</option>
@@ -705,7 +705,7 @@ export default function AdminOrdersPage() {
               <select
                 value={conversionFilter}
                 onChange={(e) => setConversionFilter(e.target.value as 'all' | 'converted' | 'not_converted')}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0046be] focus:border-[#0046be] outline-none bg-white"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2e6b3e] focus:border-[#2e6b3e] outline-none bg-white"
               >
                 <option value="all">All Orders</option>
                 <option value="converted">Converted ✅</option>
@@ -740,7 +740,7 @@ export default function AdminOrdersPage() {
             </label>
             <button
               onClick={handleSelectAllFiltered}
-              className="text-xs text-[#0046be] hover:underline font-medium"
+              className="text-xs text-[#2e6b3e] hover:underline font-medium"
             >
               {filteredOrders.length > 0 && filteredOrders.every(o => selectedOrderIds.includes(o.id))
                 ? 'Deselect All'
@@ -824,7 +824,7 @@ export default function AdminOrdersPage() {
                     </div>
 
                     {/* Customer Avatar */}
-                    <div className="h-10 w-10 bg-gradient-to-br from-[#090A28] to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                    <div className="h-10 w-10 bg-gradient-to-br from-[#0b2a17] to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
                       {order.customer_name?.charAt(0)?.toUpperCase() || '?'}
                     </div>
 
@@ -1072,7 +1072,7 @@ export default function AdminOrdersPage() {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-[#090A28] hover:text-[#1c2070] hover:bg-[#090A28]/5 rounded-lg transition-colors"
+                            className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-[#0b2a17] hover:text-[#3a7f4b] hover:bg-[#0b2a17]/5 rounded-lg transition-colors"
                             title="View product"
                           >
                             <Eye className="h-3 w-3" />
@@ -1148,7 +1148,7 @@ export default function AdminOrdersPage() {
                           handleRetryEmail(order.id);
                         }}
                         disabled={retryingOrderId === order.id}
-                        className="inline-flex items-center gap-2 px-3 py-2 bg-[#1e0e8b]/10 text-[#1e0e8b] rounded-lg text-sm font-medium hover:bg-[#1e0e8b]/15 disabled:opacity-50 transition-all"
+                        className="inline-flex items-center gap-2 px-3 py-2 bg-[#2e6b3e]/10 text-[#2e6b3e] rounded-lg text-sm font-medium hover:bg-[#2e6b3e]/15 disabled:opacity-50 transition-all"
                       >
                         {retryingOrderId === order.id ? (
                           <RefreshCw className="h-4 w-4 animate-spin" />
@@ -1254,7 +1254,7 @@ export default function AdminOrdersPage() {
                   key={pageNum}
                   onClick={() => setCurrentPage(pageNum)}
                   className={`min-w-[40px] h-10 rounded-lg font-medium transition-all ${currentPage === pageNum
-                    ? 'bg-[#090A28] text-white'
+                    ? 'bg-[#0b2a17] text-white'
                     : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
                     }`}
                 >

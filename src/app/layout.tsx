@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { DM_Sans } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import ClientHeader from "@/components/ClientHeader";
@@ -14,6 +15,13 @@ import FacebookPixel from "@/components/FacebookPixel";
 import { AdminRouteCheck, PublicRouteOnly, AdminRouteOnly, CheckoutRouteOnly } from "@/components/AdminRouteCheck";
 import GlobalErrorReporter from "@/components/GlobalErrorReporter";
 import TidioChat from "@/components/TidioChat";
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-dm-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Tazoota - Power Your Outdoor and Home Projects With Confidence",
@@ -69,7 +77,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={dmSans.variable}>
       <head>
         <link rel="icon" href="/favicon.png" type="image/png" />
         <link rel="preload" href="/logosvg.svg" as="image" type="image/svg+xml" />

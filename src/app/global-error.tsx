@@ -27,8 +27,8 @@ export default function GlobalError({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#f8f9ff',
-          fontFamily: 'system-ui, sans-serif',
+          background: '#f7f8f7',
+          fontFamily: "'DM Sans', system-ui, sans-serif",
         }}
       >
         <div
@@ -43,7 +43,7 @@ export default function GlobalError({
           }}
         >
           <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
-          <h1 style={{ color: '#090A28', fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
+          <h1 style={{ color: '#0b2a17', fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
             Something went wrong
           </h1>
           <p style={{ color: '#666', fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
@@ -77,7 +77,7 @@ export default function GlobalError({
               onClick={reset}
               style={{
                 padding: '10px 24px',
-                background: '#090A28',
+                background: '#0b2a17',
                 color: '#fff',
                 border: 'none',
                 borderRadius: 10,

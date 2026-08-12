@@ -37,7 +37,7 @@ export default function AdminNav({ title }: AdminNavProps) {
   };
 
   return (
-    <div className="bg-gradient-to-r from-[#0046be] to-[#003494] shadow-lg">
+    <div className="bg-gradient-to-r from-[#2e6b3e] to-[#1f4c2a] shadow-lg">
       <div className="container mx-auto px-4 py-4">
         {/* Navigation arrows and title */}
         <div className="flex items-center justify-between mb-4">
@@ -99,7 +99,7 @@ export default function AdminNav({ title }: AdminNavProps) {
                   key={page.path}
                   href={page.path}
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 text-sm font-medium ${isActive
-                    ? 'bg-white text-[#0046be] shadow-md'
+                    ? 'bg-white text-[#2e6b3e] shadow-md'
                     : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
                     }`}
                 >

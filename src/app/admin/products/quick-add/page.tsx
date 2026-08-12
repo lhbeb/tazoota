@@ -203,7 +203,7 @@ export default function QuickAddProductPage() {
                 >
                   Load Sample
                 </button>
-                <label className="px-4 py-2 text-sm bg-[#0046be] text-white rounded-lg hover:bg-[#003494] cursor-pointer flex items-center gap-2">
+                <label className="px-4 py-2 text-sm bg-[#2e6b3e] text-white rounded-lg hover:bg-[#1f4c2a] cursor-pointer flex items-center gap-2">
                   <FileJson className="h-4 w-4" />
                   Upload JSON File
                   <input
@@ -225,15 +225,15 @@ export default function QuickAddProductPage() {
                   value={jsonInput}
                   onChange={(e) => setJsonInput(e.target.value)}
                   rows={20}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-[#0046be] focus:border-[#0046be] font-mono text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-[#2e6b3e] focus:border-[#2e6b3e] font-mono text-sm"
                   placeholder='{\n  "slug": "product-slug",\n  "title": "Product Title",\n  "description": "...",\n  "price": 99.99,\n  ...\n}'
                 />
               </div>
 
-              <div className="bg-[#090A28]/5 border border-[#090A28]/20 rounded-lg p-4">
-                <div className="text-sm text-[#1c2070]">
+              <div className="bg-[#0b2a17]/5 border border-[#0b2a17]/20 rounded-lg p-4">
+                <div className="text-sm text-[#3a7f4b]">
                   <div className="font-semibold mb-2">Required Fields:</div>
-                  <ul className="list-disc list-inside space-y-1 text-[#1c2070]">
+                  <ul className="list-disc list-inside space-y-1 text-[#3a7f4b]">
                     <li>slug, title, description, price</li>
                     <li>brand, category, condition</li>
                     <li>checkoutLink (or checkout_link)</li>
@@ -241,7 +241,7 @@ export default function QuickAddProductPage() {
                     <li>collections (array of strings)</li>
                     <li>images (array of image URLs)</li>
                   </ul>
-                  <div className="mt-3 text-[#090A28]">
+                  <div className="mt-3 text-[#0b2a17]">
                     <strong>Optional:</strong> payeeEmail, reviews, meta, rating, reviewCount, currency, inStock
                   </div>
                 </div>
@@ -251,7 +251,7 @@ export default function QuickAddProductPage() {
                 <button
                   type="submit"
                   disabled={loading || !jsonInput.trim()}
-                  className="flex items-center gap-2 px-6 py-2 bg-[#0046be] text-white rounded-lg hover:bg-[#003494] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 px-6 py-2 bg-[#2e6b3e] text-white rounded-lg hover:bg-[#1f4c2a] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Upload className="h-5 w-5" />
                   {loading ? 'Creating Product...' : 'Create Product'}

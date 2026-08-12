@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     // Email content
     const emailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #0046be;">New Newsletter Subscription</h2>
+        <h2 style="color: #2e6b3e;">New Newsletter Subscription</h2>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
         <p><strong>Source:</strong> Tazoota Website Newsletter</p>

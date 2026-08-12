@@ -183,7 +183,7 @@ function ThankYouContent() {
           <div className="flex justify-center">
             <Link
               href="/"
-              className="inline-flex items-center justify-center px-6 py-3 bg-[#090A28] hover:bg-[#1c2070] text-white font-medium rounded-lg transition-colors duration-200"
+              className="inline-flex items-center justify-center px-6 py-3 bg-[#0b2a17] hover:bg-[#3a7f4b] text-white font-medium rounded-lg transition-colors duration-200"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Continue Shopping

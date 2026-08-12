@@ -29,7 +29,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
           </div>
 
           {/* Right Section - Content */}
-          <div className="md:w-[55%] bg-[#1e0e8b] text-[#F0F6FF] p-12 flex flex-col justify-center">
+          <div className="md:w-[55%] bg-[#2e6b3e] text-[#f0f7f2] p-12 flex flex-col justify-center">
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 text-[#d4da3b]">
               Same-Day Dispatch
             </h1>
@@ -39,7 +39,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
             </p>
             <Link
               href="/shipping-policy"
-              className="text-[#F0F6FF]/80 hover:text-[#F0F6FF] text-lg underline underline-offset-2 transition-colors"
+              className="text-[#f0f7f2]/80 hover:text-[#f0f7f2] text-lg underline underline-offset-2 transition-colors"
             >
               See our shipping policy →
             </Link>
@@ -52,8 +52,8 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
         {/* Card 1 */}
         <div className="bg-white rounded-xl p-6 shadow-sm">
           <div className="flex items-start gap-4">
-            <div className="bg-[#1e0e8b] rounded-full p-3 flex-shrink-0">
-              <Clock className="w-6 h-6 text-[#F0F6FF]" />
+            <div className="bg-[#2e6b3e] rounded-full p-3 flex-shrink-0">
+              <Clock className="w-6 h-6 text-[#f0f7f2]" />
             </div>
             <div>
               <h3 className="font-bold text-[#262626] text-lg mb-2">
@@ -69,8 +69,8 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
         {/* Card 2 */}
         <div className="bg-white rounded-xl p-6 shadow-sm">
           <div className="flex items-start gap-4">
-            <div className="bg-[#1e0e8b] rounded-full p-3 flex-shrink-0">
-              <Package className="w-6 h-6 text-[#F0F6FF]" />
+            <div className="bg-[#2e6b3e] rounded-full p-3 flex-shrink-0">
+              <Package className="w-6 h-6 text-[#f0f7f2]" />
             </div>
             <div>
               <h3 className="font-bold text-[#262626] text-lg mb-2">
@@ -86,8 +86,8 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
         {/* Card 3 */}
         <div className="bg-white rounded-xl p-6 shadow-sm">
           <div className="flex items-start gap-4">
-            <div className="bg-[#1e0e8b] rounded-full p-3 flex-shrink-0">
-              <Truck className="w-6 h-6 text-[#F0F6FF]" />
+            <div className="bg-[#2e6b3e] rounded-full p-3 flex-shrink-0">
+              <Truck className="w-6 h-6 text-[#f0f7f2]" />
             </div>
             <div>
               <h3 className="font-bold text-[#262626] text-lg mb-2">
@@ -108,12 +108,12 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
             Ready to get your order moving?
           </p>
           <p className="text-2xl md:text-3xl font-bold text-[#262626]">
-            Order by <span className="text-[#1e0e8b]">2:00 PM EST</span> for same-day dispatch
+            Order by <span className="text-[#2e6b3e]">2:00 PM EST</span> for same-day dispatch
           </p>
         </div>
         <a
           href="#products"
-          className="bg-[#d4da3b] hover:bg-[#d4da3b]/90 text-[#1e0e8b] font-bold py-4 px-10 rounded-xl text-lg transition-colors whitespace-nowrap"
+          className="bg-[#d4da3b] hover:bg-[#d4da3b]/90 text-[#2e6b3e] font-bold py-4 px-10 rounded-xl text-lg transition-colors whitespace-nowrap"
         >
           Browse Products
         </a>

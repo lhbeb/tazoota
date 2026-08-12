@@ -21,7 +21,7 @@ interface ErrorLog {
 }
 
 const TYPE_COLORS: Record<string, string> = {
-  client: 'bg-[#1e0e8b]/10 text-[#1e0e8b] border-[#1e0e8b]/20',
+  client: 'bg-[#2e6b3e]/10 text-[#2e6b3e] border-[#2e6b3e]/20',
   api: 'bg-blue-100 text-blue-700 border-blue-200',
   server: 'bg-red-100 text-red-700 border-red-200',
 };
@@ -156,7 +156,7 @@ export default function ErrorLogPage() {
             <button
               key={t}
               onClick={() => setFilterType(t)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${filterType === t ? 'bg-[#090A28] text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${filterType === t ? 'bg-[#0b2a17] text-white' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               {t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
@@ -168,7 +168,7 @@ export default function ErrorLogPage() {
             <button
               key={val}
               onClick={() => setFilterResolved(val)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${filterResolved === val ? 'bg-[#090A28] text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${filterResolved === val ? 'bg-[#0b2a17] text-white' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               {label}
             </button>
@@ -234,7 +234,7 @@ export default function ErrorLogPage() {
                     onClick={() => markResolved(log.id, !log.resolved)}
                     disabled={resolving === log.id}
                     title={log.resolved ? 'Mark unresolved' : 'Mark resolved'}
-                    className={`p-1.5 rounded-lg transition-colors ${log.resolved ? 'hover:bg-[#1e0e8b]/10 text-[#1e0e8b]' : 'hover:bg-green-50 text-green-500'}`}
+                    className={`p-1.5 rounded-lg transition-colors ${log.resolved ? 'hover:bg-[#2e6b3e]/10 text-[#2e6b3e]' : 'hover:bg-green-50 text-green-500'}`}
                   >
                     <CheckCircle className="h-4 w-4" />
                   </button>
@@ -289,7 +289,7 @@ export default function ErrorLogPage() {
                         value={resolveNote}
                         onChange={e => setResolveNote(e.target.value)}
                         placeholder="Optional resolution note..."
-                        className="flex-1 text-xs px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[#090A28]"
+                        className="flex-1 text-xs px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[#0b2a17]"
                       />
                       <button
                         onClick={() => markResolved(log.id, true)}

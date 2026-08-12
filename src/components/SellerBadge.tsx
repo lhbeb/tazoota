@@ -53,11 +53,11 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
         className="inline-flex items-center gap-1.5 mt-2 group w-fit"
       >
         <span className="text-[11px] text-gray-400">Sold by</span>
-        <span className="text-[11px] font-medium text-gray-600 group-hover:text-[#090A28] transition-colors">
+        <span className="text-[11px] font-medium text-gray-600 group-hover:text-[#0b2a17] transition-colors">
           {displaySeller.name}
         </span>
         {isTazoota ? (
-          <ShieldCheck className="w-3 h-3 flex-shrink-0 text-[#090A28]/50" />
+          <ShieldCheck className="w-3 h-3 flex-shrink-0 text-[#0b2a17]/50" />
         ) : (
           <Star className="w-3 h-3 flex-shrink-0 text-[#EFC154] fill-[#EFC154]" />
         )}
@@ -72,12 +72,12 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
       className="inline-flex items-center gap-2 mt-2 group w-fit"
     >
       {/* Avatar / icon */}
-      <div className="w-5 h-5 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center flex-shrink-0 ring-1 ring-gray-200 group-hover:ring-[#090A28]/30 transition-all">
+      <div className="w-5 h-5 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center flex-shrink-0 ring-1 ring-gray-200 group-hover:ring-[#0b2a17]/30 transition-all">
         {hasAvatar ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={displaySeller.avatarUrl} alt={displaySeller.name} className="w-full h-full object-cover" />
         ) : isTazoota ? (
-          <ShieldCheck className="w-3 h-3 text-[#090A28]" />
+          <ShieldCheck className="w-3 h-3 text-[#0b2a17]" />
         ) : (
           <User className="w-3 h-3 text-gray-400" />
         )}
@@ -85,14 +85,14 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
 
       {/* Label + name */}
       <span className="text-sm text-gray-400">Sold by</span>
-      <span className="text-sm font-medium text-gray-700 group-hover:text-[#090A28] transition-colors">
+      <span className="text-sm font-medium text-gray-700 group-hover:text-[#0b2a17] transition-colors">
         {displaySeller.name}
       </span>
 
       {/* Verified tick */}
       <div className="relative group flex items-center">
         {isTazoota ? (
-          <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0 text-[#090A28]/50" />
+          <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0 text-[#0b2a17]/50" />
         ) : (
           <Star className="w-3.5 h-3.5 flex-shrink-0 text-[#EFC154] fill-[#EFC154] cursor-help" />
         )}

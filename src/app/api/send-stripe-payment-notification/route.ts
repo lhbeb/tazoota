@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
               </div>
 
               <!-- Product Details -->
-              <div style="background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 20px; margin-bottom: 25px; border-radius: 4px;">
+              <div style="background-color: #eef4ef; border-left: 4px solid #2563eb; padding: 20px; margin-bottom: 25px; border-radius: 4px;">
                 <h2 style="margin: 0 0 15px 0; color: #1e40af; font-size: 18px;">
                   📦 Product Details
                 </h2>
@@ -173,7 +173,7 @@ export async function POST(request: NextRequest) {
 
           <!-- Footer -->
           <tr>
-            <td style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
+            <td style="background-color: #f8f9f8; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
               <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 12px;">
                 This is an automated notification from Tazoota
               </p>

@@ -50,7 +50,7 @@ export default function AdminError({
         <div className="flex gap-3">
           <button
             onClick={reset}
-            className="flex-1 px-4 py-2.5 bg-[#090A28] text-white text-sm font-semibold rounded-xl hover:bg-[#1c2070] transition-colors"
+            className="flex-1 px-4 py-2.5 bg-[#0b2a17] text-white text-sm font-semibold rounded-xl hover:bg-[#3a7f4b] transition-colors"
           >
             Retry
           </button>

@@ -131,7 +131,7 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#090A28] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0b2a17] focus:border-transparent"
                         disabled={isSending}
                       />
                     </div>
@@ -146,7 +146,7 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#090A28] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0b2a17] focus:border-transparent"
                         disabled={isSending}
                       />
                     </div>
@@ -160,7 +160,7 @@ export default function ContactPage() {
                         value={formData.contactReason}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#090A28] focus:border-transparent bg-white"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0b2a17] focus:border-transparent bg-white"
                         disabled={isSending}
                       >
                         <option value="">Select a reason</option>
@@ -185,7 +185,7 @@ export default function ContactPage() {
                         value={formData.subject}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#090A28] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0b2a17] focus:border-transparent"
                         disabled={isSending}
                       />
                     </div>
@@ -200,13 +200,13 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         rows={4}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#090A28] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0b2a17] focus:border-transparent"
                         disabled={isSending}
                       />
                     </div>
                     <button
                       type="submit"
-                      className={`w-full bg-[#d4da3b] hover:bg-[#d4da3b]/90 text-[#1e0e8b] font-medium py-3 rounded-lg transition-colors duration-300 ${isSending ? 'opacity-60 cursor-not-allowed' : ''}`}
+                      className={`w-full bg-[#d4da3b] hover:bg-[#d4da3b]/90 text-[#2e6b3e] font-medium py-3 rounded-lg transition-colors duration-300 ${isSending ? 'opacity-60 cursor-not-allowed' : ''}`}
                       disabled={isSending}
                     >
                       {isSending ? 'Sending...' : 'Send Message'}
@@ -221,28 +221,28 @@ export default function ContactPage() {
                   <h2 className="text-xl font-bold text-[#262626] mb-6">Get in Touch</h2>
                   <div className="space-y-6">
                     <div className="flex items-start">
-                      <Building2 className="h-6 w-6 text-[#090A28] mt-1 shrink-0" />
+                      <Building2 className="h-6 w-6 text-[#0b2a17] mt-1 shrink-0" />
                       <div className="ml-4">
                         <h3 className="font-medium text-[#262626]">UK Registered Office</h3>
                         <p className="text-gray-600 mt-1">Choats Rd, Barking, Dagenham RM9 6BF, United Kingdom</p>
                       </div>
                     </div>
                     <div className="flex items-start">
-                      <MapPin className="h-6 w-6 text-[#090A28] mt-1 shrink-0" />
+                      <MapPin className="h-6 w-6 text-[#0b2a17] mt-1 shrink-0" />
                       <div className="ml-4">
                         <h3 className="font-medium text-[#262626]">US Dispatch Center</h3>
                         <p className="text-gray-600 mt-1">5850 E Raines Rd, Memphis, TN 38115, United States</p>
                       </div>
                     </div>
                     <div className="flex items-start">
-                      <Phone className="h-6 w-6 text-[#090A28] mt-1 shrink-0" />
+                      <Phone className="h-6 w-6 text-[#0b2a17] mt-1 shrink-0" />
                       <div className="ml-4">
                         <h3 className="font-medium text-[#262626]">Phone Support</h3>
                         <p className="text-gray-600 mt-1"><span className="font-semibold">Phone:</span> +19129231747</p>
                       </div>
                     </div>
                     <div className="flex items-start">
-                      <Mail className="h-6 w-6 text-[#090A28] mt-1 shrink-0" />
+                      <Mail className="h-6 w-6 text-[#0b2a17] mt-1 shrink-0" />
                       <div className="ml-4">
                         <h3 className="font-medium text-[#262626]">Email</h3>
                         <p className="text-gray-600 mt-1">contact@tazoota.com</p>

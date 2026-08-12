@@ -258,12 +258,12 @@ export default function PaypalInvoiceConfirmation({
 
     if (isUnclaimed) {
         return (
-            <div className="min-h-screen bg-[#f6f7fb] py-6 sm:py-10 px-4">
+            <div className="min-h-screen bg-[#f5f7f6] py-6 sm:py-10 px-4">
                 <div className="mx-auto max-w-5xl">
                     <div className="mb-5">
                         <button
                             onClick={onClose}
-                            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#090A28] transition-colors"
+                            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#0b2a17] transition-colors"
                         >
                             <span className="text-lg leading-none">←</span>
                             Back to checkout
@@ -271,8 +271,8 @@ export default function PaypalInvoiceConfirmation({
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-6">
-                        <div className="rounded-[28px] border border-[#e8ebf3] bg-white shadow-[0_20px_80px_rgba(9,10,40,0.08)] overflow-hidden">
-                            <div className="border-b border-[#eef1f6] bg-gradient-to-r from-[#003087] to-[#0070ba] px-6 py-6 text-white">
+                        <div className="rounded-[28px] border border-[#e7eae7] bg-white shadow-[0_20px_80px_rgba(9,10,40,0.08)] overflow-hidden">
+                            <div className="border-b border-[#edf0ee] bg-gradient-to-r from-[#003087] to-[#0070ba] px-6 py-6 text-white">
                                 <div className="flex items-center gap-4">
                                     <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/14 ring-1 ring-white/15 overflow-hidden">
                                         <Image src="/paypal.png" alt="PayPal" width={100} height={32} className="h-8 w-auto object-contain" />
@@ -306,7 +306,7 @@ export default function PaypalInvoiceConfirmation({
                                 ) : (
                                     <>
                                         <div className="grid gap-4 sm:grid-cols-2">
-                                            <div className="rounded-2xl border border-[#e9edf4] bg-[#fbfcff] p-5">
+                                            <div className="rounded-2xl border border-[#e8ece9] bg-[#fbfcff] p-5">
                                                 <div className="flex items-center justify-between gap-2">
                                                     <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-500">Send To (PayPal)</p>
                                                     <button
@@ -328,15 +328,15 @@ export default function PaypalInvoiceConfirmation({
                                                         )}
                                                     </button>
                                                 </div>
-                                                <p className="mt-2 break-all text-lg font-bold text-[#090A28]">{payeeEmail}</p>
+                                                <p className="mt-2 break-all text-lg font-bold text-[#0b2a17]">{payeeEmail}</p>
                                             </div>
-                                            <div className="rounded-2xl border border-[#e9edf4] bg-[#fbfcff] p-5">
+                                            <div className="rounded-2xl border border-[#e8ece9] bg-[#fbfcff] p-5">
                                                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-500">Exact Amount</p>
-                                                <p className="mt-2 text-3xl font-extrabold text-[#090A28]">{orderTotal}</p>
+                                                <p className="mt-2 text-3xl font-extrabold text-[#0b2a17]">{orderTotal}</p>
                                             </div>
                                         </div>
 
-                                        <div className="mt-6 rounded-3xl border border-[#e9edf4] bg-[#fbfcff] p-5 sm:p-6">
+                                        <div className="mt-6 rounded-3xl border border-[#e8ece9] bg-[#fbfcff] p-5 sm:p-6">
                                             <div className="flex items-center justify-between gap-2">
                                                 <h2 className="text-lg font-bold text-[#262626]">Step-by-Step Instructions</h2>
                                                 <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-[#003087]">
@@ -354,7 +354,7 @@ export default function PaypalInvoiceConfirmation({
                                                     'Upload the screenshot below to submit your proof of payment and confirm your order.'
                                                 ].map((text, index) => (
                                                     <div key={index} className="flex items-start gap-3">
-                                                        <div className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#090A28] text-sm font-bold text-white">
+                                                        <div className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#0b2a17] text-sm font-bold text-white">
                                                             {index + 1}
                                                         </div>
                                                         <p className="text-sm leading-7 text-gray-600">{text}</p>
@@ -363,9 +363,9 @@ export default function PaypalInvoiceConfirmation({
                                             </div>
                                         </div>
 
-                                        <div className="mt-6 rounded-3xl border border-dashed border-[#b9c3d7] bg-white p-5 sm:p-6">
+                                        <div className="mt-6 rounded-3xl border border-dashed border-[#b6c0ba] bg-white p-5 sm:p-6">
                                             <div className="flex items-start gap-3">
-                                                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#f5f7fb] text-[#090A28]">
+                                                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#f4f7f5] text-[#0b2a17]">
                                                     <Upload className="h-5 w-5" />
                                                 </div>
                                                 <div className="flex-1">
@@ -374,7 +374,7 @@ export default function PaypalInvoiceConfirmation({
                                                 </div>
                                             </div>
 
-                                            <label className="mt-5 flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-[#d8dfea] bg-[#fafbff] px-6 py-8 text-center transition-colors hover:border-[#003087]/35 hover:bg-[#f3f7ff]">
+                                            <label className="mt-5 flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-[#d5ddd7] bg-[#f9faf9] px-6 py-8 text-center transition-colors hover:border-[#003087]/35 hover:bg-[#f2f6f3]">
                                                 <input
                                                     type="file"
                                                     accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
@@ -388,7 +388,7 @@ export default function PaypalInvoiceConfirmation({
                                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm">
                                                     <Upload className="h-5 w-5 text-[#003087]" />
                                                 </div>
-                                                <p className="mt-4 text-sm font-semibold text-[#090A28]">
+                                                <p className="mt-4 text-sm font-semibold text-[#0b2a17]">
                                                     {proofFile ? proofFile.name : 'Choose your screenshot proof'}
                                                 </p>
                                                 <p className="mt-1 text-xs text-gray-500">Tap here to browse and upload your payment proof.</p>
@@ -416,12 +416,12 @@ export default function PaypalInvoiceConfirmation({
                         </div>
 
                         <div className="space-y-6">
-                            <div className="rounded-[28px] border border-[#e8ebf3] bg-white p-6 shadow-[0_18px_50px_rgba(9,10,40,0.05)]">
+                            <div className="rounded-[28px] border border-[#e7eae7] bg-white p-6 shadow-[0_18px_50px_rgba(9,10,40,0.05)]">
                                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-500">Order Summary</p>
                                 <h2 className="mt-3 text-xl font-bold text-[#262626]">{product.title}</h2>
                                 {sellerName && (
-                                    <div className="mt-4 rounded-2xl bg-[#f7f8fc] px-4 py-3 text-sm text-gray-600">
-                                        Sold by <span className="font-bold text-[#090A28]">{sellerName}</span>
+                                    <div className="mt-4 rounded-2xl bg-[#f6f7f6] px-4 py-3 text-sm text-gray-600">
+                                        Sold by <span className="font-bold text-[#0b2a17]">{sellerName}</span>
                                     </div>
                                 )}
                                 <div className="mt-5 space-y-3 text-sm text-gray-600">
@@ -435,16 +435,16 @@ export default function PaypalInvoiceConfirmation({
                                             {address}
                                         </span>
                                     </div>
-                                    <div className="flex items-center justify-between border-t border-[#edf1f6] pt-3">
+                                    <div className="flex items-center justify-between border-t border-[#ecf0ed] pt-3">
                                         <span className="font-semibold text-[#262626]">Total due</span>
-                                        <span className="text-xl font-extrabold text-[#090A28]">{orderTotal}</span>
+                                        <span className="text-xl font-extrabold text-[#0b2a17]">{orderTotal}</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="rounded-[28px] border border-[#e8ebf3] bg-white p-6 shadow-[0_18px_50px_rgba(9,10,40,0.05)]">
+                            <div className="rounded-[28px] border border-[#e7eae7] bg-white p-6 shadow-[0_18px_50px_rgba(9,10,40,0.05)]">
                                 <div className="flex items-start gap-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#eef5ff] text-[#003087]">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#edf3ee] text-[#003087]">
                                         <ShieldCheck className="h-5 w-5" />
                                     </div>
                                     <div>
@@ -484,7 +484,7 @@ export default function PaypalInvoiceConfirmation({
                             <p className="text-xs text-gray-500 truncate">{shippingData.email}</p>
                         </div>
                         <div className="text-right flex-shrink-0 flex items-center gap-2">
-                            <span className="text-base font-extrabold text-[#090A28]">{orderTotal}</span>
+                            <span className="text-base font-extrabold text-[#0b2a17]">{orderTotal}</span>
                             <ChevronDown
                                 className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${detailsOpen ? 'rotate-180' : ''}`}
                             />
@@ -496,16 +496,16 @@ export default function PaypalInvoiceConfirmation({
                         <div className="px-4 pb-3 border-t border-gray-100">
                             <div className="mt-3 bg-blue-50 rounded-xl p-3 space-y-2 text-sm">
                                 <div className="flex items-start gap-2">
-                                    <MapPin className="h-3.5 w-3.5 text-[#090A28] flex-shrink-0 mt-0.5" />
+                                    <MapPin className="h-3.5 w-3.5 text-[#0b2a17] flex-shrink-0 mt-0.5" />
                                     <span className="text-gray-700 text-xs leading-snug">{address}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <Mail className="h-3.5 w-3.5 text-[#090A28] flex-shrink-0" />
-                                    <span className="text-[#090A28] text-xs font-medium break-all">{shippingData.email}</span>
+                                    <Mail className="h-3.5 w-3.5 text-[#0b2a17] flex-shrink-0" />
+                                    <span className="text-[#0b2a17] text-xs font-medium break-all">{shippingData.email}</span>
                                 </div>
                                 {sellerName && (
                                     <div className="flex items-center gap-2 pt-2 mt-1 border-t border-blue-100/50">
-                                        <span className="text-[#090A28] text-xs font-medium opacity-90 text-left">Sold by: {sellerName}</span>
+                                        <span className="text-[#0b2a17] text-xs font-medium opacity-90 text-left">Sold by: {sellerName}</span>
                                     </div>
                                 )}
                                 <p className="text-xs text-gray-400 pl-5">
@@ -531,7 +531,7 @@ export default function PaypalInvoiceConfirmation({
                 >
                     {/* ── Left: order summary (50%) ── */}
                     <div className="w-1/2 flex-shrink-0 border-r border-gray-100 flex flex-col">
-                        <div className="h-1 w-full bg-[#090A28]" />
+                        <div className="h-1 w-full bg-[#0b2a17]" />
                         <div className="p-8 flex flex-col flex-1">
 
                             <div className="flex items-center gap-3 mb-6">
@@ -547,24 +547,24 @@ export default function PaypalInvoiceConfirmation({
                             {sellerName && (
                                 <div className="bg-gray-50 text-[#262626] rounded-xl px-4 py-3 flex items-center justify-between mb-4 border border-gray-100">
                                     <span className="text-sm font-medium opacity-80">Sold by</span>
-                                    <span className="text-sm font-bold text-[#090A28]">{sellerName}</span>
+                                    <span className="text-sm font-bold text-[#0b2a17]">{sellerName}</span>
                                 </div>
                             )}
 
-                            <div className="bg-[#090A28] text-white rounded-xl px-4 py-3 flex items-center justify-between mb-5">
+                            <div className="bg-[#0b2a17] text-white rounded-xl px-4 py-3 flex items-center justify-between mb-5">
                                 <span className="text-sm font-medium opacity-80">Order Total</span>
                                 <span className="text-xl font-extrabold">{orderTotal}</span>
                             </div>
 
                             <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 space-y-3 text-sm mb-5">
-                                <p className="text-xs font-semibold text-[#090A28] uppercase tracking-wide mb-1">Delivery Details</p>
+                                <p className="text-xs font-semibold text-[#0b2a17] uppercase tracking-wide mb-1">Delivery Details</p>
                                 <div className="flex items-start gap-2">
-                                    <MapPin className="h-4 w-4 text-[#090A28] flex-shrink-0 mt-0.5" />
+                                    <MapPin className="h-4 w-4 text-[#0b2a17] flex-shrink-0 mt-0.5" />
                                     <span className="text-gray-700 leading-snug">{address}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <Mail className="h-4 w-4 text-[#090A28] flex-shrink-0" />
-                                    <span className="text-[#090A28] font-medium break-all">{shippingData.email}</span>
+                                    <Mail className="h-4 w-4 text-[#0b2a17] flex-shrink-0" />
+                                    <span className="text-[#0b2a17] font-medium break-all">{shippingData.email}</span>
                                 </div>
                                 <p className="text-xs text-gray-500 pl-6">A PayPal invoice will be sent here once confirmed.</p>
                             </div>
@@ -584,18 +584,18 @@ export default function PaypalInvoiceConfirmation({
 
                             <div className="mt-auto flex flex-col gap-2 pt-4 border-t border-gray-100 mb-5">
                                 <div className="flex items-center gap-2 text-xs text-gray-400">
-                                    <ShieldCheck className="h-3.5 w-3.5 text-[#090A28]" />
+                                    <ShieldCheck className="h-3.5 w-3.5 text-[#0b2a17]" />
                                     <span>Secured with SSL encryption</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-xs text-gray-400">
-                                    <Clock className="h-3.5 w-3.5 text-[#090A28]" />
+                                    <Clock className="h-3.5 w-3.5 text-[#0b2a17]" />
                                     <span>Average response time: under 2 minutes</span>
                                 </div>
                             </div>
 
                             <p className="mt-3 text-center text-xs text-gray-400">
                                 Questions?{' '}
-                                <a href="mailto:contact@tazoota.com" className="text-[#090A28] hover:underline">contact@tazoota.com</a>
+                                <a href="mailto:contact@tazoota.com" className="text-[#0b2a17] hover:underline">contact@tazoota.com</a>
                             </p>
                         </div>
                     </div>

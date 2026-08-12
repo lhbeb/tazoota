@@ -85,7 +85,7 @@ span {
 
 /* Improve focus visibility for accessibility */
 *:focus-visible {
-  outline: 2px solid #090A28;
+  outline: 2px solid #0b2a17;
   outline-offset: 2px;
 }
 
@@ -123,7 +123,7 @@ button {
 
 @layer base {
   html {
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: var(--font-dm-sans), Helvetica, Arial, sans-serif;
     overflow-x: hidden;
     overflow-y: scroll;
     /* Force scrollbar to prevent layout shift */
@@ -136,7 +136,7 @@ button {
   }
 
   body {
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: var(--font-dm-sans), Helvetica, Arial, sans-serif;
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
@@ -157,7 +157,7 @@ button {
   h4,
   h5,
   h6 {
-    font-family: Helvetica, Arial, sans-serif !important;
+    font-family: var(--font-dm-sans), Helvetica, Arial, sans-serif !important;
     font-style: normal !important;
     font-weight: 700 !important;
     font-stretch: normal !important;
@@ -187,7 +187,7 @@ button {
 }
 
 .loading-spinner {
-  @apply rounded-full h-12 w-12 border-t-2 border-b-2 border-[#090A28];
+  @apply rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0b2a17];
   animation: spin 1s linear infinite;
 }
 
@@ -287,7 +287,7 @@ button {
 
 /* Improve focus visibility for accessibility */
 *:focus-visible {
-  outline: 2px solid #090A28;
+  outline: 2px solid #0b2a17;
   outline-offset: 2px;
 }
 
@@ -459,7 +459,7 @@ select {
 
 html,
 body {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: var(--font-dm-sans), Helvetica, Arial, sans-serif;
 }
 
 .font-heading,
@@ -470,7 +470,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: var(--font-dm-sans), Helvetica, Arial, sans-serif;
 }
 
 @keyframes fade-in {

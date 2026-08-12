@@ -528,11 +528,11 @@ const ImageUploader = forwardRef<ImageUploaderRef, ImageUploaderProps>(
               border-2 border-dashed rounded-lg p-6 text-center transition-colors
               ${
                 dragActiveThumbnail
-                  ? 'border-[#0046be] bg-blue-50'
-                  : 'border-[#1e0e8b]/30 hover:border-[#1e0e8b]/50'
+                  ? 'border-[#2e6b3e] bg-blue-50'
+                  : 'border-[#2e6b3e]/30 hover:border-[#2e6b3e]/50'
               }
               ${uploading ? 'opacity-50 pointer-events-none' : 'cursor-pointer'}
-              bg-[#1e0e8b]/5
+              bg-[#2e6b3e]/5
             `}
             onClick={() => !uploading && thumbnailInputRef.current?.click()}
           >
@@ -547,12 +547,12 @@ const ImageUploader = forwardRef<ImageUploaderRef, ImageUploaderProps>(
 
             {uploading && pendingThumbnail ? (
               <div className="space-y-2">
-                <Loader2 className="h-10 w-10 mx-auto text-[#0046be] animate-spin" />
+                <Loader2 className="h-10 w-10 mx-auto text-[#2e6b3e] animate-spin" />
                 <p className="text-sm text-gray-600">{uploadProgress}</p>
               </div>
             ) : (
               <div className="space-y-2">
-                <Upload className="h-10 w-10 mx-auto text-[#1e0e8b]" />
+                <Upload className="h-10 w-10 mx-auto text-[#2e6b3e]" />
                 <div>
                   <p className="text-sm font-medium text-gray-700">
                     Drag thumbnail image here or click to select
@@ -569,7 +569,7 @@ const ImageUploader = forwardRef<ImageUploaderRef, ImageUploaderProps>(
           {(thumbnail || pendingThumbnail) && (
             <div className="mt-4">
               <div className="inline-block relative group">
-                <div className="relative w-32 h-32 rounded-lg overflow-hidden border-2 border-[#1e0e8b] bg-gray-100">
+                <div className="relative w-32 h-32 rounded-lg overflow-hidden border-2 border-[#2e6b3e] bg-gray-100">
                   {pendingThumbnail ? (
                     <Image
                       src={pendingThumbnail.preview}
@@ -600,11 +600,11 @@ const ImageUploader = forwardRef<ImageUploaderRef, ImageUploaderProps>(
                     </button>
                   </div>
                   {pendingThumbnail && (
-                    <div className="absolute top-1 right-1 bg-[#1e0e8b] text-white text-xs px-2 py-0.5 rounded">
+                    <div className="absolute top-1 right-1 bg-[#2e6b3e] text-white text-xs px-2 py-0.5 rounded">
                       Pending
                     </div>
                   )}
-                  <div className="absolute bottom-1 left-1 bg-[#1e0e8b] text-white text-xs px-2 py-0.5 rounded font-semibold">
+                  <div className="absolute bottom-1 left-1 bg-[#2e6b3e] text-white text-xs px-2 py-0.5 rounded font-semibold">
                     Thumbnail
                   </div>
                 </div>
@@ -632,7 +632,7 @@ const ImageUploader = forwardRef<ImageUploaderRef, ImageUploaderProps>(
               border-2 border-dashed rounded-lg p-6 text-center transition-colors
               ${
                 dragActiveGallery
-                  ? 'border-[#0046be] bg-blue-50'
+                  ? 'border-[#2e6b3e] bg-blue-50'
                   : 'border-gray-300 hover:border-gray-400'
               }
               ${uploading ? 'opacity-50 pointer-events-none' : 'cursor-pointer'}
@@ -651,7 +651,7 @@ const ImageUploader = forwardRef<ImageUploaderRef, ImageUploaderProps>(
 
             {uploading && pendingGallery.length > 0 ? (
               <div className="space-y-2">
-                <Loader2 className="h-10 w-10 mx-auto text-[#0046be] animate-spin" />
+                <Loader2 className="h-10 w-10 mx-auto text-[#2e6b3e] animate-spin" />
                 <p className="text-sm text-gray-600">{uploadProgress}</p>
               </div>
             ) : (

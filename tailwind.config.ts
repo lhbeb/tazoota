@@ -9,9 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#2658A6', // Blue - main brand color
-        secondary: '#1a3d70', // Darker blue
-        accent: '#2658A6', // Blue accent
+        primary: '#2e6b3e', // Green - main brand color
+        secondary: '#1a4529', // Darker green
+        accent: '#2e6b3e', // Green accent
         text: '#262626', // Dark gray text (softer than black)
         'text-gray': '#666666', // Gray text
         'bg-light': '#f5f5f5', // Light gray background
@@ -19,8 +19,8 @@ const config: Config = {
         'nav-gray': '#e8e8e8', // Navigation bar gray
       },
       fontFamily: {
-        sans: ['Helvetica', 'Arial', 'sans-serif'],
-        heading: ['Helvetica', 'Arial', 'sans-serif'],
+        sans: ['var(--font-dm-sans)', 'Helvetica', 'Arial', 'sans-serif'],
+        heading: ['var(--font-dm-sans)', 'Helvetica', 'Arial', 'sans-serif'],
       },
       screens: {
         'xs': '475px',
