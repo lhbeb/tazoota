@@ -6,9 +6,14 @@ import type { Product } from '@/types/product';
 const BASE_URL = 'https://tazoota.com';
 const SUPPORTED_COUNTRIES = ['US'] as const;
 const SUPPORTED_CURRENCIES = ['USD'] as const;
+const GMC_TITLE_MAX_LENGTH = 150;
+const GMC_DESCRIPTION_MAX_LENGTH = 5000;
+const SUPPORTED_IMAGE_EXTENSIONS = /\.(?:jpe?g|png|webp|gif|bmp|tiff?)(?:$|\?)/i;
 
 type FeedCountry = (typeof SUPPORTED_COUNTRIES)[number];
 type FeedCurrency = (typeof SUPPORTED_CURRENCIES)[number];
+
+const DEFAULT_CURRENCY: FeedCurrency = 'USD';
 
 const SHIPPING_BY_COUNTRY: Record<FeedCountry, {
   service: string;
@@ -60,6 +65,42 @@ function escapeXml(value: unknown): string {
     .replace(/'/g, '&apos;');
 }
 
+function normalizeFeedText(value: unknown): string {
+  return String(value ?? '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function truncateFeedText(value: string, maxLength: number): string {
+  if (value.length <= maxLength) return value;
+
+  const truncated = value.slice(0, maxLength - 1);
+  const lastSpace = truncated.lastIndexOf(' ');
+  const cleanEnding = lastSpace > maxLength * 0.75
+    ? truncated.slice(0, lastSpace)
+    : truncated;
+
+  return `${cleanEnding.trimEnd()}…`;
+}
+
+function normalizeImageUrl(value: unknown): string | null {
+  try {
+    const url = new URL(String(value ?? '').trim(), BASE_URL);
+    if (url.protocol !== 'https:' && url.protocol !== 'http:') return null;
+    if (!SUPPORTED_IMAGE_EXTENSIONS.test(`${url.pathname}${url.search}`)) return null;
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
+function getFeedImageUrls(product: Product): string[] {
+  return [...new Set((product.images || []).map(normalizeImageUrl).filter(
+    (url): url is string => Boolean(url),
+  ))];
+}
+
 function parseEnum<T extends string>(
   value: string | null,
   supportedValues: readonly T[],
@@ -74,7 +115,7 @@ function isFeedEligible(product: Product): boolean {
     product.meta?.gmc_enabled !== false &&
     product.meta?.published !== false &&
     product.published !== false &&
-    Boolean(product.slug && product.title && product.images?.[0]) &&
+    Boolean(product.slug && normalizeFeedText(product.title) && getFeedImageUrls(product).length > 0) &&
     Number.isFinite(Number(product.price)) &&
     Number(product.price) > 0
   );
@@ -129,41 +170,36 @@ export async function GET(request: NextRequest) {
     const targetCountries: readonly FeedCountry[] = country
       ? [country]
       : SUPPORTED_COUNTRIES;
+    const targetCurrency = currency ?? DEFAULT_CURRENCY;
 
     const itemsXml = products
       .filter(isFeedEligible)
       .filter((product) => {
-        if (!currency) return true;
-        return (product.currency || 'USD').toUpperCase() === currency;
+        return (product.currency || DEFAULT_CURRENCY).toUpperCase() === targetCurrency;
       })
       .map((product) => {
         const sku = escapeXml(formatValidSku(product));
-        const title = escapeXml(product.title || 'Product');
+        const normalizedTitle = normalizeFeedText(product.title || 'Product');
+        const title = escapeXml(truncateFeedText(normalizedTitle, GMC_TITLE_MAX_LENGTH));
 
-        // GMC caps description at 5000 characters
-        const rawDesc = product.description || product.title || '';
-        const description = escapeXml(
-          rawDesc.length > 5000 ? rawDesc.substring(0, 4997) + '...' : rawDesc
-        );
+        const rawDesc = normalizeFeedText(product.description || product.title || '');
+        const description = escapeXml(truncateFeedText(rawDesc, GMC_DESCRIPTION_MAX_LENGTH));
 
         const link = escapeXml(`${BASE_URL}/products/${encodeURIComponent(product.slug)}`);
-        const productCurrency = (product.currency || 'USD').toUpperCase();
+        const productCurrency = (product.currency || DEFAULT_CURRENCY).toUpperCase();
         const price = `${Number(product.price).toFixed(2)} ${productCurrency}`;
         const availability = product.inStock === false ? 'out_of_stock' : 'in_stock';
         const condition = mapConditionToGmc(product.condition);
         const brand = escapeXml(product.brand || 'Tazoota');
         const category = escapeXml(product.category || 'Home & Garden');
         const googleProductCategory = getGoogleProductCategory(product.category);
-        const imageLink = escapeXml(new URL(product.images[0], BASE_URL).toString());
+        const feedImages = getFeedImageUrls(product);
+        const imageLink = escapeXml(feedImages[0]);
 
         // Additional image links (GMC supports up to 10 extra images)
-        const additionalImages = (product.images || [])
+        const additionalImages = feedImages
           .slice(1, 11)
-          .map((img) => {
-            try {
-              return `\n      <g:additional_image_link>${escapeXml(new URL(img, BASE_URL).toString())}</g:additional_image_link>`;
-            } catch { return ''; }
-          })
+          .map((img) => `\n      <g:additional_image_link>${escapeXml(img)}</g:additional_image_link>`)
           .join('');
 
         // GTIN / MPN — conditional: only emit identifier_exists=yes if we have real identifiers
@@ -217,7 +253,7 @@ export async function GET(request: NextRequest) {
       headers: {
         'Content-Type': 'application/xml; charset=utf-8',
         'Cache-Control': 'no-store, max-age=0',
-        'X-Robots-Tag': 'noindex, nofollow',
+        'X-Robots-Tag': 'noindex, follow',
       },
     });
   } catch (error) {

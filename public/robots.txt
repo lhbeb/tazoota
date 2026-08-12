@@ -9,8 +9,12 @@ Allow: /api/products/
 Disallow: /admin/
 Disallow: /private/
 
+# Merchant Center must be able to crawl product pages and product images.
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
 # Sitemap location
 Sitemap: https://tazoota.com/sitemap.xml
-
-# Crawl delay (optional - helps with server load)
-Crawl-delay: 1 
