@@ -51,7 +51,7 @@ export default function AboutPage() {
         'description':
           'Ecommerce store serving the United Kingdom and United States with lawn mowers, power tools, portable generators, and garden essentials.',
         'email': 'contact@tazoota.com',
-        'telephone': ['+19129231747'],
+        'telephone': ['+19083256283'],
         'address': [
           {
             '@type': 'PostalAddress',
@@ -73,7 +73,7 @@ export default function AboutPage() {
         'contactPoint': [
           {
             '@type': 'ContactPoint',
-            'telephone': '+19129231747',
+            'telephone': '+19083256283',
             'contactType': 'customer service',
             'areaServed': ['GB', 'US'],
             'availableLanguage': ['en'],
@@ -418,8 +418,8 @@ export default function AboutPage() {
               </div>
               <div className="ml-8 space-y-3 text-gray-600">
                 <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-1">
-                  <a href="tel:+19129231747" className="whitespace-nowrap hover:text-[#2e6b3e] transition-colors">
-                    +19129231747
+                  <a href="tel:+19083256283" className="whitespace-nowrap hover:text-[#2e6b3e] transition-colors">
+                    +19083256283
                   </a>
                 </div>
               </div>

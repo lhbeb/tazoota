@@ -172,8 +172,8 @@ function ThankYouContent() {
                 </a>
               </p>
               <p className="text-gray-700">
-                📞 <a href="tel:+19129231747" className="text-blue-600 hover:text-blue-700 font-medium">
-                  +19129231747
+                📞 <a href="tel:+19083256283" className="text-blue-600 hover:text-blue-700 font-medium">
+                  +19083256283
                 </a>
               </p>
             </div>

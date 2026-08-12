@@ -148,7 +148,7 @@ const Header = () => {
             {announcements[currentAnnouncement] === "whatsapp-contact" ? (
               <div key={currentAnnouncement} className="flex items-center justify-center animate-fade-in text-xs sm:text-sm md:text-base h-full w-full">
                 <a
-                  href="https://wa.me/19129231747"
+                  href="https://wa.me/19083256283"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1 sm:gap-1.5 hover:opacity-80 transition-opacity flex-wrap justify-center"
@@ -163,7 +163,7 @@ const Header = () => {
                     style={{ filter: 'brightness(0)' }}
                   />
                   <span className="whitespace-nowrap">Need a hand? <span className="font-bold">Message us on WhatsApp</span></span>
-                  <span className="underline whitespace-nowrap font-bold">+19129231747</span>
+                  <span className="underline whitespace-nowrap font-bold">+19083256283</span>
                 </a>
               </div>
             ) : (

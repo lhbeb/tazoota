@@ -27,8 +27,8 @@ const Footer = () => {
             <div className="space-y-2">
               <div className="flex items-center">
                 <Phone className="h-5 w-5 shrink-0 text-[#e3e823] mr-2" />
-                <a href="tel:+19129231747" className="hover:text-[#e3e823] transition-colors duration-300">
-                  <span className="font-semibold">United States:</span> +19129231747
+                <a href="tel:+19083256283" className="hover:text-[#e3e823] transition-colors duration-300">
+                  <span className="font-semibold">United States:</span> +19083256283
                 </a>
               </div>
               <div className="flex items-center">
@@ -40,7 +40,7 @@ const Footer = () => {
               <div className="flex items-start">
                 <MapPin className="h-5 w-5 shrink-0 text-[#e3e823] mr-2 mt-1" />
                 <div>
-                  <span className="block font-semibold text-white">US Address</span>
+                  <span className="block font-semibold text-white">Local Pickup Address</span>
                   <span>5850 E Raines Rd, Memphis, TN 38115, United States</span>
                 </div>
               </div>

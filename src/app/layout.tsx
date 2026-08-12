@@ -119,7 +119,7 @@ export default function RootLayout({
                   "@type": "ContactPoint",
                   "contactType": "customer service",
                   "email": "contact@tazoota.com",
-                  "telephone": "+19129231747",
+                  "telephone": "+19083256283",
                   "areaServed": ["GB", "US"]
                 },
                 "address": [
