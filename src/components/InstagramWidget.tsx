@@ -24,20 +24,21 @@ const InstagramWidget: React.FC = () => {
           {/* Profile Info */}
           <div className="flex-grow">
             <h3 className="font-bold text-[#262626] text-xl mb-1">@tazoota_official</h3>
-            <p className="text-gray-600 text-sm mb-3">Tazoota</p>
+            <p className="text-sm text-gray-700">tazoota</p>
+            <p className="mb-3 text-xs font-medium text-gray-500">Home &amp; Garden Store</p>
 
             {/* Statistics */}
             <div className="flex items-center space-x-6 text-sm">
               <div className="text-center">
-                <div className="font-bold text-[#262626]">8</div>
+                <div className="font-bold text-[#262626]">4</div>
                 <div className="text-gray-500">posts</div>
               </div>
               <div className="text-center">
-                <div className="font-bold text-[#262626]">1,423</div>
+                <div className="font-bold text-[#262626]">221</div>
                 <div className="text-gray-500">followers</div>
               </div>
               <div className="text-center">
-                <div className="font-bold text-[#262626]">10</div>
+                <div className="font-bold text-[#262626]">4</div>
                 <div className="text-gray-500">following</div>
               </div>
             </div>
