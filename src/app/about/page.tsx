@@ -160,12 +160,12 @@ export default function AboutPage() {
                   3
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#262626] mb-2">We partner with the return and liquidation departments of major retailers</h3>
+                  <h3 className="text-xl font-bold text-[#262626] mb-2">We partner with authorized distributors and manufacturers</h3>
                   <p className="text-gray-700 mb-2">
-                    When possible, we obtain bulk lots from companies such as Amazon, Target, Best Buy, and others. These lots include overstock, open box items, shelf pulls, refurbished pieces, and customer returns.
+                    When possible, we obtain inventory directly from authorized distributors and major brands. By purchasing in large volumes and taking advantage of closeout deals and overstock inventory, we secure significant discounts.
                   </p>
                   <p className="text-gray-700">
-                    Every product is carefully inspected, tested, cleaned, or refurbished before being listed.
+                    Every product is brand new and carefully handled before being shipped to our customers.
                   </p>
                 </div>
               </div>
@@ -177,9 +177,9 @@ export default function AboutPage() {
                   4
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#262626] mb-2">We hunt for deals locally</h3>
+                  <h3 className="text-xl font-bold text-[#262626] mb-2">We negotiate strategic wholesale agreements</h3>
                   <p className="text-gray-700">
-                    Our team regularly visits community auctions, garage sales, estate sales, local wholesalers, and liquidation centers. This allows us to discover unique finds and high value items that are often unavailable in traditional stores.
+                    Our team regularly attends industry trade shows and negotiates with national wholesalers. This allows us to discover unique product lines and high-value items that are often marked up in traditional stores.
                   </p>
                 </div>
               </div>
@@ -207,23 +207,23 @@ export default function AboutPage() {
             <div className="p-3 bg-[#2e6b3e]/10 rounded-xl">
               <Users className="h-8 w-8 text-[#2e6b3e]" />
             </div>
-            <h2 className="text-3xl font-bold text-[#262626]">A New Addition to Our Model: Approved Private Sellers</h2>
+            <h2 className="text-3xl font-bold text-[#262626]">A Key Addition to Our Model: Verified Wholesale Partners</h2>
           </div>
           <p className="text-gray-700 mb-4 text-lg">
-            Over the past three years, we have expanded our sourcing model by partnering with a network of private sellers who share the same dedication to quality and fairness as our in-house team.
+            Over the past three years, we have expanded our sourcing model by partnering with a network of verified wholesale partners who share the same dedication to quality and fairness as our in-house team.
           </p>
           <p className="text-gray-700 mb-6">
-            These private sellers find, source, and curate their own products, then ship their items to our warehouse. Once the items arrive, our inspection team performs a full evaluation, which includes:
+            These wholesale partners find, source, and curate their own brand-new products, then ship their inventory to our warehouse. Once the items arrive, our inspection team performs a full evaluation, which includes:
           </p>
 
           <div className="grid md:grid-cols-3 gap-4 mb-6">
             <div className="bg-[#f0f7f2] rounded-lg p-4 border border-[#2e6b3e]/10">
               <CheckCircle2 className="h-6 w-6 text-[#2e6b3e] mb-2" />
-              <p className="text-gray-700 font-medium">verifying authentic condition</p>
+              <p className="text-gray-700 font-medium">verifying brand new condition</p>
             </div>
             <div className="bg-[#f0f7f2] rounded-lg p-4 border border-[#2e6b3e]/10">
               <Zap className="h-6 w-6 text-[#2e6b3e] mb-2" />
-              <p className="text-gray-700 font-medium">confirming that the product works perfectly</p>
+              <p className="text-gray-700 font-medium">confirming factory-sealed packaging</p>
             </div>
             <div className="bg-[#f0f7f2] rounded-lg p-4 border border-[#2e6b3e]/10">
               <DollarSign className="h-6 w-6 text-[#2e6b3e] mb-2" />
@@ -241,13 +241,13 @@ export default function AboutPage() {
               How it works for customers
             </h3>
             <p className="text-gray-700 mb-3">
-              When you purchase from a private seller on our platform, it is clearly stated on the product page. The seller sends the item to us first, we inspect it, and only then do we ship it to you.
+              When you purchase from a wholesale partner on our platform, it is clearly stated on the product page. The partner sends the item to us first, we inspect it, and only then do we ship it to you.
             </p>
             <p className="text-gray-700 mb-3">
-              This process protects buyers and ensures that every product, whether sold by us or by a trusted partner, meets the same high standard.
+              This process protects buyers and ensures that every product, whether sourced directly by us or by a trusted partner, meets the same high standard.
             </p>
             <p className="text-gray-700">
-              Private sellers benefit by earning their own fair profits, while customers benefit from greater variety and consistent quality control.
+              Partners benefit by reaching a wider audience, while customers benefit from greater variety and consistent quality control.
             </p>
           </div>
         </div>
@@ -289,7 +289,7 @@ export default function AboutPage() {
                 <Eye className="h-6 w-6 text-[#2e6b3e]" />
                 <h3 className="text-xl font-bold text-[#262626]">Transparent Product Details</h3>
               </div>
-              <p className="text-gray-700">We clearly list whether an item is new, open box, refurbished, or pre owned. Customers always know what they are buying.</p>
+              <p className="text-gray-700">We provide detailed, accurate descriptions and high-quality images for all our new products. Customers always know exactly what they are buying.</p>
             </div>
 
             <div className="bg-[#f0f7f2] rounded-xl p-6 border border-[#2e6b3e]/10">
@@ -313,7 +313,7 @@ export default function AboutPage() {
                 <Leaf className="h-6 w-6 text-[#2e6b3e]" />
                 <h3 className="text-xl font-bold text-[#262626]">Sustainable Shopping</h3>
               </div>
-              <p className="text-gray-700">By reselling returns, overstock, and refurbished goods, you help reduce waste and support a more sustainable buying cycle.</p>
+              <p className="text-gray-700">By optimizing our supply chain and purchasing overstock goods, we help reduce retail waste and support a more efficient and sustainable buying cycle.</p>
             </div>
           </div>
         </div>

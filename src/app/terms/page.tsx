@@ -82,8 +82,8 @@ const TermsPage = () => {
             <h2 className="text-3xl font-bold text-[#262626] mt-10 mb-4">4. Product Terms</h2>
             <ul className="list-disc pl-6 space-y-2">
               <li>We aim to provide accurate and detailed product descriptions.</li>
-              <li>We sell new, open-box, refurbished, and pre owned items, each clearly labeled.</li>
-              <li>All used or open-box electronics are tested prior to sale.</li>
+              <li>We sell brand new, high-quality items sourced directly through authorized channels.</li>
+              <li>All electronics are factory-tested and guaranteed to be fully functional.</li>
               <li>Product availability is not guaranteed until an order is processed.</li>
               <li>Prices may change at any time due to market conditions and sourcing costs.</li>
               <li>We reserve the right to modify, limit, or discontinue any product or listing.</li>
@@ -97,11 +97,10 @@ const TermsPage = () => {
               By using our website, you acknowledge that Tazoota sources products through:
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li>Online auctions and bidding platforms</li>
-              <li>Private sellers and independent sourcers</li>
-              <li>Liquidation and return departments of major retailers</li>
-              <li>Garage sales, local auctions, and community sales</li>
+              <li>Direct manufacturer agreements</li>
+              <li>Authorized distributors and authorized retail partners</li>
               <li>Wholesalers and bulk suppliers</li>
+              <li>Overstock and closeout inventory of brand new items</li>
             </ul>
             <p>
               These sourcing methods allow us to offer competitive pricing.
