@@ -151,7 +151,7 @@ export default function ReturnPolicyPage() {
             <p><strong>Yes, we accept exchanges.</strong> If you&apos;d like a different size, colour, or model:</p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Contact us within <strong>30 days</strong> of receiving your delivery.</li>
-              <li>Use the return label included in your package to send the original item back.</li>
+              <li>Use the prepaid return label we email you to send the original item back.</li>
               <li>Once received, your replacement will be dispatched right away.</li>
             </ul>
           </div>
