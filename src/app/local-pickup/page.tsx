@@ -32,7 +32,7 @@ export default function LocalPickupPage() {
               Pick up your Tazoota order with confidence
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dae6dc] sm:text-base">
-              Eligible outdoor power equipment and garden products can be collected from our location in Memphis, Tennessee. This page covers what to expect, what to bring, and how collection works once your order is ready.
+              Eligible outdoor power equipment and garden products can be collected from our location in Rock Springs, Wyoming. This page covers what to expect, what to bring, and how collection works once your order is ready.
             </p>
           </section>
 
@@ -103,9 +103,9 @@ export default function LocalPickupPage() {
                     <div className="mt-4 space-y-4 text-sm leading-7 text-[#5d6b62]">
                       <address className="not-italic">
                         <span className="block font-semibold text-[#262626]">United States</span>
-                        5850 E Raines Rd
+                        41 Wilkins Peak Dr
                         <br />
-                        Memphis, TN 38115
+                        Rock Springs, WY 82901
                         <br />
                         United States
                       </address>

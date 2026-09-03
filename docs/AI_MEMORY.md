@@ -26,7 +26,7 @@ Footer: /src/components/Footer.tsx
 Checkout: /src/app/checkout/page.tsx
 Current Configuration
 
-Business Address: 5850 E Raines Rd, Memphis, TN 38115, United States
+Business Address: 41 Wilkins Peak Dr, Rock Springs, WY 82901, United States
 Tech Stack: Next.js 15, TypeScript, Tailwind CSS
 Supported Countries: US, Canada, UK, Australia, Netherlands
 

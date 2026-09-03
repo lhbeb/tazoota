@@ -57,10 +57,10 @@ export default function ContactPage() {
           },
           {
             '@type': 'PostalAddress',
-            'streetAddress': '5850 E Raines Rd',
-            'addressLocality': 'Memphis',
-            'addressRegion': 'TN',
-            'postalCode': '38115',
+            'streetAddress': '41 Wilkins Peak Dr',
+            'addressLocality': 'Rock Springs',
+            'addressRegion': 'WY',
+            'postalCode': '82901',
             'addressCountry': 'US',
           },
         ],
@@ -231,7 +231,7 @@ export default function ContactPage() {
                       <MapPin className="h-6 w-6 text-[#0b2a17] mt-1 shrink-0" />
                       <div className="ml-4">
                         <h3 className="font-medium text-[#262626]">US Dispatch Center</h3>
-                        <p className="text-gray-600 mt-1">5850 E Raines Rd, Memphis, TN 38115, United States</p>
+                        <p className="text-gray-600 mt-1">41 Wilkins Peak Dr, Rock Springs, WY 82901, United States</p>
                       </div>
                     </div>
                     <div className="flex items-start">

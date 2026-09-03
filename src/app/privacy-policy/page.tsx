@@ -151,7 +151,7 @@ const PrivacyPolicyPage = () => (
             </div>
             <div>
               <div className="font-medium text-[#262626] mb-1">US Dispatch Center:</div>
-              <div className="text-gray-600">5850 E Raines Rd, Memphis, TN 38115, United States</div>
+              <div className="text-gray-600">41 Wilkins Peak Dr, Rock Springs, WY 82901, United States</div>
             </div>
             <div>
               <div className="font-medium text-[#262626] mb-1">Hours:</div>

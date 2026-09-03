@@ -125,10 +125,10 @@ export default function RootLayout({
                 "address": [
                   {
                     "@type": "PostalAddress",
-                    "streetAddress": "5850 E Raines Rd",
-                    "addressLocality": "Memphis",
-                    "addressRegion": "TN",
-                    "postalCode": "38115",
+                    "streetAddress": "41 Wilkins Peak Dr",
+                    "addressLocality": "Rock Springs",
+                    "addressRegion": "WY",
+                    "postalCode": "82901",
                     "addressCountry": "US"
                   }
                 ]

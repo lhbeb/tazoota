@@ -63,10 +63,10 @@ export default function AboutPage() {
           },
           {
             '@type': 'PostalAddress',
-            'streetAddress': '5850 E Raines Rd',
-            'addressLocality': 'Memphis',
-            'addressRegion': 'TN',
-            'postalCode': '38115',
+            'streetAddress': '41 Wilkins Peak Dr',
+            'addressLocality': 'Rock Springs',
+            'addressRegion': 'WY',
+            'postalCode': '82901',
             'addressCountry': 'US',
           },
         ],
@@ -114,10 +114,10 @@ export default function AboutPage() {
             </div>
             <div className="space-y-4 text-base leading-7 text-gray-700">
               <p>
-                Tazoota operates out of Memphis, Tennessee, serving customers across the United States. Our central warehouse and fulfillment operations are designed to get your order to you fast.
+                Tazoota operates out of Rock Springs, Wyoming, serving customers across the United States. Our central warehouse and fulfillment operations are designed to get your order to you fast.
               </p>
               <p>
-                Eligible products can be collected locally from our Memphis location. Our team confirms the available pickup address and collection time for each order before you travel.
+                Eligible products can be collected locally from our Rock Springs location. Our team confirms the available pickup address and collection time for each order before you travel.
               </p>
               <Link href="/local-pickup" className="inline-flex font-semibold text-[#2e6b3e] hover:text-[#082317] hover:underline">
                 View the local pickup guide
@@ -409,7 +409,7 @@ export default function AboutPage() {
                 <MapPin className="h-5 w-5 text-[#2e6b3e]" />
                 <div className="font-medium text-[#262626]">US Dispatch Center</div>
               </div>
-              <div className="text-gray-600 ml-8">5850 E Raines Rd, Memphis, TN 38115, United States</div>
+              <div className="text-gray-600 ml-8">41 Wilkins Peak Dr, Rock Springs, WY 82901, United States</div>
             </div>
             <div className="bg-[#f0f7f2] rounded-xl p-6 border border-[#2e6b3e]/10">
               <div className="flex items-center gap-3 mb-3">

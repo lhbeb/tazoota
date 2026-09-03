@@ -41,7 +41,7 @@ const Footer = () => {
                 <MapPin className="h-5 w-5 shrink-0 text-[#e3e823] mr-2 mt-1" />
                 <div>
                   <span className="block font-semibold text-white">Local Pickup Address</span>
-                  <span>5850 E Raines Rd, Memphis, TN 38115, United States</span>
+                  <span>41 Wilkins Peak Dr, Rock Springs, WY 82901, United States</span>
                 </div>
               </div>
               <div className="pt-2 flex gap-3">

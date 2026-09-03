@@ -266,7 +266,7 @@ export default function ReturnPolicyPage() {
                 <div className="text-sm text-gray-600 pl-7 space-y-2">
                   <div>
                     <strong className="text-gray-900 block">US Address:</strong>
-                    5850 E Raines Rd, Memphis, TN 38115, United States
+                    41 Wilkins Peak Dr, Rock Springs, WY 82901, United States
                   </div>
                 </div>
               </div>
