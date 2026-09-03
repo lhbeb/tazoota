@@ -137,7 +137,6 @@ const TermsPage = () => {
               <li>Credit and debit cards</li>
               <li>Visa, Mastercard, American Express</li>
               <li>PayPal</li>
-              <li>Shop Pay</li>
               <li>Apple Pay</li>
             </ul>
             <p className="mt-4">
