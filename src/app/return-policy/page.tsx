@@ -265,7 +265,7 @@ export default function ReturnPolicyPage() {
                 </div>
                 <div className="text-sm text-gray-600 pl-7 space-y-2">
                   <div>
-                    <strong className="text-gray-900 block">US Address:</strong>
+                    <strong className="text-gray-900 block">Headquarters:</strong>
                     41 Wilkins Peak Dr, Rock Springs, WY 82901, United States
                   </div>
                 </div>

@@ -38,7 +38,7 @@ export default function AboutPage() {
         'url': 'https://tazoota.com/about',
         'name': 'About Tazoota',
         'description':
-          'Tazoota is an ecommerce retailer serving customers in the United Kingdom and United States with outdoor power equipment and garden essentials.',
+          'Tazoota is an ecommerce retailer serving customers in the United States with outdoor power equipment and garden essentials.',
         'mainEntity': {
           '@id': 'https://tazoota.com/#organization',
         },
@@ -49,33 +49,23 @@ export default function AboutPage() {
         'name': 'Tazoota',
         'url': 'https://tazoota.com',
         'description':
-          'Ecommerce store serving the United Kingdom and United States with lawn mowers, power tools, portable generators, and garden essentials.',
+          'Ecommerce store serving the United States with lawn mowers, power tools, portable generators, and garden essentials.',
         'email': 'contact@tazoota.com',
         'telephone': ['+19083256283'],
-        'address': [
-          {
-            '@type': 'PostalAddress',
-            'streetAddress': 'Choats Rd',
-            'addressLocality': 'Barking',
-            'addressRegion': 'Dagenham',
-            'postalCode': 'RM9 6BF',
-            'addressCountry': 'GB',
-          },
-          {
-            '@type': 'PostalAddress',
-            'streetAddress': '41 Wilkins Peak Dr',
-            'addressLocality': 'Rock Springs',
-            'addressRegion': 'WY',
-            'postalCode': '82901',
-            'addressCountry': 'US',
-          },
-        ],
+        'address': {
+          '@type': 'PostalAddress',
+          'streetAddress': '41 Wilkins Peak Dr',
+          'addressLocality': 'Rock Springs',
+          'addressRegion': 'WY',
+          'postalCode': '82901',
+          'addressCountry': 'US',
+        },
         'contactPoint': [
           {
             '@type': 'ContactPoint',
             'telephone': '+19083256283',
             'contactType': 'customer service',
-            'areaServed': ['GB', 'US'],
+            'areaServed': ['US'],
             'availableLanguage': ['en'],
           },
         ],
@@ -315,7 +305,7 @@ export default function AboutPage() {
                 <Headphones className="h-6 w-6 text-[#2e6b3e]" />
                 <h3 className="text-xl font-bold text-[#262626]">Customer Focus</h3>
               </div>
-              <p className="text-gray-700">We offer fast and free shipping within the United States and United Kingdom, a 30-day return policy, and reliable human support.</p>
+              <p className="text-gray-700">We offer fast and free shipping within the United States, a 30-day return policy, and reliable human support.</p>
             </div>
 
             <div className="bg-[#f0f7f2] rounded-xl p-6 border border-[#2e6b3e]/10 md:col-span-2">
@@ -382,8 +372,8 @@ export default function AboutPage() {
               <div className="text-[#f0f7f2]/80 text-sm">satisfaction rate</div>
             </div>
             <div className="text-center p-6 bg-[#f0f7f2]/10 backdrop-blur-sm rounded-xl border border-[#f0f7f2]/20">
-              <div className="text-4xl font-bold mb-2">24/7</div>
-              <div className="text-[#f0f7f2]/80 text-sm">support available</div>
+              <div className="text-4xl font-bold mb-2">6 Days</div>
+              <div className="text-[#f0f7f2]/80 text-sm">support a week</div>
             </div>
           </div>
         </div>
@@ -400,14 +390,7 @@ export default function AboutPage() {
             <div className="bg-[#f0f7f2] rounded-xl p-6 border border-[#2e6b3e]/10">
               <div className="flex items-center gap-3 mb-3">
                 <MapPin className="h-5 w-5 text-[#2e6b3e]" />
-                <div className="font-medium text-[#262626]">UK Registered Office</div>
-              </div>
-              <div className="text-gray-600 ml-8">Choats Rd, Barking, Dagenham RM9 6BF, United Kingdom</div>
-            </div>
-            <div className="bg-[#f0f7f2] rounded-xl p-6 border border-[#2e6b3e]/10">
-              <div className="flex items-center gap-3 mb-3">
-                <MapPin className="h-5 w-5 text-[#2e6b3e]" />
-                <div className="font-medium text-[#262626]">US Dispatch Center</div>
+                <div className="font-medium text-[#262626]">Headquarters</div>
               </div>
               <div className="text-gray-600 ml-8">41 Wilkins Peak Dr, Rock Springs, WY 82901, United States</div>
             </div>

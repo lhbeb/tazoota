@@ -42,28 +42,18 @@ export default function ContactPage() {
             '@type': 'ContactPoint',
             'telephone': '+19083256283',
             'contactType': 'customer service',
-            'areaServed': ['US', 'GB'],
+            'areaServed': ['US'],
             'availableLanguage': ['en'],
           },
         ],
-        'address': [
-          {
-            '@type': 'PostalAddress',
-            'streetAddress': 'Choats Rd',
-            'addressLocality': 'Barking',
-            'addressRegion': 'Dagenham',
-            'postalCode': 'RM9 6BF',
-            'addressCountry': 'GB',
-          },
-          {
-            '@type': 'PostalAddress',
-            'streetAddress': '41 Wilkins Peak Dr',
-            'addressLocality': 'Rock Springs',
-            'addressRegion': 'WY',
-            'postalCode': '82901',
-            'addressCountry': 'US',
-          },
-        ],
+        'address': {
+          '@type': 'PostalAddress',
+          'streetAddress': '41 Wilkins Peak Dr',
+          'addressLocality': 'Rock Springs',
+          'addressRegion': 'WY',
+          'postalCode': '82901',
+          'addressCountry': 'US',
+        },
       },
     ],
   };
@@ -221,16 +211,9 @@ export default function ContactPage() {
                   <h2 className="text-xl font-bold text-[#262626] mb-6">Get in Touch</h2>
                   <div className="space-y-6">
                     <div className="flex items-start">
-                      <Building2 className="h-6 w-6 text-[#0b2a17] mt-1 shrink-0" />
-                      <div className="ml-4">
-                        <h3 className="font-medium text-[#262626]">UK Registered Office</h3>
-                        <p className="text-gray-600 mt-1">Choats Rd, Barking, Dagenham RM9 6BF, United Kingdom</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start">
                       <MapPin className="h-6 w-6 text-[#0b2a17] mt-1 shrink-0" />
                       <div className="ml-4">
-                        <h3 className="font-medium text-[#262626]">US Dispatch Center</h3>
+                        <h3 className="font-medium text-[#262626]">Headquarters</h3>
                         <p className="text-gray-600 mt-1">41 Wilkins Peak Dr, Rock Springs, WY 82901, United States</p>
                       </div>
                     </div>
