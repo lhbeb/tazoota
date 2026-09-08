@@ -12,11 +12,11 @@ import SearchBar from './SearchBar';
 
 const catalogNavigation = [
   { label: 'All', href: '/#products' },
+  { label: 'Blowers', href: '/search?category=Blowers' },
   { label: 'Lawn Mowers', href: '/search?category=Lawn%20Mowers' },
-  { label: 'Swimming Pools', href: '/search?category=Swimming%20Pools' },
-  { label: 'Bikes', href: '/search?category=Bikes' },
-  { label: 'Electric Scooters', href: '/search?category=Electric%20Scooters' },
-  { label: 'Tents', href: '/search?category=Tents' },
+  { label: 'Pressure Washers', href: '/search?category=Pressure%20Washers' },
+  { label: 'Vacuum Cleaners', href: '/search?category=Vacuum%20Cleaners' },
+  { label: 'Hardware', href: '/search?category=Hardware' },
 ] as const;
 
 const desktopNavLinkClass =
