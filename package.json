@@ -14,7 +14,10 @@
     "import-products": "tsx scripts/import-products-with-images.ts",
     "products:pull-content": "tsx scripts/sync-product-content.ts pull",
     "products:push-content": "tsx scripts/sync-product-content.ts push",
-    "test-order": "tsx scripts/test-order-flow.ts"
+    "test-order": "tsx scripts/test-order-flow.ts",
+    "catalog:audit-duplicates": "node scripts/audit-product-duplicates.mjs",
+    "catalog:gmc": "node scripts/catalog-gmc.mjs",
+    "catalog:update-checkout-flow": "node scripts/update-checkout-flow.mjs"
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^4.6.2",
