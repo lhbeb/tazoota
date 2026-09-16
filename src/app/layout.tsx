@@ -15,7 +15,7 @@ import FacebookPixel from "@/components/FacebookPixel";
 import GoogleTagTracker from "@/components/GoogleTagTracker";
 import { AdminRouteCheck, PublicRouteOnly, AdminRouteOnly, CheckoutRouteOnly } from "@/components/AdminRouteCheck";
 import GlobalErrorReporter from "@/components/GlobalErrorReporter";
-import TidioChat from "@/components/TidioChat";
+import LiveChatWidget from "@/components/LiveChatWidget";
 import { GOOGLE_ADS_ID } from "@/lib/googleAds";
 
 const dmSans = DM_Sans({
@@ -227,7 +227,7 @@ export default function RootLayout({
             async
           />
         </AdminRouteCheck>
-        <TidioChat />
+        <LiveChatWidget />
         <SpeedInsights />
       </body>
     </html>
