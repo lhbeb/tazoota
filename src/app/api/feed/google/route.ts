@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAllProducts } from '@/lib/data';
 import { formatValidSku, mapConditionToGmc } from '@/lib/conditions';
 import type { Product } from '@/types/product';
+import { SITE } from '@/lib/siteFacts';
 
 const BASE_URL = 'https://tazoota.com';
 const SUPPORTED_COUNTRIES = ['US'] as const;
@@ -133,10 +134,10 @@ function buildShippingXml(
         <g:country>${country}</g:country>
         <g:service>${shipping.service}</g:service>
         <g:price>0.00 ${itemCurrency}</g:price>
-        <g:min_handling_time>0</g:min_handling_time>
-        <g:max_handling_time>1</g:max_handling_time>
-        <g:min_transit_time>5</g:min_transit_time>
-        <g:max_transit_time>9</g:max_transit_time>
+        <g:min_handling_time>${SITE.shipping.handlingMin}</g:min_handling_time>
+        <g:max_handling_time>${SITE.shipping.handlingMax}</g:max_handling_time>
+        <g:min_transit_time>${SITE.shipping.transitMin}</g:min_transit_time>
+        <g:max_transit_time>${SITE.shipping.transitMax}</g:max_transit_time>
       </g:shipping>`;
     })
     .join('');
@@ -230,7 +231,7 @@ export async function GET(request: NextRequest) {
       <g:product_type>${category}</g:product_type>
       <g:google_product_category>${googleProductCategory}</g:google_product_category>
       <g:custom_label_0>${escapeXml(product.condition || 'New')}</g:custom_label_0>
-      <g:return_policy_label>default_return_policy</g:return_policy_label>
+      <g:return_policy_label>${SITE.returnPolicyLabel}</g:return_policy_label>
       <g:price_valid_until>${priceValidUntilStr}</g:price_valid_until>${identifierXml}${buildShippingXml(targetCountries, productCurrency)}
     </item>`;
       })
