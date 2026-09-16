@@ -7,6 +7,7 @@ import { createVisitorRotationSeed, selectRotatedProducts } from '@/utils/visito
 
 interface CategorySectionProps {
   products: Product[];
+  sectionId?: string;
   title?: string;
   subtitle?: string;
   maxDisplay?: number;
@@ -16,6 +17,7 @@ interface CategorySectionProps {
 
 const CategorySection: React.FC<CategorySectionProps> = ({
   products,
+  sectionId = 'products',
   title = 'Power Tools & Generators',
   subtitle = 'Reliable equipment to get the job done.',
   maxDisplay = 8,
@@ -46,7 +48,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
   }
 
   return (
-    <section id="power-tools" className="py-16 bg-white">
+    <section id={sectionId} className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="w-full max-w-7xl mx-auto">
           <div className="mb-12 text-left">
