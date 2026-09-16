@@ -6,6 +6,64 @@ import { CheckCircle, Mail, Clock, Package, ArrowLeft, Loader2 } from 'lucide-re
 import { useSearchParams } from 'next/navigation';
 import { trackPixelEvent } from '@/lib/pixel';
 import { CART_STORAGE_KEY, clearCart } from '@/utils/cart';
+import { queueGoogleAdsPurchase } from '@/lib/googleAds';
+
+const PURCHASE_TRACKED_KEY_PREFIX = 'purchase_tracked:';
+const PAYMENT_VERIFY_DELAYS_MS = [0, 750, 1500, 3000, 5000];
+
+interface PurchaseTrackingData {
+  value: number;
+  currency: string;
+  transactionId: string;
+  email?: string | null;
+  contentId?: string;
+  contentName?: string;
+}
+
+function trackPurchaseOnce(data: PurchaseTrackingData): boolean {
+  if (!data.transactionId || !Number.isFinite(data.value) || data.value <= 0) return false;
+
+  const trackingKey = `${PURCHASE_TRACKED_KEY_PREFIX}${data.transactionId}`;
+  try {
+    if (sessionStorage.getItem(trackingKey)) return true;
+  } catch {
+    // Tracking should continue if browser storage is blocked.
+  }
+
+  try {
+    trackPixelEvent(
+      'Purchase',
+      {
+        value: data.value,
+        currency: data.currency,
+        content_ids: data.contentId ? [data.contentId] : [],
+        content_name: data.contentName || '',
+        content_type: 'product',
+        num_items: 1,
+        event_id: data.transactionId,
+      },
+    );
+  } catch (error) {
+    console.warn('Meta purchase tracking failed:', error);
+  }
+
+  queueGoogleAdsPurchase({
+    value: data.value,
+    currency: data.currency,
+    transactionId: data.transactionId,
+    email: data.email,
+    contentId: data.contentId,
+    contentName: data.contentName,
+  });
+
+  try {
+    sessionStorage.setItem(trackingKey, '1');
+  } catch {
+    // Ad platforms also deduplicate by event id / transaction id.
+  }
+
+  return true;
+}
 
 function ThankYouContent() {
   const searchParams = useSearchParams();
@@ -15,72 +73,80 @@ function ThankYouContent() {
   const isSuccessful = isStaticSuccess || orderDetails?.status === 'paid';
 
   useEffect(() => {
-    // Non-Stripe returns use cart data for Purchase tracking before clearing checkout state.
-    // Use sessionStorage to prevent duplicate fires on page refresh
-    const alreadyTracked = sessionStorage.getItem('purchase_tracked');
-    if (!alreadyTracked) {
+    // PayPal and other redirect flows only reach this route after provider success.
+    if (!sessionId) {
       try {
         const stored = localStorage.getItem(CART_STORAGE_KEY);
         if (stored) {
           const cartItem = JSON.parse(stored);
           const product = cartItem?.product;
           if (product) {
-            trackPixelEvent('Purchase', {
+            trackPurchaseOnce({
               value: product.price || 0,
               currency: product.currency || 'USD',
-              content_ids: [product.slug || product.id || ''],
-              content_name: product.title || '',
-              content_type: 'product',
-              num_items: cartItem.quantity || 1,
+              transactionId: `redirect-${product.slug || product.id || Date.now()}`,
+              contentId: product.slug || product.id || '',
+              contentName: product.title || '',
             });
-            sessionStorage.setItem('purchase_tracked', '1');
           }
         }
       } catch (e) {
         console.error('Purchase pixel error:', e);
       }
-    }
-
-    // PayPal and other redirect flows only reach this route after provider success.
-    if (!sessionId) {
       clearCart();
       return;
     }
 
-    // Verify payment in background (but don't block UI)
+    let cancelled = false;
+
     const verifyInBackground = async () => {
-      try {
-        const response = await fetch('/api/verify-payment', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sessionId }),
-        });
+      let lastResult: any = { status: 'pending' };
 
-        if (response.ok) {
-          const data = await response.json();
-          setOrderDetails(data);
+      for (const delay of PAYMENT_VERIFY_DELAYS_MS) {
+        if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
+        if (cancelled) return;
 
-          // Meta Pixel Purchase Event (Stripe flow — only if not already tracked)
-          if (data.status === 'paid' && !alreadyTracked) {
-            trackPixelEvent('Purchase', {
-              value: data.amount ? data.amount / 100 : 0,
-              currency: data.currency ? data.currency.toUpperCase() : 'USD',
-              content_ids: data.orderId ? [data.orderId] : [],
-              content_type: 'product'
-            });
-            sessionStorage.setItem('purchase_tracked', '1');
+        try {
+          const response = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId }),
+            cache: 'no-store',
+          });
+
+          if (response.ok) {
+            lastResult = await response.json();
+            if (lastResult.status === 'paid') {
+              if (cancelled) return;
+              setOrderDetails(lastResult);
+              trackPurchaseOnce({
+                value: lastResult.amount ? lastResult.amount / 100 : 0,
+                currency: lastResult.currency ? lastResult.currency.toUpperCase() : 'USD',
+                transactionId: lastResult.orderId || sessionId,
+                email: lastResult.email || lastResult.customerEmail,
+                contentId: lastResult.productSlug || lastResult.orderId,
+                contentName: lastResult.productTitle,
+              });
+              clearCart();
+              return;
+            }
+          } else if (response.status >= 400 && response.status < 500) {
+            break;
           }
-        } else {
-          console.warn('⚠️ Payment verification failed, falling back to pending UI');
-          setOrderDetails({ status: 'pending' });
+        } catch (error) {
+          console.warn('Payment verification attempt failed:', error);
         }
-      } catch (error) {
-        console.error('❌ Background verification error:', error);
-        setOrderDetails({ status: 'pending' });
+      }
+
+      if (!cancelled) {
+        setOrderDetails(lastResult);
       }
     };
 
     verifyInBackground();
+    return () => {
+      cancelled = true;
+    };
   }, [searchParams, sessionId]);
 
   // Always show success (Stripe only redirects here if payment succeeded)

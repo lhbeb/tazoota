@@ -12,6 +12,7 @@ import { addToCart } from '@/utils/cart';
 import { preventScrollOnClick } from '@/utils/scrollUtils';
 import { debugNavigation, debugError, debugLog } from '@/utils/debug';
 import { trackPixelEvent } from '@/lib/pixel';
+import { queueGoogleAdsBeginCheckout } from '@/lib/googleAds';
 import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp, X, ShoppingCart, Zap, Eye, ZoomIn, Info, Ruler } from 'lucide-react';
 import { useState, useEffect, useMemo, useRef, type CSSProperties } from 'react';
 import type { Product } from '@/types/product';
@@ -408,6 +409,9 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
 
   const goToCheckout = () => {
     try {
+      if (product) {
+        queueGoogleAdsBeginCheckout(product.price, product.currency || 'USD');
+      }
       router.push('/checkout');
       if (typeof window !== 'undefined') {
         window.scrollTo({ top: 0, behavior: 'smooth' });

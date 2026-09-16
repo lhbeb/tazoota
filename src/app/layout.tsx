@@ -12,9 +12,11 @@ import Script from "next/script";
 import { Suspense } from "react";
 import VisitNotifier from "@/components/VisitNotifier";
 import FacebookPixel from "@/components/FacebookPixel";
+import GoogleTagTracker from "@/components/GoogleTagTracker";
 import { AdminRouteCheck, PublicRouteOnly, AdminRouteOnly, CheckoutRouteOnly } from "@/components/AdminRouteCheck";
 import GlobalErrorReporter from "@/components/GlobalErrorReporter";
 import TidioChat from "@/components/TidioChat";
+import { GOOGLE_ADS_ID } from "@/lib/googleAds";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -88,11 +90,29 @@ export default function RootLayout({
         <meta name="google-site-verification" content="o8gC6haURQ1t7L9G8xfh_-5imCYNPmnhjnt2IrgEPco" />
         {/* Google Merchant Center Domain Claim Verification */}
         <meta name="google-site-verification" content="IIcw4xDKBiR-hwj3tnHt5Q3I5m2VzAn7LMXe-JXfi_Y" />
+        {GOOGLE_ADS_ID && (
+          <>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${GOOGLE_ADS_ID}', { send_page_view: false });
+                `,
+              }}
+            />
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}></script>
+          </>
+        )}
       </head>
       <body suppressHydrationWarning className="font-sans antialiased text-[#262626]">
         <GlobalErrorReporter />
         <Suspense fallback={null}>
           <FacebookPixel />
+        </Suspense>
+        <Suspense fallback={null}>
+          <GoogleTagTracker />
         </Suspense>
         <PublicRouteOnly>
           <VisitNotifier />
