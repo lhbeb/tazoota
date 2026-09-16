@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -20,6 +20,7 @@ import { debugError, debugLog } from '@/utils/debug';
 import { preventScrollOnClick } from '@/utils/scrollUtils';
 import { trackPixelEvent } from '@/lib/pixel';
 import { usesCountryFirstAddress } from '@/lib/shipping';
+import { setPendingOrder } from '@/lib/pendingOrder';
 
 const REDIRECT_DELAY_MS = 4000;
 
@@ -38,6 +39,7 @@ const CheckoutPage: React.FC = () => {
   const [paypalDirectOrderId, setPaypalDirectOrderId] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState('');
   const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const submittingRef = useRef(false);
   const [sellerName, setSellerName] = useState<string | null>(null);
   const [paypalDirectEmail, setPaypalDirectEmail] = useState('');
 
@@ -339,6 +341,7 @@ const CheckoutPage: React.FC = () => {
 
   const handleContinueToCheckout = async (event: FormEvent) => {
     event.preventDefault();
+    if (submittingRef.current) return;
     console.log('🚀 [Checkout] Form submitted');
 
     if (!cartItem?.product) {
@@ -391,7 +394,7 @@ const CheckoutPage: React.FC = () => {
     if (form.requiresFullName) {
       requiredFields.push('fullName');
     }
-    const missingFields = requiredFields.filter(field => !form.shippingData[field]);
+    const missingFields = requiredFields.filter(field => !form.shippingData[field]?.trim());
 
     if (missingFields.length > 0) {
       console.error('❌ [Checkout] Missing required fields:', missingFields);
@@ -407,6 +410,7 @@ const CheckoutPage: React.FC = () => {
     });
     console.log('👤 [Checkout] Shipping data:', { email: form.shippingData.email });
 
+    submittingRef.current = true;
     setIsSendingEmail(true);
     setCheckoutError('');
     setAssignedCheckoutLink(null);
@@ -426,8 +430,9 @@ const CheckoutPage: React.FC = () => {
         return;
       }
 
+      setPendingOrder(orderId, product);
+
       console.log('✅ [Checkout] Order saved successfully');
-      setIsSendingEmail(false);
       console.log('🔍 [Checkout] Product data:', {
         slug: product.slug,
         title: product.title,
@@ -528,6 +533,8 @@ const CheckoutPage: React.FC = () => {
         console.error('❌ [Checkout] Error stack:', error.stack);
       }
       alert('An error occurred during checkout. Please try again.');
+    } finally {
+      submittingRef.current = false;
       setIsSendingEmail(false);
     }
   };

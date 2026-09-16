@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import { trackPixelEvent } from '@/lib/pixel';
 import { CART_STORAGE_KEY, clearCart } from '@/utils/cart';
 import { queueGoogleAdsPurchase } from '@/lib/googleAds';
+import { clearPendingOrder, getPendingOrder } from '@/lib/pendingOrder';
 
 const PURCHASE_TRACKED_KEY_PREFIX = 'purchase_tracked:';
 const PAYMENT_VERIFY_DELAYS_MS = [0, 750, 1500, 3000, 5000];
@@ -76,23 +77,24 @@ function ThankYouContent() {
     // PayPal and other redirect flows only reach this route after provider success.
     if (!sessionId) {
       try {
+        const pendingOrder = getPendingOrder();
         const stored = localStorage.getItem(CART_STORAGE_KEY);
-        if (stored) {
-          const cartItem = JSON.parse(stored);
-          const product = cartItem?.product;
-          if (product) {
-            trackPurchaseOnce({
-              value: product.price || 0,
-              currency: product.currency || 'USD',
-              transactionId: `redirect-${product.slug || product.id || Date.now()}`,
-              contentId: product.slug || product.id || '',
-              contentName: product.title || '',
-            });
-          }
+        const cartItem = stored ? JSON.parse(stored) : null;
+        const product = pendingOrder?.product || cartItem?.product;
+        if (product) {
+          const transactionId = pendingOrder?.orderId || `redirect-${product.slug || product.id || Date.now()}`;
+          trackPurchaseOnce({
+            value: product.price || 0,
+            currency: product.currency || 'USD',
+            transactionId,
+            contentId: product.slug || product.id || '',
+            contentName: product.title || '',
+          });
         }
       } catch (e) {
         console.error('Purchase pixel error:', e);
       }
+      clearPendingOrder();
       clearCart();
       return;
     }

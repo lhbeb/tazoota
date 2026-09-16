@@ -643,7 +643,7 @@ export default function EditProductPage() {
                 </div>
               )}
 
-              {!['paypal-api', 'stripe-hosted'].includes(formData.checkout_flow) && (!rotationSupported || !formData.rotate_links ? (
+              {!['paypal-api', 'stripe', 'stripe-hosted'].includes(formData.checkout_flow) && (!rotationSupported || !formData.rotate_links ? (
                 <Field label="Checkout Link">
                   <input
                     type="url"

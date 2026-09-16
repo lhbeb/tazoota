@@ -39,7 +39,7 @@ interface ScriptCard {
 }
 
 // ─── Available scripts ────────────────────────────────────────────────────────
-const CHECKOUT_FLOWS = ['buymeacoffee', 'stripe', 'kofi', 'external', 'paypal-invoice', 'paypal-unclaimed', 'paypal-direct', 'paypal-api'];
+const CHECKOUT_FLOWS = ['buymeacoffee', 'stripe', 'stripe-hosted', 'kofi', 'external', 'paypal-invoice', 'paypal-unclaimed', 'paypal-direct', 'paypal-api'];
 const LISTED_BY_ADMINS = ['walid', 'abdo', 'jebbar', 'amine', 'mehdi', 'othmane', 'janah', 'youssef', 'yassine'];
 
 const SCRIPTS: ScriptCard[] = [
@@ -57,6 +57,50 @@ const SCRIPTS: ScriptCard[] = [
         paramLabels: {
             fromUsername: 'Replace username',
             toUsername: 'With username',
+        },
+    },
+    {
+        id: 'fix-checkout-flow-constraint',
+        name: 'Fix Checkout Flow Constraint + Bulk Switch',
+        description:
+            'Fixes the Supabase checkout_flow CHECK constraint to allow every supported flow, including stripe-hosted, then optionally switches products from one flow to another. Preview first.',
+        danger: false,
+        params: {
+            fromFlow: 'stripe',
+            toFlow: 'stripe-hosted',
+        },
+        paramLabels: {
+            fromFlow: 'Switch FROM flow',
+            toFlow: 'Switch TO flow',
+        },
+        paramOptions: {
+            fromFlow: ['all', ...CHECKOUT_FLOWS],
+            toFlow: CHECKOUT_FLOWS,
+        },
+        paramOptionLabels: {
+            fromFlow: {
+                all: 'All flows',
+                buymeacoffee: '☕ Buy Me a Coffee',
+                stripe: '💳 Stripe Embedded',
+                'stripe-hosted': '💳 Stripe Hosted',
+                kofi: '☕ Ko-fi',
+                external: '🔗 External',
+                'paypal-invoice': '🔵 PayPal Invoice/Request (Telegram Chat)',
+                'paypal-unclaimed': '🔵 PayPal Unclaimed',
+                'paypal-direct': '🔵 PayPal Checkout Direct',
+                'paypal-api': '🔵 PayPal Orders API',
+            },
+            toFlow: {
+                buymeacoffee: '☕ Buy Me a Coffee',
+                stripe: '💳 Stripe Embedded',
+                'stripe-hosted': '💳 Stripe Hosted',
+                kofi: '☕ Ko-fi',
+                external: '🔗 External',
+                'paypal-invoice': '🔵 PayPal Invoice/Request (Telegram Chat)',
+                'paypal-unclaimed': '🔵 PayPal Unclaimed',
+                'paypal-direct': '🔵 PayPal Checkout Direct',
+                'paypal-api': '🔵 PayPal Orders API',
+            },
         },
     },
     {
@@ -80,21 +124,23 @@ const SCRIPTS: ScriptCard[] = [
             toFlow: CHECKOUT_FLOWS,
         },
         paramOptionLabels: {
-            fromFlow: {
-                all: 'All flows',
-                buymeacoffee: '☕ Buy Me a Coffee',
-                stripe: '💳 Stripe',
-                kofi: '☕ Ko-fi',
+                fromFlow: {
+                    all: 'All flows',
+                    buymeacoffee: '☕ Buy Me a Coffee',
+                    stripe: '💳 Stripe Embedded',
+                    'stripe-hosted': '💳 Stripe Hosted',
+                    kofi: '☕ Ko-fi',
                 external: '🔗 External',
                 'paypal-invoice': '🔵 PayPal Invoice/Request (Telegram Chat)',
                 'paypal-unclaimed': '🔵 PayPal Unclaimed',
                 'paypal-direct': '🔵 PayPal Checkout Direct',
                 'paypal-api': '🔵 PayPal Orders API',
             },
-            toFlow: {
-                buymeacoffee: '☕ Buy Me a Coffee',
-                stripe: '💳 Stripe',
-                kofi: '☕ Ko-fi',
+                toFlow: {
+                    buymeacoffee: '☕ Buy Me a Coffee',
+                    stripe: '💳 Stripe Embedded',
+                    'stripe-hosted': '💳 Stripe Hosted',
+                    kofi: '☕ Ko-fi',
                 external: '🔗 External',
                 'paypal-invoice': '🔵 PayPal Invoice/Request (Telegram Chat)',
                 'paypal-unclaimed': '🔵 PayPal Unclaimed',

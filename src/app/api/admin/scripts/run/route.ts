@@ -17,7 +17,9 @@ async function getAdminAuth(request: NextRequest) {
         const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
         const { payload } = await jwtVerify(token, new TextEncoder().encode(JWT_SECRET));
         const decoded = payload as { id: string; email: string; role: string; isActive: boolean };
-        if (!decoded.isActive || isRevokedAdminEmail(decoded.email)) return null;
+        if (isRevokedAdminEmail(decoded.email)) return null;
+
+        if (!decoded.isActive) return null;
         return { authenticated: true, role: decoded.role, email: decoded.email };
     } catch {
         return null;
@@ -39,6 +41,7 @@ interface FlowResult {
     oldFlow: string;
     newFlow: string;
     updated: boolean;
+    error?: string;
 }
 
 interface BmcSellerStockResult {
@@ -66,6 +69,145 @@ function normalizeBmcSellerUsername(input: string): string {
             .trim()
             .toLowerCase();
     }
+}
+
+/**
+ * Script: fix-checkout-flow-constraint
+ * Drops the old CHECK constraint on checkout_flow and adds a new one that
+ * includes all current supported flow values (including stripe-hosted).
+ * Then optionally runs a bulk update from one flow to another.
+ */
+async function runFixCheckoutFlowConstraint(
+    fromFlow: string,
+    toFlow: string,
+    dryRun: boolean
+): Promise<{ affected: number; results: FlowResult[]; constraintFixed: boolean }> {
+    let constraintFixed = false;
+
+    if (!dryRun) {
+        // We need to use a postgres function or direct SQL.
+        // Supabase JS doesn't support raw DDL, so we use the pg REST SQL endpoint.
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+        const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+        const projectRef = supabaseUrl.match(/https:\/\/([^.]+)\.supabase\.co/)?.[1];
+
+        if (projectRef) {
+            // Try Supabase Management API to run the DDL
+            const migrationSQL = `
+DO $$
+DECLARE
+    constraint_record record;
+BEGIN
+    FOR constraint_record IN
+        SELECT con.conname
+        FROM pg_constraint con
+        JOIN pg_class rel ON rel.oid = con.conrelid
+        JOIN pg_namespace nsp ON nsp.oid = con.connamespace
+        WHERE nsp.nspname = 'public'
+          AND rel.relname = 'products'
+          AND con.contype = 'c'
+          AND pg_get_constraintdef(con.oid) ILIKE '%checkout_flow%'
+    LOOP
+        EXECUTE format('ALTER TABLE public.products DROP CONSTRAINT %I', constraint_record.conname);
+    END LOOP;
+END $$;
+
+ALTER TABLE public.products
+    ADD CONSTRAINT products_checkout_flow_check
+    CHECK (
+        checkout_flow IS NULL OR checkout_flow IN (
+            'buymeacoffee',
+            'kofi',
+            'external',
+            'stripe',
+            'stripe-hosted',
+            'paypal-invoice',
+            'paypal-unclaimed',
+            'paypal-direct',
+            'paypal-api',
+            'lemon-squeezy'
+        )
+    );
+`;
+            try {
+                const mgmtRes = await fetch(
+                    `https://api.supabase.com/v1/projects/${projectRef}/database/query`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${serviceKey}`,
+                        },
+                        body: JSON.stringify({ query: migrationSQL }),
+                    }
+                );
+                if (mgmtRes.ok) {
+                    constraintFixed = true;
+                    console.log('[Migration] Constraint updated via Management API');
+                } else {
+                    const errText = await mgmtRes.text();
+                    console.warn('[Migration] Management API failed, will try rpc:', errText.slice(0, 300));
+                }
+            } catch (e) {
+                console.warn('[Migration] Management API threw, will try rpc:', e);
+            }
+        }
+
+        if (!constraintFixed) {
+            // Fallback: try via an exec_sql rpc function if it exists
+            try {
+                const { error: rpcError } = await (supabaseAdmin as any).rpc('exec_sql', {
+                    sql: `ALTER TABLE public.products DROP CONSTRAINT IF EXISTS products_checkout_flow_check; ALTER TABLE public.products ADD CONSTRAINT products_checkout_flow_check CHECK (checkout_flow IS NULL OR checkout_flow IN ('buymeacoffee','kofi','external','stripe','stripe-hosted','paypal-invoice','paypal-unclaimed','paypal-direct','paypal-api','lemon-squeezy'));`
+                });
+                if (!rpcError) {
+                    constraintFixed = true;
+                    console.log('[Migration] Constraint updated via exec_sql rpc');
+                } else {
+                    console.warn('[Migration] exec_sql rpc failed:', rpcError.message);
+                }
+            } catch (e) {
+                console.warn('[Migration] exec_sql rpc threw:', e);
+            }
+        }
+    }
+
+    // Now run the actual flow update
+    let query = supabaseAdmin.from('products').select('slug, title, checkout_flow');
+    if (fromFlow !== 'all') {
+        query = query.eq('checkout_flow', fromFlow);
+    }
+    const { data, error } = await query;
+    if (error) throw new Error(`Failed to fetch products: ${error.message}`);
+
+    const products = data || [];
+    const affected: FlowResult[] = products.map(p => ({
+        slug: p.slug,
+        title: p.title,
+        oldFlow: p.checkout_flow || 'unknown',
+        newFlow: toFlow,
+        updated: false,
+    }));
+
+    if (!dryRun && affected.length > 0) {
+        for (const item of affected) {
+            const { error: updateError } = await supabaseAdmin
+                .from('products')
+                .update({
+                    checkout_flow: toFlow,
+                    updated_at: new Date().toISOString(),
+                })
+                .eq('slug', item.slug);
+
+            if (updateError) {
+                console.error(`❌ Failed to update product ${item.slug}:`, updateError.message);
+                item.updated = false;
+            } else {
+                item.updated = true;
+            }
+        }
+    }
+
+    return { affected: affected.length, results: affected, constraintFixed };
 }
 
 /**
@@ -154,35 +296,36 @@ async function runBulkUpdateCheckoutFlow(
     }));
 
     if (!dryRun && affected.length > 0) {
-        // Build the update — only checkout_flow, never checkout_link
-        const updatePayload: any = {
-            checkout_flow: toFlow,
-            updated_at: new Date().toISOString(),
-        };
-
-        if (fromFlow === 'all') {
-            // Update every product
+        // Perform row-by-row updates to avoid Supabase bulk update restrictions/errors
+        for (const item of affected) {
             const { error: updateError } = await supabaseAdmin
                 .from('products')
-                .update(updatePayload)
-                .neq('slug', ''); // matches all rows
+                .update({
+                    checkout_flow: toFlow,
+                    updated_at: new Date().toISOString(),
+                })
+                .eq('slug', item.slug);
 
             if (updateError) {
-                console.error('❌ Bulk flow update failed:', updateError.message);
-            } else {
-                affected.forEach(item => (item.updated = true));
-            }
-        } else {
-            // Update only products with the matching flow
-            const { error: updateError } = await supabaseAdmin
-                .from('products')
-                .update(updatePayload)
-                .eq('checkout_flow', fromFlow);
+                console.error(`❌ Failed to update product ${item.slug}:`, {
+                    code: updateError.code,
+                    message: updateError.message,
+                    details: updateError.details,
+                    hint: updateError.hint,
+                });
+                item.updated = false;
+                const isCheckoutFlowConstraintError =
+                    updateError.code === '23514'
+                    && (
+                        updateError.message?.includes('products_checkout_flow_check')
+                        || updateError.details?.includes('products_checkout_flow_check')
+                    );
 
-            if (updateError) {
-                console.error('❌ Bulk flow update failed:', updateError.message);
+                item.error = isCheckoutFlowConstraintError
+                    ? 'Database constraint blocks this checkout flow. Run "Fix Checkout Flow Constraint + Bulk Switch" first, or update the deployed Supabase environment.'
+                    : `${updateError.code}: ${updateError.message}`;
             } else {
-                affected.forEach(item => (item.updated = true));
+                item.updated = true;
             }
         }
     }
@@ -228,23 +371,21 @@ async function runBulkMarkSoldOut(
     }));
 
     if (!dryRun && affected.length > 0) {
-        let updateQuery = supabaseAdmin
-            .from('products')
-            .update({ in_stock: newStockValue, updated_at: new Date().toISOString() });
+        for (const item of affected) {
+            const { error: updateError } = await supabaseAdmin
+                .from('products')
+                .update({
+                    in_stock: newStockValue,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('slug', item.slug);
 
-        if (targetFilter === 'matching_only') {
-            updateQuery = markingSoldOut
-                ? updateQuery.neq('in_stock', false)
-                : updateQuery.eq('in_stock', false);
-        } else {
-            updateQuery = updateQuery.neq('slug', ''); // all rows
-        }
-
-        const { error: updateError } = await updateQuery;
-        if (updateError) {
-            console.error('❌ Bulk stock update failed:', updateError.message);
-        } else {
-            affected.forEach(item => (item.updated = true));
+            if (updateError) {
+                console.error(`❌ Failed to update stock for product ${item.slug}:`, updateError.message);
+                item.updated = false;
+            } else {
+                item.updated = true;
+            }
         }
     }
 
@@ -291,16 +432,18 @@ async function runSoldOutBmcSellerProducts(
     }));
 
     if (!dryRun && affected.length > 0) {
-        const { error: updateError } = await supabaseAdmin
-            .from('products')
-            .update({ in_stock: false, updated_at: new Date().toISOString() })
-            .eq('checkout_flow', 'buymeacoffee')
-            .ilike('checkout_link', checkoutLinkPattern);
+        for (const item of affected) {
+            const { error: updateError } = await supabaseAdmin
+                .from('products')
+                .update({ in_stock: false, updated_at: new Date().toISOString() })
+                .eq('slug', item.slug);
 
-        if (updateError) {
-            console.error('❌ BMC seller sold-out update failed:', updateError.message);
-        } else {
-            affected.forEach(item => (item.updated = true));
+            if (updateError) {
+                console.error(`❌ Failed to update product ${item.slug}:`, updateError.message);
+                item.updated = false;
+            } else {
+                item.updated = true;
+            }
         }
     }
 
@@ -341,15 +484,18 @@ async function runBulkAssignSellerByAdmin(
     }));
 
     if (!dryRun && affected.length > 0) {
-        const { error: updateError } = await supabaseAdmin
-            .from('products')
-            .update({ seller_id: sellerId, updated_at: new Date().toISOString() })
-            .eq('listed_by', listedBy);
+        for (const item of affected) {
+            const { error: updateError } = await supabaseAdmin
+                .from('products')
+                .update({ seller_id: sellerId, updated_at: new Date().toISOString() })
+                .eq('slug', item.slug);
 
-        if (updateError) {
-            console.error('❌ Bulk seller assign failed:', updateError.message);
-        } else {
-            affected.forEach(item => (item.updated = true));
+            if (updateError) {
+                console.error(`❌ Failed to update product ${item.slug}:`, updateError.message);
+                item.updated = false;
+            } else {
+                item.updated = true;
+            }
         }
     }
 
@@ -381,15 +527,18 @@ async function runBulkAssignUnassignedSeller(
     }));
 
     if (!dryRun && affected.length > 0) {
-        const { error: updateError } = await supabaseAdmin
-            .from('products')
-            .update({ seller_id: sellerId, updated_at: new Date().toISOString() })
-            .is('seller_id', null);
+        for (const item of affected) {
+            const { error: updateError } = await supabaseAdmin
+                .from('products')
+                .update({ seller_id: sellerId, updated_at: new Date().toISOString() })
+                .eq('slug', item.slug);
 
-        if (updateError) {
-            console.error('❌ Bulk unassigned seller assign failed:', updateError.message);
-        } else {
-            affected.forEach(item => (item.updated = true));
+            if (updateError) {
+                console.error(`❌ Failed to update product ${item.slug}:`, updateError.message);
+                item.updated = false;
+            } else {
+                item.updated = true;
+            }
         }
     }
 
@@ -446,11 +595,32 @@ export async function POST(request: NextRequest) {
                 });
             }
 
+            case 'fix-checkout-flow-constraint': {
+                const fromFlow = params.fromFlow || 'all';
+                const toFlow = params.toFlow || 'stripe-hosted';
+                const validFlows = ['buymeacoffee', 'stripe', 'stripe-hosted', 'kofi', 'external', 'paypal-invoice', 'paypal-unclaimed', 'paypal-direct', 'paypal-api'];
+                if (!validFlows.includes(toFlow)) {
+                    return NextResponse.json({ error: `toFlow must be one of: ${validFlows.join(', ')}` }, { status: 400 });
+                }
+
+                const result = await runFixCheckoutFlowConstraint(fromFlow, toFlow, dryRun);
+                return NextResponse.json({
+                    scriptId,
+                    dryRun,
+                    affected: result.affected,
+                    results: result.results,
+                    constraintFixed: result.constraintFixed,
+                    message: dryRun
+                        ? `Preview: ${result.affected} product(s) would be switched to "${toFlow}"; the checkout-flow constraint would also be repaired when run.`
+                        : `Done: constraint ${result.constraintFixed ? 'repaired' : 'unchanged'}, ${result.results.filter(r => r.updated).length} product(s) updated to "${toFlow}"`,
+                });
+            }
+
             case 'bulk-update-checkout-flow': {
                 const fromFlow = params.fromFlow || 'all';
                 const toFlow = params.toFlow;
 
-                const validFlows = ['buymeacoffee', 'stripe', 'kofi', 'external', 'paypal-invoice', 'paypal-unclaimed', 'paypal-direct', 'paypal-api'];
+                const validFlows = ['buymeacoffee', 'stripe', 'stripe-hosted', 'kofi', 'external', 'paypal-invoice', 'paypal-unclaimed', 'paypal-direct', 'paypal-api'];
                 if (!toFlow || !validFlows.includes(toFlow)) {
                     return NextResponse.json(
                         { error: `toFlow must be one of: ${validFlows.join(', ')}` },
@@ -459,6 +629,22 @@ export async function POST(request: NextRequest) {
                 }
 
                 const result = await runBulkUpdateCheckoutFlow(fromFlow, toFlow, dryRun);
+                const failed = result.results.filter(r => !r.updated && (r as any).error);
+                const firstError = (failed[0] as any)?.error;
+                const updatedCount = result.results.filter(r => r.updated).length;
+
+                if (!dryRun && failed.length > 0) {
+                    return NextResponse.json(
+                        {
+                            scriptId,
+                            dryRun,
+                            affected: result.affected,
+                            results: result.results,
+                            error: `Failed to update ${failed.length}/${result.affected} product(s). ${firstError || 'Check server logs for details.'}`,
+                        },
+                        { status: 409 }
+                    );
+                }
 
                 return NextResponse.json({
                     scriptId,
@@ -467,7 +653,7 @@ export async function POST(request: NextRequest) {
                     results: result.results,
                     message: dryRun
                         ? `Preview: ${result.affected} product(s) would have checkout_flow changed to "${toFlow}"`
-                        : `Done: ${result.results.filter(r => r.updated).length} product(s) updated to "${toFlow}"`,
+                        : `Done: ${updatedCount} product(s) updated to "${toFlow}"`,
                 });
             }
 

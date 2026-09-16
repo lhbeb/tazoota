@@ -283,7 +283,7 @@ export default function NewProductPage() {
         return;
       }
 
-      if (!['paypal-api', 'stripe-hosted'].includes(formData.checkout_flow) && !primaryCheckoutLink) {
+      if (!['paypal-api', 'stripe', 'stripe-hosted'].includes(formData.checkout_flow) && !primaryCheckoutLink) {
         setError('Checkout link is required.');
         setLoading(false);
         return;
@@ -607,7 +607,7 @@ export default function NewProductPage() {
                 </div>
               )}
 
-              {!['paypal-api', 'stripe-hosted'].includes(formData.checkout_flow) && (!rotationSupported || !formData.rotate_links ? (
+              {!['paypal-api', 'stripe', 'stripe-hosted'].includes(formData.checkout_flow) && (!rotationSupported || !formData.rotate_links ? (
                 <Field label="Checkout Link" required>
                   <input
                     type="url"

@@ -136,7 +136,7 @@ function AddressFields({
   const inputRadius = mobile ? 'rounded-xl' : 'rounded-lg';
   const inputClassName = `w-full px-4 py-4 border-2 border-gray-200 ${inputRadius} focus:outline-none focus:ring-2 focus:ring-[#0b2a17] focus:border-[#0b2a17] transition-all duration-300`;
   const idSuffix = mobile ? '-mobile' : '-desktop';
-  const fieldId = (name: string) => form.requiresCountry ? `${name}${idSuffix}` : name;
+  const fieldId = (name: string) => `${name}${idSuffix}`;
 
   const countryField = form.requiresCountry ? (
     <div>
@@ -398,7 +398,7 @@ function SecureCheckoutInfo({ mobile = false }: { mobile?: boolean }) {
       <div className="text-sm text-gray-600">
         <span className="font-medium text-[#0b2a17]">Secure Checkout</span> - SSL Encrypted
       </div>
-      <p className="text-xs text-gray-500 max-w-sm">
+      <p className="text-xs text-gray-500 max-w-sm mx-auto text-center">
         Shop with confidence - Your payment information is protected by industry-leading encryption
       </p>
       <div className="flex items-center justify-center">
@@ -543,6 +543,14 @@ export default function CheckoutShippingStep({
                   <h2 className="text-xl lg:text-2xl font-bold text-[#262626] mb-6 lg:mb-8 text-left">Delivery Address</h2>
                   <form onSubmit={onSubmit} className="space-y-6">
                     <AddressFields form={form} />
+                    {checkoutError && (
+                      <div role="alert" className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+                        <p>{checkoutError}</p>
+                        <button type="button" onClick={onDismissCheckoutError} className="mt-1 text-xs underline">
+                          Dismiss
+                        </button>
+                      </div>
+                    )}
                     <div className="hidden lg:block mt-8">
                       {product.checkoutFlow === 'paypal-direct' ? (
                         <PaypalRedirectButton
