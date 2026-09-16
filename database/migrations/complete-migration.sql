@@ -312,7 +312,7 @@ CREATE TABLE IF NOT EXISTS checkout_link_rotation_counters (
 ALTER TABLE products DROP CONSTRAINT IF EXISTS products_checkout_flow_check;
 ALTER TABLE products ADD CONSTRAINT products_checkout_flow_check CHECK (
   checkout_flow IN (
-    'buymeacoffee', 'kofi', 'external', 'stripe',
+    'buymeacoffee', 'kofi', 'external', 'stripe', 'stripe-hosted',
     'paypal-invoice', 'paypal-unclaimed', 'paypal-direct', 'paypal-api',
     'lemon-squeezy'
   )

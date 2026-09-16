@@ -49,7 +49,10 @@ const CheckoutPage: React.FC = () => {
     try {
       const searchParams = new URLSearchParams(window.location.search);
       if (searchParams.get('payment') === 'cancelled') {
-        setCheckoutError('Your PayPal payment was not completed. Your item is still here, so you can try again.');
+        const provider = searchParams.get('provider');
+        setCheckoutError(provider === 'stripe-hosted'
+          ? 'Your Stripe payment was not completed. Your item is still here, so you can try again.'
+          : 'Your PayPal payment was not completed. Your item is still here, so you can try again.');
         window.history.replaceState({}, '', window.location.pathname);
       } else if (searchParams.get('payment') === 'failed') {
         setCheckoutError('PayPal could not complete that payment. Please confirm your delivery details and try again.');
@@ -135,7 +138,7 @@ const CheckoutPage: React.FC = () => {
       const controller = new AbortController();
       timeoutId = setTimeout(() => controller.abort(), 30000);
 
-      const requestShippingData = usesCountryFirstAddress(product.checkoutFlow)
+      const requestShippingData = product.checkoutFlow === 'stripe' || usesCountryFirstAddress(product.checkoutFlow)
         ? shippingData
         : {
             streetAddress: shippingData.streetAddress,
@@ -455,6 +458,31 @@ const CheckoutPage: React.FC = () => {
           }
         } catch (error) {
           console.error('❌ [Checkout] Failed connecting to Stripe:', error);
+          setCheckoutError('Could not connect to payment provider. Please check your connection and try again.');
+        }
+      } else if (checkoutFlow === 'stripe-hosted') {
+        console.log('💳 [Checkout] Stripe Hosted flow: Creating Hosted Checkout Session');
+        try {
+          setIsRedirecting(true);
+          window.scrollTo({ top: 0 });
+
+          const response = await fetch('/api/create-stripe-hosted-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orderId, product, shippingData: form.shippingData }),
+          });
+          const data = await response.json();
+
+          if (response.ok && data.url) {
+            window.location.assign(data.url);
+          } else {
+            console.error('❌ [Checkout] Stripe hosted session creation failed:', data);
+            setIsRedirecting(false);
+            setCheckoutError(data.error || 'Failed to initialize payment. Please try again.');
+          }
+        } catch (error) {
+          console.error('❌ [Checkout] Failed connecting to Stripe Hosted Checkout:', error);
+          setIsRedirecting(false);
           setCheckoutError('Could not connect to payment provider. Please check your connection and try again.');
         }
       } else if (checkoutFlow === 'paypal-invoice' || checkoutFlow === 'paypal-unclaimed') {

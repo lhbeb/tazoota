@@ -337,7 +337,7 @@ export async function createProduct(productData: {
   brand: string;
   payee_email?: string;
   checkout_link: string;
-  checkout_flow?: 'buymeacoffee' | 'kofi' | 'external' | 'stripe' | 'paypal-invoice' | 'paypal-unclaimed' | 'paypal-direct' | 'paypal-api';
+  checkout_flow?: 'buymeacoffee' | 'kofi' | 'external' | 'stripe' | 'stripe-hosted' | 'paypal-invoice' | 'paypal-unclaimed' | 'paypal-direct' | 'paypal-api';
   currency?: string;
   rating?: number;
   review_count?: number;
@@ -439,7 +439,7 @@ export async function updateProduct(
     brand?: string;
     payee_email?: string;
     checkout_link?: string;
-    checkout_flow?: 'buymeacoffee' | 'kofi' | 'external' | 'stripe' | 'paypal-invoice' | 'paypal-unclaimed' | 'paypal-direct' | 'paypal-api';
+    checkout_flow?: 'buymeacoffee' | 'kofi' | 'external' | 'stripe' | 'stripe-hosted' | 'paypal-invoice' | 'paypal-unclaimed' | 'paypal-direct' | 'paypal-api';
     currency?: string;
     rating?: number;
     review_count?: number;
