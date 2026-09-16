@@ -24,7 +24,7 @@ export const STORE_FAQS: readonly StoreFaq[] = [
   {
     question: 'Where do you ship and how long does delivery take?',
     answer:
-      'Current shipping destinations, handling times, carriers, and estimated delivery windows are listed in our Shipping Policy. Tracking is provided after an eligible order is dispatched.',
+      'We offer free standard shipping across the United States. Orders placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days, and total delivery is estimated at 5–10 business days.',
     linkHref: '/shipping-policy',
     linkLabel: 'Read our Shipping Policy',
   },

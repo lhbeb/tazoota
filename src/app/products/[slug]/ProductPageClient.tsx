@@ -521,7 +521,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                       className={`object-cover rounded-md transition-opacity duration-300 lg:object-contain ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
                       onError={(e) => {
                         console.error('Image failed to load:', images[activeImage]);
-                        (e.target as HTMLImageElement).src = '/placeholder.png';
+                        (e.target as HTMLImageElement).src = '/logo.png';
                       }}
                       onLoadingComplete={() => setImgLoaded(true)}
                     />
@@ -553,7 +553,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                           className="object-cover lg:object-contain"
                           onError={(e) => {
                             console.error('Thumbnail failed to load:', image);
-                            (e.target as HTMLImageElement).src = '/placeholder.png';
+                            (e.target as HTMLImageElement).src = '/logo.png';
                           }}
                         />
                         {activeImage === idx && <div className="absolute inset-0 bg-white/10"></div>}
@@ -805,7 +805,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                 <ClientOnly><ShippingInfo targetMarket={product?.meta?.targetMarket} /></ClientOnly>
               </div>
               <div className="mt-8 lg:hidden">
-                <h2 className="text-xl font-medium text-[#262626] mb-4">Item Description from the Seller</h2>
+                <h2 className="text-xl font-medium text-[#262626] mb-4">Product Description</h2>
                 <div className="rounded-[20px] border border-[#e5ede6] bg-white px-5 py-5">
                   <p className="whitespace-pre-line text-sm leading-7 text-[#5d6b62]">
                     {showFullDescription ? descriptionText : descriptionPreview}
@@ -826,7 +826,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
 
           <div className="mt-12 hidden lg:block">
             <section className="rounded-[24px] border border-[#dce7de] bg-white px-8 py-8">
-              <h2 className="text-2xl font-semibold text-[#262626]">Item Description from the Seller</h2>
+              <h2 className="text-2xl font-semibold text-[#262626]">Product Description</h2>
               <p className="mt-4 whitespace-pre-line text-[15px] leading-8 text-[#5d6b62]">
                 {showFullDescription ? descriptionText : descriptionPreview}
               </p>

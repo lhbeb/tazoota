@@ -12,6 +12,7 @@ import {
 import AdminLayout from '@/components/AdminLayout';
 import AdminLoading from '@/components/AdminLoading';
 import { FEATURED_PRODUCT_LIMIT } from '@/config/products';
+import { formatValidSku } from '@/lib/conditions';
 
 interface Product {
   id: string;
@@ -673,7 +674,7 @@ export default function AdminProductsPage() {
       const columns = [
         'id', 'title', 'description', 'availability', 'availability_date', 'expiration_date',
         'link', 'mobile_link', 'image_link', 'price', 'sale_price', 'sale_price_effective_date',
-        'identifier_exists', 'gtin', 'mpn', 'brand', 'product_highlight', 'product_detail',
+        'identifier_exists', 'gtin', 'mpn', 'brand', 'google_product_category', 'product_type', 'product_highlight', 'product_detail',
         'additional_image_link', 'condition', 'adult', 'color', 'size', 'size_type',
         'size_system', 'gender', 'material', 'pattern', 'age_group', 'multipack',
         'is bundle', 'unit_pricing_measure', 'unit_pricing_base_measure',
@@ -713,9 +714,12 @@ export default function AdminProductsPage() {
         const condition = (p.condition || 'new').toLowerCase().includes('refurbished') ? 'refurbished'
           : (p.condition || 'new').toLowerCase().includes('used') ? 'used' : 'new';
         const brand = p.brand || 'Tazoota';
+        const meta = p.meta || {};
+        const hasGtin = typeof meta.gtin === 'string' && meta.gtin.length >= 8;
+        const hasMpn = typeof meta.mpn === 'string' && meta.mpn.length >= 1;
 
         return [
-          escapeCSV(pSlug),                                // id
+          escapeCSV(formatValidSku(p)),                    // id
           escapeCSV(p.title || ''),                       // title
           escapeCSV(p.description || p.title || ''),       // description
           escapeCSV(isAvailable),                          // availability (in_stock / out_of_stock)
@@ -727,10 +731,12 @@ export default function AdminProductsPage() {
           escapeCSV(finalPriceStr),                       // price
           escapeCSV(salePriceStr),                        // sale_price
           '',                                             // sale_price_effective_date
-          escapeCSV('no'),                                // identifier_exists
-          '',                                             // gtin
-          '',                                             // mpn
+          escapeCSV(hasGtin || hasMpn ? 'yes' : 'no'),     // identifier_exists
+          escapeCSV(hasGtin ? meta.gtin : ''),             // gtin
+          escapeCSV(!hasGtin && hasMpn ? meta.mpn : ''),   // mpn
           escapeCSV(brand),                               // brand
+          escapeCSV(meta.google_product_category || ''),   // google_product_category
+          escapeCSV(meta.product_type || p.category || ''),// product_type
           '',                                             // product_highlight
           '',                                             // product_detail
           escapeCSV(additionalImages),                    // additional_image_link
@@ -740,10 +746,10 @@ export default function AdminProductsPage() {
           '',                                             // size
           '',                                             // size_type
           '',                                             // size_system
-          '',                                             // gender
+          escapeCSV(meta.gender || meta.sex || 'unisex'),  // gender
           '',                                             // material
           '',                                             // pattern
-          '',                                             // age_group
+          escapeCSV(meta.age_group || 'adult'),            // age_group
           '',                                             // multipack
           'no',                                           // is bundle
           '',                                             // unit_pricing_measure
@@ -751,7 +757,7 @@ export default function AdminProductsPage() {
           '',                                             // energy_efficiency_class
           '',                                             // min_energy_efficiency_class
           '',                                             // max_energy_efficiency
-          '',                                             // item_group_id
+          escapeCSV(meta.item_group_id || ''),             // item_group_id
           '',                                             // video_link
           '',                                             // virtual_model_link
           ''                                              // cost_of_goods_sold

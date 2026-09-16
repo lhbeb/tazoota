@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import AboutNotifier from '@/components/AboutNotifier';
+import { SITE, breadcrumbJsonLd } from '@/lib/siteFacts';
 import {
   Users,
   Shield,
@@ -47,7 +48,8 @@ export default function AboutPage() {
         '@type': 'OnlineStore',
         '@id': 'https://tazoota.com/#organization',
         'name': 'Tazoota',
-        'url': 'https://tazoota.com',
+        'url': SITE.domain,
+        'logo': SITE.logo,
         'description':
           'Ecommerce store serving the United States with lawn mowers, power tools, portable generators, and garden essentials.',
         'email': 'contact@tazoota.com',
@@ -70,6 +72,10 @@ export default function AboutPage() {
           },
         ],
       },
+      breadcrumbJsonLd([
+        { name: 'Home', path: '/' },
+        { name: 'About Us', path: '/about' },
+      ]),
     ],
   };
 
@@ -119,10 +125,10 @@ export default function AboutPage() {
         {/* How We Keep Prices Low */}
         <div className="bg-white rounded-2xl shadow-lg border border-[#2e6b3e]/10 p-8 mb-12">
           <div className="mb-6">
-            <h2 className="text-3xl font-bold text-[#262626]">How We Keep Prices Low While Staying 100 Percent Legit</h2>
+            <h2 className="text-3xl font-bold text-[#262626]">How We Source Products Responsibly</h2>
           </div>
           <p className="text-gray-700 mb-8 text-lg">
-            Our business model is based on experience, smart sourcing, and efficiency. The reason our items are often 30 to 50 percent below retail is because we purchase differently from traditional stores.
+            Tazoota operates as an independent ecommerce retailer and reseller. We purchase inventory through established wholesale, distributor, closeout, and overstock channels, then list products with clear pricing, product details, and support policies.
           </p>
 
           <div className="space-y-6">
@@ -132,9 +138,9 @@ export default function AboutPage() {
                   1
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#262626] mb-2">We win thousands of online auctions before items reach the public</h3>
+                  <h3 className="text-xl font-bold text-[#262626] mb-2">We buy through established supply channels</h3>
                   <p className="text-gray-700">
-                    Our sourcing team participates daily in high volume auctions across multiple platforms. By buying in bulk before products reach regular marketplaces, we secure lower costs and pass those savings directly to our customers.
+                    Our team sources from wholesale suppliers, authorized distributors where available, overstock programs, and closeout inventory. This helps us offer practical prices without hiding who is responsible for the order.
                   </p>
                 </div>
               </div>
@@ -146,9 +152,9 @@ export default function AboutPage() {
                   2
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#262626] mb-2">We negotiate deals across major online marketplaces</h3>
+                  <h3 className="text-xl font-bold text-[#262626] mb-2">We verify inventory before listing</h3>
                   <p className="text-gray-700">
-                    Our dedicated team searches Facebook Marketplace, OfferUp, eBay, Kleinanzeigen, and other local platforms. We negotiate directly with private sellers, compare prices, and secure the highest value possible, which allows us to keep prices low and inventory diverse.
+                    Products are reviewed for condition, key specifications, images, and shipping readiness before they are published. If an item cannot be verified, we do not list it for sale.
                   </p>
                 </div>
               </div>
@@ -210,10 +216,10 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold text-[#262626]">A Key Addition to Our Model: Verified Wholesale Partners</h2>
           </div>
           <p className="text-gray-700 mb-4 text-lg">
-            Over the past three years, we have expanded our sourcing model by partnering with a network of verified wholesale partners who share the same dedication to quality and fairness as our in-house team.
+            Tazoota works with vetted wholesale and fulfillment partners to support product availability while keeping one clear customer experience.
           </p>
           <p className="text-gray-700 mb-6">
-            These wholesale partners find, source, and curate their own brand-new products, then ship their inventory to our warehouse. Once the items arrive, our inspection team performs a full evaluation, which includes:
+            Before products are offered to customers, our team reviews product information and fulfillment readiness, which includes:
           </p>
 
           <div className="grid md:grid-cols-3 gap-4 mb-6">
@@ -241,13 +247,13 @@ export default function AboutPage() {
               How it works for customers
             </h3>
             <p className="text-gray-700 mb-3">
-              When you purchase from a wholesale partner on our platform, it is clearly stated on the product page. The partner sends the item to us first, we inspect it, and only then do we ship it to you.
+              When you place an order through Tazoota, Tazoota remains your point of contact for order support, shipping updates, returns, and refunds.
             </p>
             <p className="text-gray-700 mb-3">
-              This process protects buyers and ensures that every product, whether sourced directly by us or by a trusted partner, meets the same high standard.
+              This process protects buyers and keeps the shopping experience consistent regardless of the supply source behind the item.
             </p>
             <p className="text-gray-700">
-              Partners benefit by reaching a wider audience, while customers benefit from greater variety and consistent quality control.
+              Customers benefit from a broader equipment catalog while still having one store responsible for support and policies.
             </p>
           </div>
         </div>
@@ -355,25 +361,25 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Company Stats */}
+        {/* Service Commitments */}
         <div className="bg-gradient-to-r from-[#2e6b3e] to-[#2e6b3e] rounded-2xl shadow-lg p-10 mb-12 text-[#f0f7f2]">
-          <h3 className="text-3xl font-bold mb-8 text-center">Company Stats</h3>
+          <h3 className="text-3xl font-bold mb-8 text-center">Service Commitments</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center p-6 bg-[#f0f7f2]/10 backdrop-blur-sm rounded-xl border border-[#f0f7f2]/20">
-              <div className="text-4xl font-bold mb-2">5000+</div>
-              <div className="text-[#f0f7f2]/80 text-sm">happy customers</div>
+              <div className="text-4xl font-bold mb-2">US</div>
+              <div className="text-[#f0f7f2]/80 text-sm">shipping coverage</div>
             </div>
             <div className="text-center p-6 bg-[#f0f7f2]/10 backdrop-blur-sm rounded-xl border border-[#f0f7f2]/20">
-              <div className="text-4xl font-bold mb-2">1000+</div>
-              <div className="text-[#f0f7f2]/80 text-sm">products sold</div>
+              <div className="text-4xl font-bold mb-2">30</div>
+              <div className="text-[#f0f7f2]/80 text-sm">day return window</div>
             </div>
             <div className="text-center p-6 bg-[#f0f7f2]/10 backdrop-blur-sm rounded-xl border border-[#f0f7f2]/20">
-              <div className="text-4xl font-bold mb-2">99%</div>
-              <div className="text-[#f0f7f2]/80 text-sm">satisfaction rate</div>
+              <div className="text-4xl font-bold mb-2">1</div>
+              <div className="text-[#f0f7f2]/80 text-sm">business day processing</div>
             </div>
             <div className="text-center p-6 bg-[#f0f7f2]/10 backdrop-blur-sm rounded-xl border border-[#f0f7f2]/20">
-              <div className="text-4xl font-bold mb-2">6 Days</div>
-              <div className="text-[#f0f7f2]/80 text-sm">support a week</div>
+              <div className="text-4xl font-bold mb-2">6</div>
+              <div className="text-[#f0f7f2]/80 text-sm">support days weekly</div>
             </div>
           </div>
         </div>

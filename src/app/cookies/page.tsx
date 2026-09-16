@@ -1,7 +1,26 @@
-import React from 'react';
+import type { Metadata } from 'next';
+import { SITE, policyGraph } from '@/lib/siteFacts';
 
-const CookiesPage = () => (
+export const metadata: Metadata = {
+  title: 'Cookies Policy | Tazoota',
+  description:
+    'Tazoota Cookies Policy covering essential cookies, analytics, advertising, live chat, payment providers, and cookie controls.',
+  alternates: {
+    canonical: `${SITE.domain}/cookies`,
+  },
+};
+
+const CookiesPage = () => {
+  const schemaMarkup = policyGraph(
+    'WebPage',
+    '/cookies',
+    'Cookies Policy',
+    'Tazoota Cookies Policy covering essential cookies, analytics, advertising, live chat, payment providers, and cookie controls.'
+  );
+
+  return (
   <div className="min-h-screen flex flex-col bg-gray-50 py-12">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
     <div className="container mx-auto px-4 max-w-4xl">
       <h1 className="text-4xl font-bold text-[#262626] mb-8">Cookies Policy</h1>
       
@@ -77,10 +96,10 @@ const CookiesPage = () => (
             We may use services provided by trusted third parties that use cookies, such as:
           </p>
           <ul className="list-disc pl-6 space-y-2 mb-4">
-            <li>Google Analytics for website performance and analytics</li>
-            <li>PayPal for secure payment processing</li>
-            <li>Social media platforms for sharing and engagement</li>
-            <li>Advertising partners for targeted advertising</li>
+            <li>Google Ads and Google tag tools for advertising measurement and conversion tracking</li>
+            <li>Meta Pixel for advertising measurement and conversion tracking</li>
+            <li>PayPal and Stripe for payment processing</li>
+            <li>Tazoota live chat and custom analytics tools for support and website performance</li>
           </ul>
           <p>
             These third parties have their own privacy and cookie policies.
@@ -132,6 +151,7 @@ const CookiesPage = () => (
       </div>
     </div>
   </div>
-);
+  );
+};
 
 export default CookiesPage; 

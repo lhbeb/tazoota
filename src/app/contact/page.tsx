@@ -2,7 +2,8 @@
 // Registered business office and GMC support details
 
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Building2 } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
+import { breadcrumbJsonLd } from '@/lib/siteFacts';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -55,6 +56,10 @@ export default function ContactPage() {
           'addressCountry': 'US',
         },
       },
+      breadcrumbJsonLd([
+        { name: 'Home', path: '/' },
+        { name: 'Contact Us', path: '/contact' },
+      ]),
     ],
   };
 
@@ -154,12 +159,11 @@ export default function ContactPage() {
                         disabled={isSending}
                       >
                         <option value="">Select a reason</option>
-                        <option value="selling">Selling on Tazoota</option>
                         <option value="order-inquiry">Inquiring about an order</option>
                         <option value="track-order">Track my order</option>
                         <option value="return-refund">Return or refund request</option>
                         <option value="product-question">Product question</option>
-                        <option value="partnership">Partnership or business inquiry</option>
+                        <option value="business">Business inquiry</option>
                         <option value="general">General inquiry</option>
                         <option value="other">Other</option>
                       </select>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SITE, breadcrumbJsonLd, organizationJsonLd } from '@/lib/siteFacts';
 import {
   RotateCcw,
   RefreshCw,
@@ -24,24 +25,36 @@ export const metadata: Metadata = {
 export default function ReturnPolicyPage() {
   const schemaMarkup = {
     '@context': 'https://schema.org',
-    '@type': 'OnlineStore',
-    '@id': 'https://tazoota.com/#organization',
-    'name': 'Tazoota',
-    'url': 'https://tazoota.com',
-    'hasMerchantReturnPolicy': {
-      '@type': 'MerchantReturnPolicy',
-      'name': 'Tazoota Return & Exchange Policy',
-      'merchantReturnLink': 'https://tazoota.com/return-policy',
-      'applicableCountry': ['US'],
-      'returnPolicyCategory': 'https://schema.org/MerchantReturnFiniteReturnWindow',
-      'merchantReturnDays': 30,
-      'returnMethod': 'https://schema.org/ReturnByMail',
-      'returnFees': 'https://schema.org/FreeReturn',
-      'returnLabelSource': 'https://schema.org/ReturnLabelDownloadAndPrint',
-      'restockingFee': 0,
-      'refundType': 'https://schema.org/FullRefund',
-      'itemCondition': 'https://schema.org/NewCondition',
-    },
+    '@graph': [
+      {
+        ...organizationJsonLd(),
+        'hasMerchantReturnPolicy': {
+          '@type': 'MerchantReturnPolicy',
+          '@id': `${SITE.domain}/return-policy#merchant-return-policy`,
+          'name': 'Tazoota Return & Exchange Policy',
+          'merchantReturnLink': `${SITE.domain}/return-policy`,
+          'applicableCountry': ['US'],
+          'returnPolicyCategory': 'https://schema.org/MerchantReturnFiniteReturnWindow',
+          'merchantReturnDays': 30,
+          'returnMethod': 'https://schema.org/ReturnByMail',
+          'returnFees': 'https://schema.org/FreeReturn',
+          'returnLabelSource': 'https://schema.org/ReturnLabelDownloadAndPrint',
+          'restockingFee': 0,
+          'refundType': 'https://schema.org/FullRefund',
+        },
+      },
+      {
+        '@type': 'WebPage',
+        '@id': `${SITE.domain}/return-policy#webpage`,
+        'url': `${SITE.domain}/return-policy`,
+        'name': 'Return & Exchange Policy | Tazoota',
+        'description': 'Tazoota Return & Exchange Policy for eligible defective, damaged, incorrect, and non-defective product returns.',
+      },
+      breadcrumbJsonLd([
+        { name: 'Home', path: '/' },
+        { name: 'Return & Exchange Policy', path: '/return-policy' },
+      ]),
+    ],
   };
 
   return (
@@ -220,14 +233,14 @@ export default function ReturnPolicyPage() {
             </ul>
           </div>
 
-          {/* 7. Marketplace Sellers */}
+          {/* 7. Tazoota-Sourced Items */}
           <div className="space-y-4 pt-4 border-t border-gray-100">
             <div className="flex items-center gap-3">
               <FileText className="w-6 h-6 text-[#0b2a17]" />
-              <h2 className="text-2xl font-bold text-[#0b2a17]">7. Marketplace Seller Items</h2>
+              <h2 className="text-2xl font-bold text-[#0b2a17]">7. Products Sourced by Tazoota</h2>
             </div>
             <p>
-              Products from our verified marketplace partners follow the exact same 30-day return policy. All returns are shipped to our central warehouse for inspection, so the experience is consistent regardless of the seller.
+              Products sold through Tazoota follow the same 30-day return policy unless a product page clearly states a specific exception required by law or product type. Returns are reviewed by our team so the experience stays consistent for customers.
             </p>
           </div>
 

@@ -33,16 +33,16 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
     );
   }
 
-  const displaySeller = seller || {
+  const displaySeller = {
     id: 'tazoota',
     name: 'Tazoota',
     username: 'tazoota',
     avatarUrl: fallbackAvatarUrl,
   };
 
-  const isTazoota = displaySeller.username === 'tazoota';
-  const href = isTazoota ? '/' : `/sellers/${displaySeller.username}`;
-  const hasAvatar = displaySeller.avatarUrl && displaySeller.avatarUrl !== fallbackAvatarUrl;
+  const isTazoota = true;
+  const href = '/';
+  const hasAvatar = false;
 
   /* ── sm (product cards) ─────────────────────────────────────────────────── */
   if (size === 'sm') {

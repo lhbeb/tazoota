@@ -1,7 +1,26 @@
-import React from 'react';
+import type { Metadata } from 'next';
+import { SITE, policyGraph } from '@/lib/siteFacts';
 
-const PrivacyPolicyPage = () => (
+export const metadata: Metadata = {
+  title: 'Privacy Policy | Tazoota',
+  description:
+    'Tazoota Privacy Policy covering customer information, order processing, payment providers, analytics, advertising, cookies, and privacy rights.',
+  alternates: {
+    canonical: `${SITE.domain}/privacy-policy`,
+  },
+};
+
+const PrivacyPolicyPage = () => {
+  const schemaMarkup = policyGraph(
+    'WebPage',
+    '/privacy-policy',
+    'Privacy Policy',
+    'Tazoota Privacy Policy covering customer information, order processing, payment providers, analytics, advertising, cookies, and privacy rights.'
+  );
+
+  return (
   <div className="min-h-screen flex flex-col bg-gray-50 py-12">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
     <div className="container mx-auto px-4 max-w-4xl">
       <h1 className="text-4xl font-bold text-[#262626] mb-8">Privacy Policy</h1>
       
@@ -63,13 +82,15 @@ const PrivacyPolicyPage = () => (
         <div>
           <h2 className="text-3xl font-bold text-[#262626] mt-10 mb-4">Information Sharing</h2>
           <p className="mb-4">
-            We do not sell or trade your personal information to third parties. We may share your information only with trusted service providers who help us operate our website or fulfill your orders, such as:
+            We do not sell your personal information. We may share information with trusted service providers who help us operate our website, measure performance, advertise, communicate, process payments, or fulfill orders, such as:
           </p>
           <ul className="list-disc pl-6 space-y-2 mb-4">
             <li>Payment processors</li>
             <li>Shipping partners</li>
             <li>Email communication platforms</li>
             <li>Website analytics providers</li>
+            <li>Advertising and conversion tracking providers</li>
+            <li>Customer support and live chat tools</li>
           </ul>
           <p className="mb-4">
             These partners are required to keep your information confidential and use it only for the services they provide.
@@ -110,7 +131,7 @@ const PrivacyPolicyPage = () => (
         <div>
           <h2 className="text-3xl font-bold text-[#262626] mt-10 mb-4">Cookies</h2>
           <p>
-            Our website uses cookies to enhance your browsing experience. Cookies help us remember your preferences, analyze site traffic, and improve website performance. You can adjust your browser settings to refuse cookies if you prefer.
+            Our website uses cookies and similar technologies to support shopping-cart behavior, checkout, analytics, advertising measurement, live chat, and site performance. You can adjust your browser settings to refuse cookies if you prefer.
           </p>
         </div>
 
@@ -159,6 +180,7 @@ const PrivacyPolicyPage = () => (
       </div>
     </div>
   </div>
-);
+  );
+};
 
 export default PrivacyPolicyPage; 

@@ -37,12 +37,11 @@ export async function POST(request: NextRequest) {
 
     // Map contact reason to readable text
     const reasonMap: { [key: string]: string } = {
-      'selling': 'Selling on Tazoota',
       'order-inquiry': 'Inquiring about an order',
       'track-order': 'Track my order',
       'return-refund': 'Return or refund request',
       'product-question': 'Product question',
-      'partnership': 'Partnership or business inquiry',
+      'business': 'Business inquiry',
       'general': 'General inquiry',
       'other': 'Other'
     };

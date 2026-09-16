@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { Star, ThumbsUp, CheckCircle2, ChevronDown, X, ZoomIn, ExternalLink } from 'lucide-react';
+import { Star, ThumbsUp, CheckCircle2, ChevronDown, X, ZoomIn } from 'lucide-react';
 import type { Review } from '@/types/product';
 import { lockScroll, unlockScroll } from '@/utils/scrollUtils';
 
@@ -11,7 +10,7 @@ interface ProductReviewsProps {
   reviews: Review[];
   averageRating: number;
   totalReviews: number;
-  /** If reviews were inherited from the seller, pass their name and username */
+  /** Optional inherited review metadata. Kept for compatibility with existing product data. */
   sellerName?: string;
   sellerUsername?: string;
 }
@@ -20,8 +19,6 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
   reviews = [],
   averageRating = 0,
   totalReviews = 0,
-  sellerName,
-  sellerUsername,
 }) => {
   const [sortBy, setSortBy] = useState('recent');
   const [helpfulClicks, setHelpfulClicks] = useState<Record<string, boolean>>({});
@@ -131,21 +128,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
             {/* Rating Summary */}
             <div>
               <h2 className="text-2xl font-bold text-[#262626] mb-2">
-                {sellerName && sellerUsername ? (
-                  <>
-                    Reviews from{' '}
-                    <Link
-                      href={`/sellers/${sellerUsername}`}
-                      className="text-[#0b2a17] hover:underline inline-flex items-center gap-1"
-                    >
-                      {sellerName}
-                      <ExternalLink className="h-4 w-4" />
-                    </Link>
-                    &apos;s listings
-                  </>
-                ) : (
-                  'Reviews from this listing or similar other listings on Tazoota'
-                )}
+                Customer reviews from Tazoota listings
               </h2>
               <div className="flex items-center gap-4">
                 <div className="text-4xl font-bold text-[#262626]">{averageRating.toFixed(1)}</div>

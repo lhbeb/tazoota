@@ -1,7 +1,15 @@
 import React, { Suspense } from 'react';
+import type { Metadata } from 'next';
 import ProductGrid from '@/components/ProductGrid';
 import { getProductsByCollection } from '@/lib/supabase/products';
 import ScrollToTop from '@/components/ScrollToTop';
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function EntertainmentPage() {
   try {

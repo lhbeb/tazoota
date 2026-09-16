@@ -35,7 +35,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
             </h1>
 
             <p className="text-lg leading-relaxed font-normal mb-12">
-              Place your order by 2:00 PM CST and we&apos;ll process, pack, and hand it to one of our trusted delivery partners that same day. At <strong>Tazoota</strong>, fast, dependable fulfillment is part of every order.
+              Orders placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days.
             </p>
             <Link
               href="/shipping-policy"
@@ -57,10 +57,10 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
             </div>
             <div>
               <h3 className="font-bold text-[#262626] text-lg mb-2">
-                Fast, Same-Day Processing
+                Same/Next Day Processing
               </h3>
               <p className="text-gray-600 text-sm">
-                Order before 2:00 PM CST and we&apos;ll prepare your package to begin its journey that same day.
+                Orders placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day.
               </p>
             </div>
           </div>
@@ -108,7 +108,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
             Ready to get your order moving?
           </p>
           <p className="text-2xl md:text-3xl font-bold text-[#262626]">
-            Order by <span className="text-[#2e6b3e]">2:00 PM CST</span> for same-day dispatch
+            Same/Next processing day, then 5-9 business days in transit
           </p>
         </div>
         <a

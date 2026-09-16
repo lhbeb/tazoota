@@ -2,12 +2,12 @@ import { getProductBySlug } from '@/lib/data';
 import { getReviewProduct, isReviewProduct } from '@/lib/reviewProducts';
 import { getSellerById } from '@/lib/supabase/sellers';
 import { formatValidSku, mapConditionToSchema } from '@/lib/conditions';
+import { SITE } from '@/lib/siteFacts';
 import { notFound } from 'next/navigation';
 import ProductPageClient from './ProductPageClient';
 import type { Metadata, ResolvingMetadata } from 'next';
 
-// Hardcoded base URL (no environment variable needed)
-const BASE_URL = 'https://tazoota.com';
+const BASE_URL = SITE.domain;
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> },
@@ -149,9 +149,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         },
         "hasMerchantReturnPolicy": {
           "@type": "MerchantReturnPolicy",
-          "applicableCountry": ["US"],
+          "@id": `${SITE.domain}/return-policy#merchant-return-policy`,
+          "merchantReturnLink": `${SITE.domain}/return-policy`,
+          "applicableCountry": [SITE.address.addressCountry],
           "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-          "merchantReturnDays": 30,
+          "merchantReturnDays": SITE.returns.windowDays,
           "returnMethod": "https://schema.org/ReturnByMail",
           "returnFees": "https://schema.org/FreeReturn",
           "returnLabelSource": "https://schema.org/ReturnLabelDownloadAndPrint",
@@ -163,25 +165,25 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             "@type": "OfferShippingDetails",
             "shippingRate": {
               "@type": "MonetaryAmount",
-              "value": 0,
-              "currency": "USD"
+              "value": SITE.shipping.cost,
+              "currency": SITE.currency
             },
             "shippingDestination": {
               "@type": "DefinedRegion",
-              "addressCountry": "US"
+              "addressCountry": SITE.shipping.country
             },
             "deliveryTime": {
               "@type": "ShippingDeliveryTime",
               "handlingTime": {
                 "@type": "QuantitativeValue",
-                "minValue": 0,
-                "maxValue": 1,
+                "minValue": SITE.shipping.handlingMin,
+                "maxValue": SITE.shipping.handlingMax,
                 "unitCode": "DAY"
               },
               "transitTime": {
                 "@type": "QuantitativeValue",
-                "minValue": 5,
-                "maxValue": 9,
+                "minValue": SITE.shipping.transitMin,
+                "maxValue": SITE.shipping.transitMax,
                 "unitCode": "DAY"
               }
             }

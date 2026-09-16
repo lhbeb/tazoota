@@ -1,5 +1,16 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { Clock3, MapPin, PackageCheck, ShieldCheck } from 'lucide-react';
+import { SITE, breadcrumbJsonLd, pageJsonLd } from '@/lib/siteFacts';
+
+export const metadata: Metadata = {
+  title: 'Local Pickup Guide | Tazoota',
+  description:
+    'Tazoota local pickup guide for eligible orders in Rock Springs, Wyoming. Pickup must be confirmed before travelling.',
+  alternates: {
+    canonical: `${SITE.domain}/local-pickup`,
+  },
+};
 
 const pickupSteps = [
   {
@@ -20,8 +31,25 @@ const pickupSteps = [
 ];
 
 export default function LocalPickupPage() {
+  const schemaMarkup = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      pageJsonLd(
+        'WebPage',
+        '/local-pickup',
+        'Local Pickup Guide',
+        'Tazoota local pickup guide for eligible orders in Rock Springs, Wyoming. Pickup must be confirmed before travelling.'
+      ),
+      breadcrumbJsonLd([
+        { name: 'Home', path: '/' },
+        { name: 'Local Pickup Guide', path: '/local-pickup' },
+      ]),
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-[#f0f7f2] py-10 sm:py-14">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
       <div className="container mx-auto px-4">
         <div className="overflow-hidden rounded-[32px] border border-[#d8e6da] bg-white shadow-[0_24px_80px_rgba(0,48,153,0.10)]">
           <section className="bg-gradient-to-br from-[#2e6b3e] via-[#2e6b3e] to-[#2e6b3e] px-6 py-10 text-[#f0f7f2] sm:px-10 sm:py-12">

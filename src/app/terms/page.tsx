@@ -1,4 +1,14 @@
-import React from 'react';
+import type { Metadata } from 'next';
+import { SITE, policyGraph } from '@/lib/siteFacts';
+
+export const metadata: Metadata = {
+  title: 'Terms of Service | Tazoota',
+  description:
+    'Tazoota Terms of Service covering orders, products, sourcing, payments, shipping, returns, fraud prevention, and customer support.',
+  alternates: {
+    canonical: `${SITE.domain}/terms`,
+  },
+};
 
 const TermsPage = () => {
   const currentDate = new Date().toLocaleDateString('en-US', { 
@@ -6,25 +16,35 @@ const TermsPage = () => {
     month: 'long', 
     day: 'numeric' 
   });
+  const schemaMarkup = policyGraph(
+    'WebPage',
+    '/terms',
+    'Terms of Service',
+    'Tazoota Terms of Service covering orders, products, sourcing, payments, shipping, returns, fraud prevention, and customer support.'
+  );
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+      />
       <div className="container mx-auto px-4 max-w-4xl">
         <h1 className="text-4xl font-bold text-[#262626] mb-2">Tazoota Terms of Service</h1>
         <p className="text-gray-600 mb-8">Last Updated: {currentDate}</p>
         
         <div className="prose max-w-none text-gray-700 space-y-8">
           <p className="text-lg leading-relaxed">
-            Welcome to Tazoota. By accessing or using our website, marketplace, or services, you agree to be bound by these Terms of Service. Please read them carefully. If you do not agree, please discontinue using the site.
+            Welcome to Tazoota. By accessing or using our website or services, you agree to be bound by these Terms of Service. Please read them carefully. If you do not agree, please discontinue using the site.
           </p>
 
           {/* Section 1: Overview */}
           <div>
             <h2 className="text-3xl font-bold text-[#262626] mt-10 mb-4">1. Overview</h2>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Tazoota operates as a direct retailer and as a curated marketplace.</li>
-              <li>We source products through auctions, private sellers, liquidators, wholesalers, and other third-party suppliers.</li>
-              <li>We also allow approved private sellers to list items on our platform after a full inspection by our team.</li>
+              <li>Tazoota operates as an independent ecommerce retailer and reseller.</li>
+              <li>We source products through wholesale suppliers, distributors, closeout inventory, overstock programs, and other business supply channels.</li>
+              <li>Tazoota is the customer-facing merchant for orders placed through our website.</li>
               <li>All purchases made through Tazoota are processed under these Terms.</li>
             </ul>
           </div>
@@ -40,40 +60,39 @@ const TermsPage = () => {
             </ul>
           </div>
 
-          {/* Section 3: Marketplace and Private Seller Terms */}
+          {/* Section 3: Order Review and Fulfillment */}
           <div>
-            <h2 className="text-3xl font-bold text-[#262626] mt-10 mb-4">3. Marketplace and Private Seller Terms</h2>
+            <h2 className="text-3xl font-bold text-[#262626] mt-10 mb-4">3. Order Review and Fulfillment</h2>
             <p className="mb-4">
-              Tazoota hosts a controlled marketplace where approved private sellers may offer products.
+              Tazoota reviews orders before fulfillment to protect customers, confirm availability, and verify shipping details.
             </p>
 
-            <h3 className="text-xl font-bold text-[#262626] mt-6 mb-3">3.1 Seller Onboarding Process</h3>
+            <h3 className="text-xl font-bold text-[#262626] mt-6 mb-3">3.1 Product Verification</h3>
             <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li>Private sellers must be screened and approved before listing items.</li>
-              <li>Sellers send their inventory to our warehouse, where it is inspected, authenticated, tested, and verified before any listing goes live.</li>
+              <li>Product details, condition, pricing, and images are reviewed before publication.</li>
+              <li>Inventory availability is verified before an order is shipped.</li>
             </ul>
 
             <h3 className="text-xl font-bold text-[#262626] mt-6 mb-3">3.2 Fulfillment Process</h3>
-            <p className="mb-2">When you purchase an item from a third-party seller:</p>
+            <p className="mb-2">When you place an order:</p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li>It is clearly indicated on the product page.</li>
-              <li>The seller sends the item to our warehouse if it is not already stored with us.</li>
-              <li>Our inspection team confirms the condition, functionality, and price accuracy.</li>
-              <li>Only after passing inspection is the item shipped to the customer.</li>
+              <li>We confirm the product, payment status, and delivery information.</li>
+              <li>We prepare the item for carrier pickup within the stated processing window.</li>
+              <li>Tracking information is sent after the order is dispatched.</li>
             </ul>
             <p className="mb-4">
-              Tazoota reserves the right to reject, refund, or cancel any order if the item fails inspection.
+              Tazoota reserves the right to refund or cancel an order if inventory cannot be fulfilled, payment cannot be verified, or shipping details are incomplete.
             </p>
 
-            <h3 className="text-xl font-bold text-[#262626] mt-6 mb-3">3.3 Seller Responsibility</h3>
-            <p className="mb-2">Sellers on the Tazoota platform are responsible for:</p>
+            <h3 className="text-xl font-bold text-[#262626] mt-6 mb-3">3.3 Customer Support Responsibility</h3>
+            <p className="mb-2">For orders placed on Tazoota, our support team assists with:</p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li>The authenticity of their products</li>
-              <li>Providing accurate condition descriptions</li>
-              <li>Meeting our quality and safety standards</li>
+              <li>Order questions and tracking</li>
+              <li>Shipping updates</li>
+              <li>Return and refund requests</li>
             </ul>
             <p>
-              Tazoota is not responsible for inaccurate representations made by sellers, although we take all reasonable steps to verify product condition before shipment.
+              Contact details and support hours are published on our Contact page and in these Terms.
             </p>
           </div>
 
@@ -82,8 +101,8 @@ const TermsPage = () => {
             <h2 className="text-3xl font-bold text-[#262626] mt-10 mb-4">4. Product Terms</h2>
             <ul className="list-disc pl-6 space-y-2">
               <li>We aim to provide accurate and detailed product descriptions.</li>
-              <li>We sell brand new, high-quality items sourced directly through authorized channels.</li>
-              <li>All electronics are factory-tested and guaranteed to be fully functional.</li>
+              <li>We sell brand new products sourced through business supply and resale channels.</li>
+              <li>Products are reviewed for key specifications, condition, and listing accuracy before publication.</li>
               <li>Product availability is not guaranteed until an order is processed.</li>
               <li>Prices may change at any time due to market conditions and sourcing costs.</li>
               <li>We reserve the right to modify, limit, or discontinue any product or listing.</li>
@@ -97,8 +116,8 @@ const TermsPage = () => {
               By using our website, you acknowledge that Tazoota sources products through:
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li>Direct manufacturer agreements</li>
-              <li>Authorized distributors and authorized retail partners</li>
+              <li>Manufacturer or distributor agreements where available</li>
+              <li>Authorized retail partners where applicable</li>
               <li>Wholesalers and bulk suppliers</li>
               <li>Overstock and closeout inventory of brand new items</li>
             </ul>
@@ -117,9 +136,9 @@ const TermsPage = () => {
               Free standard shipping applies to all orders within the United States.
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Same-day shipping is available for orders placed before 2:00 PM CST.</li>
-              <li>Standard processing time is 0 to 1 business day.</li>
-              <li>Domestic USA delivery time is 5 to 9 business days.</li>
+              <li>Orders placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day.</li>
+              <li>Domestic USA transit time is estimated at 5 to 9 business days after dispatch.</li>
+              <li>Total estimated delivery time is 5 to 10 business days.</li>
               <li>All orders qualify for free standard shipping with no minimum spend required.</li>
               <li>Tracking information is sent to the customer via email once the order ships.</li>
             </ul>
@@ -155,7 +174,7 @@ const TermsPage = () => {
               <li>We work quickly to resolve any concerns, disputes, or issues.</li>
             </ul>
             <p className="mt-4">
-              Marketplace seller products also fall under this guarantee unless specifically stated otherwise.
+              This return policy applies to eligible products purchased directly through Tazoota unless a product page clearly states a specific exception required by law or product type.
             </p>
           </div>
 
@@ -174,13 +193,13 @@ const TermsPage = () => {
           <div>
             <h2 className="text-3xl font-bold text-[#262626] mt-10 mb-4">10. Fraud Prevention and Compliance</h2>
             <p className="mb-4">
-              Tazoota monitors orders for unusual activity to protect customers and sellers.
+              Tazoota monitors orders for unusual activity to protect customers and the store.
             </p>
             <p className="mb-4">
               We reserve the right to cancel or delay orders suspected of fraud or unauthorized use of payment methods.
             </p>
             <p>
-              Creating false accounts, listing products fraudulently, or misrepresenting product ownership is strictly prohibited.
+              Creating false accounts, using unauthorized payment methods, or misrepresenting order information is strictly prohibited.
             </p>
           </div>
 

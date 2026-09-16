@@ -56,6 +56,14 @@ export interface Product {
     gtin?: string; // Global Trade Item Number (barcode) — used in GMC feed for branded products
     mpn?: string;  // Manufacturer Part Number — used in GMC feed when GTIN unavailable
     sku?: string;  // Product SKU — alternative product identifier
+    google_product_category?: string;
+    product_type?: string;
+    gender?: string;
+    sex?: string;
+    age_group?: string;
+    adult?: string;
+    item_group_id?: string;
+    gmc_review_status?: string;
   };
   published?: boolean; // Extracted from meta.published for easier access
   isFeatured?: boolean;

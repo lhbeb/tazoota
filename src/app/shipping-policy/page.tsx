@@ -1,18 +1,19 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Clock, Mail, MapPin, PackageCheck, ShieldCheck, Truck } from 'lucide-react';
+import { SITE } from '@/lib/siteFacts';
 
 export const metadata: Metadata = {
   title: 'Shipping Policy | Tazoota',
   description:
-    'Official Tazoota Shipping Policy. Free standard shipping across the United States. Estimated delivery 5–10 business days. Same-day processing for orders placed before 2:00 PM CST.',
+    'Official Tazoota Shipping Policy. Free standard shipping across the United States. Same-day processing before 2:00 PM CST and estimated delivery within 5–10 business days.',
 };
 
 const timeline = [
-  ['Same-day orders', 'Ships same day when placed before 2:00 PM CST'],
-  ['Standard processing', '0–1 business day'],
-  ['Transit time (carrier)', '5–9 business days'],
-  ['Total estimated delivery', '5–10 business days (Free Standard Shipping)'],
+    ['Same-day orders', `Ships same day when placed before ${SITE.shipping.cutoffTime}`],
+    ['Standard processing', `${SITE.shipping.handlingMin}–${SITE.shipping.handlingMax} business day`],
+    ['Transit time (carrier)', `${SITE.shipping.transitMin}–${SITE.shipping.transitMax} business days`],
+    ['Total estimated delivery', `${SITE.shipping.totalMin}–${SITE.shipping.totalMax} business days (Free Standard Shipping)`],
 ];
 
 const policySections = [
@@ -63,32 +64,32 @@ export default function ShippingPolicyPage() {
         'url': 'https://tazoota.com/shipping-policy',
         'name': 'Shipping Policy | Tazoota',
         'description':
-          'Tazoota Shipping Policy: Free standard shipping across the United States. Same-day processing for orders placed before 2:00 PM CST.',
+          `Tazoota Shipping Policy: free standard shipping across the United States with same-day processing before ${SITE.shipping.cutoffTime} and estimated delivery within ${SITE.shipping.totalMin}–${SITE.shipping.totalMax} business days.`,
       },
       {
         '@type': 'OfferShippingDetails',
         '@id': 'https://tazoota.com/shipping-policy#shipping-us',
         'shippingDestination': {
           '@type': 'DefinedRegion',
-          'addressCountry': 'US',
+          'addressCountry': SITE.shipping.country,
         },
         'shippingRate': {
           '@type': 'MonetaryAmount',
-          'value': 0,
-          'currency': 'USD',
+          'value': SITE.shipping.cost,
+          'currency': SITE.currency,
         },
         'deliveryTime': {
           '@type': 'ShippingDeliveryTime',
           'handlingTime': {
             '@type': 'QuantitativeValue',
-            'minValue': 0,
-            'maxValue': 1,
+            'minValue': SITE.shipping.handlingMin,
+            'maxValue': SITE.shipping.handlingMax,
             'unitCode': 'DAY',
           },
           'transitTime': {
             '@type': 'QuantitativeValue',
-            'minValue': 5,
-            'maxValue': 9,
+            'minValue': SITE.shipping.transitMin,
+            'maxValue': SITE.shipping.transitMax,
             'unitCode': 'DAY',
           },
           'cutoffTime': '14:00:00-06:00',

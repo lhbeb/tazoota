@@ -48,6 +48,7 @@ next-env.d.ts
 # scratch, logs & csv exports
 scratch/
 untitled/
+imports/
 *.csv
 *.log
 package-lock.wrong-directory*.backup.json

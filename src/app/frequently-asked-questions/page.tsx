@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, HelpCircle, Plus } from 'lucide-react';
 import { STORE_FAQS } from '@/lib/storeFaqs';
+import { SITE, breadcrumbJsonLd } from '@/lib/siteFacts';
 
 export const metadata: Metadata = {
   title: 'Frequently Asked Questions | Tazoota',
@@ -15,15 +16,26 @@ export const metadata: Metadata = {
 export default function FrequentlyAskedQuestionsPage() {
   const faqSchema = {
     '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: STORE_FAQS.map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
+    '@graph': [
+      {
+        '@type': 'FAQPage',
+        '@id': `${SITE.domain}/frequently-asked-questions#webpage`,
+        url: `${SITE.domain}/frequently-asked-questions`,
+        name: 'Frequently Asked Questions | Tazoota',
+        mainEntity: STORE_FAQS.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
       },
-    })),
+      breadcrumbJsonLd([
+        { name: 'Home', path: '/' },
+        { name: 'Frequently Asked Questions', path: '/frequently-asked-questions' },
+      ]),
+    ],
   };
 
   return (

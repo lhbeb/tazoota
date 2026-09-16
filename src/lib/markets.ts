@@ -30,14 +30,14 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
     locale: 'en-US',
     shipsFrom: 'United States',
     shipsFromFlag: '🇺🇸',
-    deliveryDaysMin: 5,
-    deliveryDaysMax: 8,
+    deliveryDaysMin: 6,
+    deliveryDaysMax: 10,
     freeShippingText: 'Free standard shipping',
     returnsText: '30-day returns',
     faqShippingAnswer:
-      'Orders placed before 2:00 PM CST often ship the same day. Standard processing is 1 business day, then most US deliveries arrive in 5 to 8 business days and Canada in 7 to 10 business days.',
+      'Orders placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days.',
     faqFreeShippingAnswer:
-      'Yes, standard shipping is currently free across the United States and Canada. If faster delivery is available, you\'ll see those options at checkout.',
+      'Yes, standard shipping is currently free across the United States. If faster delivery is available, you\'ll see those options at checkout.',
   },
   eu: {
     label: 'European Union',
@@ -47,12 +47,12 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
     locale: 'de-DE',
     shipsFrom: 'Europe',
     shipsFromFlag: '🇪🇺',
-    deliveryDaysMin: 5,
+    deliveryDaysMin: 6,
     deliveryDaysMax: 10,
     freeShippingText: 'Free delivery across Europe',
     returnsText: '30-day returns',
     faqShippingAnswer:
-      'Orders within the European Union are processed within 1 business day and typically arrive in 5 to 10 business days depending on your country.',
+      'Orders within the European Union placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days.',
     faqFreeShippingAnswer:
       'Yes, standard delivery is free across the European Union. Express options may be available at checkout.',
   },
@@ -64,12 +64,12 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
     locale: 'en-CA',
     shipsFrom: 'Canada',
     shipsFromFlag: '🇨🇦',
-    deliveryDaysMin: 5,
+    deliveryDaysMin: 6,
     deliveryDaysMax: 10,
     freeShippingText: 'Free standard shipping across Canada',
     returnsText: '30-day returns',
     faqShippingAnswer:
-      'Orders within Canada are processed within 1 business day and typically arrive in 5 to 10 business days.',
+      'Orders within Canada placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days.',
     faqFreeShippingAnswer:
       'Yes, standard shipping is free across Canada. Faster delivery options may be available at checkout.',
   },
@@ -81,12 +81,12 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
     locale: 'en-AU',
     shipsFrom: 'Australia',
     shipsFromFlag: '🇦🇺',
-    deliveryDaysMin: 5,
+    deliveryDaysMin: 6,
     deliveryDaysMax: 10,
     freeShippingText: 'Free standard shipping across Australia',
     returnsText: '30-day returns',
     faqShippingAnswer:
-      'Orders within Australia are processed within 1 business day and typically arrive in 5 to 10 business days.',
+      'Orders within Australia placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days.',
     faqFreeShippingAnswer:
       'Yes, standard shipping is free across Australia. Express options may be available at checkout.',
   },
