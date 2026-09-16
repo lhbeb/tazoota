@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { getOrderById } from '@/lib/supabase/orders';
+import { getOrderById, updateOrderStripeStatus } from '@/lib/supabase/orders';
 import { getStripeConfig } from '@/lib/supabase/payment-settings';
 
 // Stripe initialization deferred to handler to avoid build-time crashes
@@ -48,23 +48,73 @@ export async function POST(request: NextRequest) {
             );
         }
         
-        // Wait for webhook to update local DB (give it a bit of time or just check immediately)
-        const order = await getOrderById(orderId);
-        
-        if (!order || order.status !== 'paid') {
-            return NextResponse.json({
-                status: 'pending',
-                message: 'Order record pending sync or not paid locally'
+        let order = await getOrderById(orderId);
+        if (!order) {
+            return NextResponse.json(
+                { error: 'Order not found' },
+                { status: 404 }
+            );
+        }
+
+        if (
+            !['stripe', 'stripe-hosted'].includes(order.checkout_flow) ||
+            !order.stripe_checkout_session_id ||
+            order.stripe_checkout_session_id !== session.id
+        ) {
+            console.error('[Payment Verification] Session/order binding mismatch:', {
+                orderId,
+                sessionId: session.id,
+                checkoutFlow: order.checkout_flow,
             });
+            return NextResponse.json(
+                { error: 'Payment session does not match this order' },
+                { status: 400 }
+            );
+        }
+
+        const paymentIntentId = typeof session.payment_intent === 'string'
+            ? session.payment_intent
+            : session.payment_intent?.id;
+
+        if (order.status !== 'paid') {
+            console.log(`[Payment Verification] Updating order ${orderId} to PAID directly...`);
+            const updated = await updateOrderStripeStatus(orderId, {
+                status: 'paid',
+                stripe_payment_intent_id: paymentIntentId,
+                stripe_payment_status: session.payment_status,
+                paid_at: new Date().toISOString()
+            });
+
+            if (!updated) throw new Error('Failed to update paid order');
+            order = (await getOrderById(orderId)) || order;
+        }
+
+        if (!parseStripeEmailSent(order.full_order_data)) {
+            try {
+                console.log(`[Payment Verification] Sending payment notification emails for order ${orderId}...`);
+                const { sendStripePaymentSuccessEmail } = await import('@/lib/email/sender');
+                await sendStripePaymentSuccessEmail(order, {
+                    paymentIntentId,
+                    amount: session.amount_total ?? undefined,
+                    currency: session.currency ?? undefined,
+                });
+            } catch (emailErr) {
+                console.error(`[Payment Verification] Failed to send email for order ${orderId}:`, emailErr);
+            }
         }
 
         // Return payment status and details securely
         return NextResponse.json({
             status: 'paid', // Explicit trust signal for frontend
             orderId: order.id,
+            productSlug: order.product_slug,
+            productTitle: order.product_title || null,
             sessionId: session.id,
             amount: session.amount_total,
             currency: session.currency,
+            customerEmail: session.customer_details?.email || session.customer_email || session.metadata?.customer_email || null,
+        }, {
+            headers: { 'Cache-Control': 'no-store, max-age=0' },
         });
 
     } catch (error: any) {
@@ -79,4 +129,20 @@ export async function POST(request: NextRequest) {
             { status: 500 }
         );
     }
+}
+
+function parseStripeEmailSent(rawData: unknown): boolean {
+    if (!rawData) return false;
+    if (typeof rawData === 'object') {
+        return Boolean((rawData as Record<string, unknown>).stripe_email_sent);
+    }
+    if (typeof rawData === 'string') {
+        try {
+            const parsed = JSON.parse(rawData);
+            return Boolean(parsed?.stripe_email_sent);
+        } catch {
+            return false;
+        }
+    }
+    return false;
 }

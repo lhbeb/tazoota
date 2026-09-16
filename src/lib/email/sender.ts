@@ -219,6 +219,115 @@ export async function sendOrderEmailAsync(orderId: string): Promise<void> {
   });
 }
 
+export async function sendStripePaymentSuccessEmail(
+  order: any,
+  payment: {
+    paymentIntentId?: string;
+    amount?: number;
+    currency?: string;
+  }
+): Promise<{ success: boolean; error?: string }> {
+  const parsedFullOrderData = parseFullOrderData(order.full_order_data);
+  if (parsedFullOrderData?.stripe_email_sent) {
+    console.log(`📧 [Stripe] Payment notification already sent for order ${order.id}, skipping`);
+    return { success: true };
+  }
+
+  try {
+    const transporter = createTransporter();
+    const emailUser = process.env.EMAIL_USER || 'contacthappydeel@gmail.com';
+    const adminEmail = process.env.ADMIN_EMAIL || 'contacthappydeel@gmail.com';
+    const extendedShipping = getExtendedShippingDetails(order, parsedFullOrderData);
+    const baseUrl = resolveBaseUrl([order?.site_url]);
+    const productUrl = order?.product_slug
+      ? `${baseUrl}/products/${String(order.product_slug).replace(/^\/+/, '')}`
+      : null;
+
+    const amountDisplay = payment.amount
+      ? (payment.amount / 100).toFixed(2)
+      : Number(order.product_price || 0).toFixed(2);
+    const currencyUpper = (payment.currency || 'USD').toUpperCase();
+    const paymentIntentId = payment.paymentIntentId || order.stripe_payment_intent_id || 'N/A';
+    const shippingBlock = [
+      order.customer_name,
+      order.shipping_address,
+      extendedShipping.addressLine2,
+      `${order.shipping_city}${order.shipping_state ? `, ${order.shipping_state}` : ''} ${order.shipping_zip || ''}`.trim(),
+      extendedShipping.country,
+    ].filter(Boolean).join('<br>');
+
+    await transporter.sendMail({
+      from: `"Tazoota Payments" <${emailUser}>`,
+      to: adminEmail,
+      subject: `Stripe Payment Confirmed - ${order.product_title} - ${currencyUpper} ${amountDisplay}`,
+      html: `
+        <h2>Stripe Payment Confirmed</h2>
+        <h3>Order Details</h3>
+        <ul>
+          <li><strong>Order ID:</strong> ${order.id}</li>
+          <li><strong>Product:</strong> ${order.product_title}</li>
+          ${productUrl ? `<li><strong>Product URL:</strong> <a href="${productUrl}">${productUrl}</a></li>` : ''}
+          <li><strong>Amount:</strong> ${currencyUpper} ${amountDisplay}</li>
+          <li><strong>Payment Intent:</strong> ${paymentIntentId}</li>
+          <li><strong>Checkout Flow:</strong> ${order.checkout_flow || 'stripe'}</li>
+        </ul>
+        <h3>Customer</h3>
+        <ul>
+          <li><strong>Name:</strong> ${order.customer_name || 'N/A'}</li>
+          <li><strong>Email:</strong> ${order.customer_email || 'N/A'}</li>
+          <li><strong>Shipping:</strong><br>${shippingBlock || 'N/A'}</li>
+        </ul>
+      `,
+    });
+
+    if (order.customer_email) {
+      await transporter.sendMail({
+        from: `"Tazoota" <${emailUser}>`,
+        to: order.customer_email,
+        subject: `Order Confirmed - ${order.product_title}`,
+        html: `
+          <h2>Thank you for your order</h2>
+          <p>Your payment was successful and your Tazoota order is confirmed.</p>
+          <h3>Order Summary</h3>
+          <ul>
+            <li><strong>Order ID:</strong> ${order.id}</li>
+            <li><strong>Product:</strong> ${order.product_title}</li>
+            <li><strong>Amount Paid:</strong> ${currencyUpper} ${amountDisplay}</li>
+          </ul>
+          <h3>Shipping To</h3>
+          <p>${shippingBlock || 'Shipping address received'}</p>
+          <p>If you have questions, contact <a href="mailto:contact@tazoota.com">contact@tazoota.com</a>.</p>
+        `,
+      });
+    }
+
+    const { data: latestOrder, error: readError } = await supabaseAdmin
+      .from('orders')
+      .select('full_order_data')
+      .eq('id', order.id)
+      .single();
+
+    if (readError) return { success: false, error: 'Unable to read payment notification state' };
+
+    const { error: saveError } = await supabaseAdmin
+      .from('orders')
+      .update({
+        full_order_data: {
+          ...(parseFullOrderData(latestOrder.full_order_data) || {}),
+          stripe_email_sent: true,
+        },
+      })
+      .eq('id', order.id);
+
+    if (saveError) return { success: false, error: 'Unable to save payment notification state' };
+    return { success: true };
+  } catch (error) {
+    const err = error as Error;
+    console.error(`❌ Failed to send Stripe payment notification for order ${order.id}:`, err.message);
+    return { success: false, error: err.message || 'Unknown error' };
+  }
+}
+
 /**
  * Send a dedicated PayPal payment success notification after IPN confirmation.
  * This is separate from the checkout-intent email and should only fire after PayPal confirms payment.

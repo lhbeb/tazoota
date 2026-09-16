@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { headers } from 'next/headers';
-import { updateOrderStripeStatus } from '@/lib/supabase/orders';
+import { updateOrderStripeStatus, getOrderById } from '@/lib/supabase/orders';
 import { getStripeConfig } from '@/lib/supabase/payment-settings';
 
 // Stripe initialization deferred to handler to avoid build-time crashes
-
-// Webhook secret from Stripe Dashboard
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
 export async function POST(request: NextRequest) {
     try {
@@ -17,13 +14,21 @@ export async function POST(request: NextRequest) {
             apiVersion: '2026-01-28.clover' as any,
         });
 
+        const webhookSecret = (stripeConfig.webhookSecret || process.env.STRIPE_WEBHOOK_SECRET || '').trim();
+
         const body = await request.text();
+        const requestSignature = request.headers.get('stripe-signature');
         const headersList = await headers();
-        const signature = headersList.get('stripe-signature');
+        const signature = requestSignature || headersList.get('stripe-signature');
 
         if (!signature) {
             console.error('[Stripe Webhook] No signature found');
             return NextResponse.json({ error: 'No signature' }, { status: 400 });
+        }
+
+        if (!webhookSecret) {
+            console.error('[Stripe Webhook] Webhook signing secret is not configured');
+            return NextResponse.json({ error: 'Webhook signing secret is not configured' }, { status: 500 });
         }
 
         // Verify webhook signature
@@ -31,9 +36,12 @@ export async function POST(request: NextRequest) {
         try {
             event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
         } catch (err) {
-            console.error('[Stripe Webhook] Signature verification failed:', err);
+            console.error(
+                '[Stripe Webhook] Signature verification failed:',
+                err instanceof Error ? err.message : 'Unknown error'
+            );
             return NextResponse.json(
-                { error: `Webhook signature verification failed: ${err instanceof Error ? err.message : 'Unknown error'}` },
+                { error: 'Webhook signature verification failed' },
                 { status: 400 }
             );
         }
@@ -73,6 +81,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ received: true });
     } catch (error) {
         console.error('[Stripe Webhook] Error processing webhook:', error);
+        // Return 500 so Stripe redelivers the event (DB updates are idempotent).
         return NextResponse.json(
             { error: 'Webhook processing failed' },
             { status: 500 }
@@ -90,13 +99,32 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
                 ? session.payment_intent 
                 : session.payment_intent?.id;
                 
-            await updateOrderStripeStatus(session.metadata.order_id, {
+            const updated = await updateOrderStripeStatus(session.metadata.order_id, {
                 status: 'paid',
                 stripe_payment_intent_id: paymentIntentId,
                 stripe_payment_status: session.payment_status,
                 paid_at: new Date().toISOString()
             });
+            if (!updated) {
+                throw new Error(`Failed to mark order ${session.metadata.order_id} as paid`);
+            }
             console.log('[Stripe Webhook] DB updated to PAID for order:', session.metadata.order_id);
+
+            const { sendStripePaymentSuccessEmail } = await import('@/lib/email/sender');
+            const order = await getOrderById(session.metadata.order_id);
+            if (!order) {
+                throw new Error(`Order ${session.metadata.order_id} not found for notification`);
+            }
+
+            const emailResult = await sendStripePaymentSuccessEmail(order, {
+                paymentIntentId,
+                amount: session.amount_total ?? undefined,
+                currency: session.currency ?? undefined,
+            });
+            if (!emailResult.success) {
+                throw new Error(`Payment notification email failed for order ${session.metadata.order_id}: ${emailResult.error}`);
+            }
+            console.log('[Stripe Webhook] Payment notification emails sent for order:', session.metadata.order_id);
         }
     }
 }
@@ -106,9 +134,12 @@ async function handleCheckoutExpired(session: Stripe.Checkout.Session) {
     console.log('[Stripe Webhook] ✅ Checkout session EXPIRED:', session.id);
     
     if (session.metadata?.order_id) {
-        await updateOrderStripeStatus(session.metadata.order_id, {
+        const updated = await updateOrderStripeStatus(session.metadata.order_id, {
             status: 'expired'
         });
+        if (!updated) {
+            throw new Error(`Failed to mark order ${session.metadata.order_id} as expired`);
+        }
         console.log('[Stripe Webhook] DB updated to EXPIRED for order:', session.metadata.order_id);
     }
 }
@@ -117,11 +148,28 @@ async function handleCheckoutExpired(session: Stripe.Checkout.Session) {
 async function handleAsyncPaymentSucceeded(session: Stripe.Checkout.Session) {
     console.log('[Stripe Webhook] Async payment succeeded:', session.id);
     if (session.metadata?.order_id) {
-        await updateOrderStripeStatus(session.metadata.order_id, {
+        const updated = await updateOrderStripeStatus(session.metadata.order_id, {
             status: 'paid',
             stripe_payment_status: 'paid',
             paid_at: new Date().toISOString()
         });
+        if (!updated) {
+            throw new Error(`Failed to mark order ${session.metadata.order_id} as paid (async)`);
+        }
+
+        const { sendStripePaymentSuccessEmail } = await import('@/lib/email/sender');
+        const order = await getOrderById(session.metadata.order_id);
+        if (!order) {
+            throw new Error(`Order ${session.metadata.order_id} not found for notification`);
+        }
+
+        const emailResult = await sendStripePaymentSuccessEmail(order, {
+            amount: session.amount_total ?? undefined,
+            currency: session.currency ?? undefined,
+        });
+        if (!emailResult.success) {
+            throw new Error(`Payment notification email failed for order ${session.metadata.order_id}: ${emailResult.error}`);
+        }
     }
 }
 
@@ -129,10 +177,13 @@ async function handleAsyncPaymentSucceeded(session: Stripe.Checkout.Session) {
 async function handleAsyncPaymentFailed(session: Stripe.Checkout.Session) {
     console.log('[Stripe Webhook] Async payment failed:', session.id);
     if (session.metadata?.order_id) {
-        await updateOrderStripeStatus(session.metadata.order_id, {
+        const updated = await updateOrderStripeStatus(session.metadata.order_id, {
             status: 'payment_failed',
             stripe_payment_status: 'failed'
         });
+        if (!updated) {
+            throw new Error(`Failed to mark order ${session.metadata.order_id} as payment_failed`);
+        }
     }
 }
 
