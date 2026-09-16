@@ -113,9 +113,10 @@ function parseEnum<T extends string>(
 
 function isFeedEligible(product: Product): boolean {
   return (
-    product.meta?.gmc_enabled !== false &&
+    product.meta?.gmc_enabled === true &&
     product.meta?.published !== false &&
     product.published !== false &&
+    Boolean(product.brand && product.brand.trim()) &&
     Boolean(product.slug && normalizeFeedText(product.title) && getFeedImageUrls(product).length > 0) &&
     Number.isFinite(Number(product.price)) &&
     Number(product.price) > 0
@@ -133,7 +134,7 @@ function buildShippingXml(
       <g:shipping>
         <g:country>${country}</g:country>
         <g:service>${shipping.service}</g:service>
-        <g:price>0.00 ${itemCurrency}</g:price>
+        <g:price>${SITE.shipping.cost.toFixed(2)} ${itemCurrency}</g:price>
         <g:min_handling_time>${SITE.shipping.handlingMin}</g:min_handling_time>
         <g:max_handling_time>${SITE.shipping.handlingMax}</g:max_handling_time>
         <g:min_transit_time>${SITE.shipping.transitMin}</g:min_transit_time>
@@ -191,9 +192,32 @@ export async function GET(request: NextRequest) {
         const price = `${Number(product.price).toFixed(2)} ${productCurrency}`;
         const availability = product.inStock === false ? 'out_of_stock' : 'in_stock';
         const condition = mapConditionToGmc(product.condition);
-        const brand = escapeXml(product.brand || 'Tazoota');
-        const category = escapeXml(product.category || 'Home & Garden');
-        const googleProductCategory = getGoogleProductCategory(product.category);
+        const brand = escapeXml(product.brand!.trim());
+        const category = escapeXml(
+          typeof product.meta?.product_type === 'string' && product.meta.product_type.trim()
+            ? product.meta.product_type.trim()
+            : product.category || 'Home & Garden',
+        );
+        const googleProductCategory = escapeXml(
+          typeof product.meta?.google_product_category === 'string' && product.meta.google_product_category.trim()
+            ? product.meta.google_product_category.trim()
+            : getGoogleProductCategory(product.category),
+        );
+        const gender = escapeXml(
+          typeof product.meta?.gender === 'string' && product.meta.gender.trim()
+            ? product.meta.gender.trim()
+            : 'unisex',
+        );
+        const ageGroup = escapeXml(
+          typeof product.meta?.age_group === 'string' && product.meta.age_group.trim()
+            ? product.meta.age_group.trim()
+            : 'adult',
+        );
+        const adult = escapeXml(
+          typeof product.meta?.adult === 'string' && product.meta.adult.trim()
+            ? product.meta.adult.trim()
+            : 'no',
+        );
         const feedImages = getFeedImageUrls(product);
         const imageLink = escapeXml(feedImages[0]);
 
@@ -230,6 +254,9 @@ export async function GET(request: NextRequest) {
       <g:brand>${brand}</g:brand>
       <g:product_type>${category}</g:product_type>
       <g:google_product_category>${googleProductCategory}</g:google_product_category>
+      <g:gender>${gender}</g:gender>
+      <g:age_group>${ageGroup}</g:age_group>
+      <g:adult>${adult}</g:adult>
       <g:custom_label_0>${escapeXml(product.condition || 'New')}</g:custom_label_0>
       <g:return_policy_label>${SITE.returnPolicyLabel}</g:return_policy_label>
       <g:price_valid_until>${priceValidUntilStr}</g:price_valid_until>${identifierXml}${buildShippingXml(targetCountries, productCurrency)}

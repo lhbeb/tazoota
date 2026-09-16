@@ -21,7 +21,7 @@ export default function TrackingTestPage() {
     if (!GOOGLE_ADS_ID) {
       setStatus({
         kind: 'error',
-        message: 'Set NEXT_PUBLIC_GOOGLE_ADS_ID and the conversion label env vars before sending a live test.',
+        message: 'Google Ads tracking is not configured for this build.',
       });
       return;
     }

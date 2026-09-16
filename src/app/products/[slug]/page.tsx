@@ -126,15 +126,19 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       "image": (p.images || []).map((img: string) => {
         try { return new URL(img, BASE_URL).toString(); } catch { return img; }
       }),
-      "brand": {
-        "@type": "Brand",
-        "name": p.brand || ''
-      },
+      ...(p.brand?.trim()
+        ? {
+            "brand": {
+              "@type": "Brand",
+              "name": p.brand.trim(),
+            },
+          }
+        : {}),
       "category": p.category || '',
       "sku": formatValidSku(p, slug),
       "offers": {
         "@type": "Offer",
-        "price": p.price || 0,
+        "price": Number(p.price),
         "priceCurrency": p.currency || "USD",
         "validFrom": new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
         "priceValidUntil": priceValidUntil.toISOString().slice(0, 10),
