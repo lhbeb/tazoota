@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ProductCard from './ProductCard';
 import type { Product } from '@/types/product';
 import { createVisitorRotationSeed, selectRotatedProducts } from '@/utils/visitorProductRotation';
@@ -24,24 +24,29 @@ const CategorySection: React.FC<CategorySectionProps> = ({
   shuffleForVisitor = false,
   visitorShuffleKey = 'home-power-tools',
 }) => {
+  const featuredProducts = useMemo(
+    () => products.filter((product) => product.isFeatured === true),
+    [products],
+  );
+
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>(() =>
-    products.slice(0, maxDisplay),
+    featuredProducts.slice(0, maxDisplay),
   );
 
   useEffect(() => {
-    if (!products || products.length === 0) {
+    if (!featuredProducts || featuredProducts.length === 0) {
       setDisplayedProducts([]);
       return;
     }
 
     if (!shuffleForVisitor) {
-      setDisplayedProducts(products.slice(0, maxDisplay));
+      setDisplayedProducts(featuredProducts.slice(0, maxDisplay));
       return;
     }
 
     const seed = createVisitorRotationSeed(visitorShuffleKey);
-    setDisplayedProducts(selectRotatedProducts(products, seed, maxDisplay));
-  }, [products, shuffleForVisitor, visitorShuffleKey, maxDisplay]);
+    setDisplayedProducts(selectRotatedProducts(featuredProducts, seed, maxDisplay));
+  }, [featuredProducts, shuffleForVisitor, visitorShuffleKey, maxDisplay]);
 
   if (!displayedProducts || displayedProducts.length === 0) {
     return null;

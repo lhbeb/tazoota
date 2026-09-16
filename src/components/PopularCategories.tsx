@@ -68,9 +68,9 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
             {categories.map((category) => (
               <Link
                 key={category.name}
-                href={`/search?category=${encodeURIComponent(category.name)}`}
+                href="#products"
                 className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#2e6b3e]/15 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#2e6b3e]/40 w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] max-w-[320px] sm:max-w-none"
-                aria-label={`Shop ${category.name}`}
+                aria-label={`View featured ${category.name} products`}
               >
                 {/* Centered Image Container */}
                 <div className="relative aspect-[4/3] sm:aspect-square w-full overflow-hidden bg-white p-4 sm:p-6 flex items-center justify-center">
