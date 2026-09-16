@@ -28,13 +28,14 @@ function matchesCategory(productCategory: string | undefined, categoryName: stri
 }
 
 export default function PopularCategories({ products }: PopularCategoriesProps) {
+  const featuredProducts = products.filter((product) => product.isFeatured === true);
+
   const categories = POPULAR_CATEGORY_NAMES.map((name) => {
-    const categoryProducts = products.filter((product) =>
+    const categoryProducts = featuredProducts.filter((product) =>
       matchesCategory(product.category, name),
     );
 
     const chosenProduct =
-      categoryProducts.find((product) => product.isFeatured && product.images?.[0]) ||
       categoryProducts.find((product) => product.images?.[0]);
 
     return {
