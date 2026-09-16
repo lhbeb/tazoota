@@ -1,6 +1,7 @@
 import 'server-only';
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
+import { isRevokedAdminEmail } from '@/lib/admin-access';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const getSecretKey = () => new TextEncoder().encode(JWT_SECRET);
@@ -28,7 +29,7 @@ export async function getAdminSession(): Promise<{ email: string; userId: string
     const { payload } = await jwtVerify(token, getSecretKey());
     const decoded = payload as Partial<AdminJwtPayload>;
 
-    if (!decoded.id || !decoded.email || decoded.isActive !== true) {
+    if (!decoded.id || !decoded.email || decoded.isActive !== true || isRevokedAdminEmail(decoded.email)) {
       return null;
     }
 

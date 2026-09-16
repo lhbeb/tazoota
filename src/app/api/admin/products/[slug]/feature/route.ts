@@ -3,6 +3,7 @@ import { getProductBySlug, updateProduct, getProducts } from '@/lib/supabase/pro
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { FEATURED_PRODUCT_LIMIT } from '@/config/products';
+import { isRevokedAdminEmail } from '@/lib/admin-access';
 
 const FEATURE_LIMIT = FEATURED_PRODUCT_LIMIT;
 
@@ -35,7 +36,7 @@ async function getAdminAuth(request: NextRequest) {
       };
 
       // Check if admin is active
-      if (!decoded.isActive) {
+      if (!decoded.isActive || isRevokedAdminEmail(decoded.email)) {
         console.log('🚫 [AUTH] Admin account is deactivated:', decoded.email);
         return null;
       }
@@ -67,7 +68,7 @@ async function getAdminAuth(request: NextRequest) {
         isActive: boolean;
       };
 
-      if (!decoded.isActive) {
+      if (!decoded.isActive || isRevokedAdminEmail(decoded.email)) {
         return null;
       }
 

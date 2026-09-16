@@ -1,4 +1,5 @@
 import { supabaseAdmin } from './server';
+import { isRevokedAdminEmail } from '@/lib/admin-access';
 
 export const runtime = 'nodejs';
 
@@ -61,6 +62,10 @@ export async function isAdmin(email: string): Promise<boolean> {
   // Bypass admin check in development if auth is disabled
   if (shouldBypassAuth()) {
     return true;
+  }
+
+  if (isRevokedAdminEmail(email)) {
+    return false;
   }
   
   try {

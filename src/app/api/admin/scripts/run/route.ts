@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { isRevokedAdminEmail } from '@/lib/admin-access';
 
 // ─── Auth helper (same pattern as other admin routes) ─────────────────────────
 async function getAdminAuth(request: NextRequest) {
@@ -16,7 +17,7 @@ async function getAdminAuth(request: NextRequest) {
         const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
         const { payload } = await jwtVerify(token, new TextEncoder().encode(JWT_SECRET));
         const decoded = payload as { id: string; email: string; role: string; isActive: boolean };
-        if (!decoded.isActive) return null;
+        if (!decoded.isActive || isRevokedAdminEmail(decoded.email)) return null;
         return { authenticated: true, role: decoded.role, email: decoded.email };
     } catch {
         return null;

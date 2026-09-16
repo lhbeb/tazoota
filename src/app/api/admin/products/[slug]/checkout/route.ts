@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { updateCheckoutLink } from '@/lib/supabase/products';
+import { isRevokedAdminEmail } from '@/lib/admin-access';
 
 // Helper to get auth from request (same as main route)
 async function getAdminAuth(request: NextRequest) {
@@ -25,7 +26,7 @@ async function getAdminAuth(request: NextRequest) {
         isActive: boolean;
       };
 
-      if (!decoded.isActive) {
+      if (!decoded.isActive || isRevokedAdminEmail(decoded.email)) {
         return null;
       }
 

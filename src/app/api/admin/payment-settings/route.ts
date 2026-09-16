@@ -10,6 +10,7 @@ import {
     PaypalApiError,
     validatePaypalApiCredentials,
 } from '@/lib/paypal-api';
+import { isRevokedAdminEmail } from '@/lib/admin-access';
 
 // Helper to get admin auth from request
 async function getAdminAuth(request: NextRequest) {
@@ -29,7 +30,7 @@ async function getAdminAuth(request: NextRequest) {
             const decoded = payload as { role: string; isActive: boolean; email: string };
             const normalizedRole = decoded.role?.toUpperCase();
 
-            if (!decoded.isActive) return null;
+            if (!decoded.isActive || isRevokedAdminEmail(decoded.email)) return null;
             if (!['SUPER_ADMIN', 'REGULAR_ADMIN', 'ADMIN'].includes(normalizedRole)) return null;
 
             return { authenticated: true, role: decoded.role, email: decoded.email };

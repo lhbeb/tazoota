@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
+import { isRevokedAdminEmail } from '@/lib/admin-access';
 
 // JWT secret - must match the one in login route
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
@@ -63,6 +64,17 @@ export async function middleware(request: NextRequest) {
         console.log('🚫 [MIDDLEWARE] Admin account is deactivated');
         const url = new URL('/admin/login', request.url);
         url.searchParams.set('error', 'Account deactivated');
+        const response = NextResponse.redirect(url);
+        response.cookies.delete('admin_token');
+        response.cookies.delete('admin_role');
+        response.cookies.delete('admin_email');
+        return response;
+      }
+
+      if (isRevokedAdminEmail(decoded.email)) {
+        console.log('🚫 [MIDDLEWARE] Admin access revoked:', decoded.email);
+        const url = new URL('/admin/login', request.url);
+        url.searchParams.set('error', 'Admin access has been revoked');
         const response = NextResponse.redirect(url);
         response.cookies.delete('admin_token');
         response.cookies.delete('admin_role');

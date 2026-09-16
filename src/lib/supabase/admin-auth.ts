@@ -1,5 +1,6 @@
 import { supabaseAdmin } from './server';
 import bcrypt from 'bcryptjs';
+import { isRevokedAdminEmail } from '@/lib/admin-access';
 
 // ============================================
 // ADMIN ROLE TYPES
@@ -79,6 +80,10 @@ export async function authenticateAdmin(
     try {
         // Normalize email
         const normalizedEmail = email.toLowerCase().trim();
+
+        if (isRevokedAdminEmail(normalizedEmail)) {
+            return { success: false, error: 'Admin access has been revoked' };
+        }
 
         // Check if this is one of the hardcoded admin accounts
         const isRegularAdmin = normalizedEmail === ADMIN_CREDENTIALS.REGULAR_ADMIN.email.toLowerCase();
@@ -229,6 +234,10 @@ export async function checkAdminPermission(
  * Get all permissions for an admin
  */
 export async function getAdminPermissions(email: string): Promise<string[]> {
+    if (isRevokedAdminEmail(email)) {
+        return [];
+    }
+
     try {
         // Get admin role
         const { data: admin, error: adminError } = await supabaseAdmin
@@ -271,6 +280,10 @@ export async function getAdminPermissions(email: string): Promise<string[]> {
  * Get admin role
  */
 export async function getAdminRole(email: string): Promise<AdminRole | null> {
+    if (isRevokedAdminEmail(email)) {
+        return null;
+    }
+
     try {
         const { data, error } = await supabaseAdmin
             .from('admin_roles')
