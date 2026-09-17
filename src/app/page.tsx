@@ -9,6 +9,8 @@ import { homeReviews, homeReviewsStats } from '@/lib/homeReviews';
 import ScrollToTop from '@/components/ScrollToTop';
 import { FEATURED_PRODUCT_LIMIT } from '@/config/products';
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
   try {
     // Treat featured status as the homepage's data boundary. Keeping this
