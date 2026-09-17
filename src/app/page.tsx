@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import SameDayShipping from '@/components/SameDayShipping';
 import HomeReviews from '@/components/HomeReviews';
 import CategorySection from '@/components/CategorySection';
+import PopularCategories from '@/components/PopularCategories';
 import { getFeaturedProducts } from '@/lib/data';
 import { homeReviews, homeReviewsStats } from '@/lib/homeReviews';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -23,6 +24,8 @@ export default async function HomePage() {
         <ScrollToTop />
       </Suspense>
       <Hero />
+
+      <PopularCategories products={featuredProducts} />
 
       <CategorySection
         sectionId="products"
