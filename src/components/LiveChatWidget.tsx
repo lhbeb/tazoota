@@ -10,10 +10,22 @@ export default function LiveChatWidget() {
   const isCheckoutRoute = pathname?.startsWith('/checkout');
 
   useEffect(() => {
+    // The widget script creates this container asynchronously. Apply the route
+    // visibility rule now and again when the script inserts the container.
     const chatContainer = document.getElementById('lc-container');
-    if (!chatContainer) return;
+    if (chatContainer) {
+      chatContainer.style.display = isAdminRoute || isCheckoutRoute ? 'none' : 'flex';
+    }
 
-    chatContainer.style.display = isAdminRoute || isCheckoutRoute ? 'none' : 'flex';
+    const observer = new MutationObserver(() => {
+      const container = document.getElementById('lc-container');
+      if (container) {
+        container.style.display = isAdminRoute || isCheckoutRoute ? 'none' : 'flex';
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
   }, [pathname, isAdminRoute, isCheckoutRoute]);
 
   if (isAdminRoute || isCheckoutRoute) {
