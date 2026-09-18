@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { FormEventHandler, MouseEvent, ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ChevronDown, Globe2, Mail, Store, Trash, User } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ChevronDown, Globe2, Mail, Store, Trash, User } from 'lucide-react';
 import CheckoutNotifier from '@/components/CheckoutNotifier';
 import CountrySelect from '@/components/CountrySelect';
 import PaypalApiRedirectButton from '@/components/PaypalApiRedirectButton';
@@ -401,6 +401,24 @@ function ContinueButton({
   );
 }
 
+function AddressVerifiedNotice({ mobile = false }: { mobile?: boolean }) {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className={`flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 ${mobile ? 'p-4' : 'p-4'} text-emerald-800`}
+    >
+      <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+      <div>
+        <p className="text-sm font-bold">Address verified</p>
+        <p className="mt-0.5 text-sm font-medium text-emerald-700">
+          Your delivery details are saved. You can pay securely now.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function SecureCheckoutInfo({ mobile = false }: { mobile?: boolean }) {
   return (
     <div className={`${mobile ? 'lg:hidden mt-4 mb-4 space-y-2' : 'hidden lg:block mt-8 space-y-4'} flex flex-col items-center justify-center text-center w-full`}>
@@ -565,6 +583,7 @@ export default function CheckoutShippingStep({
                         </button>
                       </div>
                     )}
+                    {isStripeFlow && isStripeAddressVerified && <AddressVerifiedNotice />}
                     <div className="hidden lg:block mt-8">
                       {product.checkoutFlow === 'paypal-direct' ? (
                         <PaypalRedirectButton
@@ -706,6 +725,8 @@ export default function CheckoutShippingStep({
                     </div>
                   </div>
                 )}
+
+                {isStripeFlow && isStripeAddressVerified && <AddressVerifiedNotice mobile />}
 
                 {isStripeFlow && (
                   <div className="space-y-4">
