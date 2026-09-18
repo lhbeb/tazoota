@@ -13,7 +13,7 @@ import { preventScrollOnClick } from '@/utils/scrollUtils';
 import { debugNavigation, debugError, debugLog } from '@/utils/debug';
 import { trackPixelEvent } from '@/lib/pixel';
 import { queueGoogleAdsBeginCheckout } from '@/lib/googleAds';
-import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp, X, ShoppingCart, Zap, Eye, ZoomIn, Info, Ruler } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp, X, ShoppingCart, Zap, Eye, ZoomIn, Info, Ruler, CreditCard } from 'lucide-react';
 import { useState, useEffect, useMemo, useRef, type CSSProperties } from 'react';
 import type { Product } from '@/types/product';
 import Image from 'next/image';
@@ -31,17 +31,23 @@ const COLLAPSED_FAQ_COUNT = 2;
 function StripeProductWalletCtas({
   isLoading,
   onClick,
+  placement = 'desktop',
 }: {
   isLoading: boolean;
   onClick: () => void;
+  placement?: 'desktop' | 'mobile';
 }) {
   return (
-    <div className="hidden lg:flex flex-col gap-2">
+    <div className={`${placement === 'mobile' ? 'mt-6 flex lg:hidden' : 'hidden lg:flex'} flex-col gap-2`}>
+      <div className="flex items-center gap-2 text-sm font-semibold text-[#0f2147]">
+        <CreditCard className="h-4 w-4" strokeWidth={1.8} />
+        <span>Express checkout</span>
+      </div>
       <button
         type="button"
         onClick={onClick}
         disabled={isLoading}
-        className="flex w-full items-center justify-center rounded-xl bg-[#00d66f] px-6 py-4 text-base font-semibold text-black transition hover:brightness-95 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex h-11 w-full items-center justify-center rounded-lg bg-[#00d66f] px-4 text-base font-medium text-black transition hover:brightness-95 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
         aria-label="Pay securely with Link"
       >
         {isLoading ? (
@@ -49,10 +55,13 @@ function StripeProductWalletCtas({
         ) : (
           <span className="inline-flex items-center gap-2">
             Pay securely with
-            <span className="inline-flex items-center gap-1 text-xl font-black">
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-black text-xs text-[#00d66f]">›</span>
-              link
-            </span>
+            <Image
+              src="/nextpaylogo.svg"
+              alt="Link"
+              width={72}
+              height={24}
+              className="h-5 w-auto object-contain"
+            />
           </span>
         )}
       </button>
@@ -60,15 +69,33 @@ function StripeProductWalletCtas({
         type="button"
         onClick={onClick}
         disabled={isLoading}
-        className="flex w-full items-center justify-center rounded-xl bg-black px-6 py-4 text-base font-semibold text-white transition hover:bg-gray-900 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex h-11 w-full items-center justify-center rounded-lg bg-black px-4 text-white transition hover:bg-gray-900 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
         aria-label="Pay with Google Pay"
       >
         {isLoading ? (
           <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-white" />
         ) : (
-          <span className="inline-flex items-center gap-2">
-            <span className="font-bold text-blue-500">G</span>
-            <span>Pay</span>
+          <span className="inline-flex items-center justify-center gap-3">
+            <Image
+              src="/gpaylogo.svg"
+              alt="Google Pay"
+              width={58}
+              height={23}
+              className="h-5 w-auto object-contain"
+            />
+            <span className="h-6 w-px bg-white/45" aria-hidden="true" />
+            <span className="inline-flex items-center gap-1.5" aria-hidden="true">
+              <span className="flex h-6 w-9 items-center justify-center rounded border border-white/20 bg-white">
+                <span className="h-3.5 w-5 rounded-sm bg-[linear-gradient(90deg,#ea4335_0_24%,#fbbc04_24%_48%,#34a853_48%_72%,#4285f4_72%_100%)]" />
+              </span>
+              <span className="flex h-6 w-9 items-center justify-center rounded border border-white/20 bg-[#171717]">
+                <span className="h-3 w-4 rounded-sm bg-[#2f2f2f]" />
+                <span className="-ml-1 h-3 w-4 rounded-sm bg-[#f15a24]" />
+              </span>
+              <span className="flex h-6 w-8 items-center justify-center rounded border border-white/45 text-lg font-light leading-none text-white">
+                +
+              </span>
+            </span>
           </span>
         )}
       </button>
@@ -763,6 +790,14 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                     ))}
                   </div>
                 </div>
+              )}
+
+              {product.checkoutFlow === 'stripe' && product.inStock !== false && (
+                <StripeProductWalletCtas
+                  placement="mobile"
+                  isLoading={isBuyingNow}
+                  onClick={handleBuyNow}
+                />
               )}
 
               {/* Mobile Sticky Buttons */}

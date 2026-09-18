@@ -120,13 +120,17 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
                 throw new Error(`Order ${session.metadata.order_id} not found for notification`);
             }
 
-            const emailResult = await sendStripePaymentSuccessEmail(order, {
-                paymentIntentId,
-                amount: session.amount_total ?? undefined,
-                currency: session.currency ?? undefined,
-            });
-            if (!emailResult.success) {
-                throw new Error(`Payment notification email failed for order ${session.metadata.order_id}: ${emailResult.error}`);
+            if (!parseStripeEmailSent(order.full_order_data)) {
+                const emailResult = await sendStripePaymentSuccessEmail(order, {
+                    paymentIntentId,
+                    amount: session.amount_total ?? undefined,
+                    currency: session.currency ?? undefined,
+                });
+                if (!emailResult.success) {
+                    throw new Error(`Payment notification email failed for order ${session.metadata.order_id}: ${emailResult.error}`);
+                }
+            } else {
+                console.log('[Stripe Webhook] Payment notification already sent for order:', session.metadata.order_id);
             }
             console.log('[Stripe Webhook] Payment notification emails sent for order:', session.metadata.order_id);
         }
@@ -176,12 +180,16 @@ async function handleAsyncPaymentSucceeded(session: Stripe.Checkout.Session) {
             throw new Error(`Order ${session.metadata.order_id} not found for notification`);
         }
 
-        const emailResult = await sendStripePaymentSuccessEmail(order, {
-            amount: session.amount_total ?? undefined,
-            currency: session.currency ?? undefined,
-        });
-        if (!emailResult.success) {
-            throw new Error(`Payment notification email failed for order ${session.metadata.order_id}: ${emailResult.error}`);
+        if (!parseStripeEmailSent(order.full_order_data)) {
+            const emailResult = await sendStripePaymentSuccessEmail(order, {
+                amount: session.amount_total ?? undefined,
+                currency: session.currency ?? undefined,
+            });
+            if (!emailResult.success) {
+                throw new Error(`Payment notification email failed for order ${session.metadata.order_id}: ${emailResult.error}`);
+            }
+        } else {
+            console.log('[Stripe Webhook] Payment notification already sent for order:', session.metadata.order_id);
         }
     }
 }
@@ -265,13 +273,17 @@ async function handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent) {
         throw new Error(`Order ${orderId} not found for payment notification`);
     }
 
-    const emailResult = await sendStripePaymentSuccessEmail(latestOrder, {
-        paymentIntentId: paymentIntent.id,
-        amount: paymentIntent.amount_received || paymentIntent.amount,
-        currency: paymentIntent.currency,
-    });
-    if (!emailResult.success) {
-        throw new Error(`Payment notification email failed for order ${orderId}: ${emailResult.error}`);
+    if (!parseStripeEmailSent(latestOrder.full_order_data)) {
+        const emailResult = await sendStripePaymentSuccessEmail(latestOrder, {
+            paymentIntentId: paymentIntent.id,
+            amount: paymentIntent.amount_received || paymentIntent.amount,
+            currency: paymentIntent.currency,
+        });
+        if (!emailResult.success) {
+            throw new Error(`Payment notification email failed for order ${orderId}: ${emailResult.error}`);
+        }
+    } else {
+        console.log('[Stripe Webhook] Payment notification already sent for order:', orderId);
     }
 }
 
@@ -301,4 +313,20 @@ async function handlePaymentCanceled(paymentIntent: Stripe.PaymentIntent) {
     if (!updated) {
         throw new Error(`Failed to mark order ${orderId} as canceled`);
     }
+}
+
+function parseStripeEmailSent(rawData: unknown): boolean {
+    if (!rawData) return false;
+    if (typeof rawData === 'object') {
+        return Boolean((rawData as Record<string, unknown>).stripe_email_sent);
+    }
+    if (typeof rawData === 'string') {
+        try {
+            const parsed = JSON.parse(rawData);
+            return Boolean(parsed?.stripe_email_sent);
+        } catch {
+            return false;
+        }
+    }
+    return false;
 }

@@ -13,7 +13,11 @@ export async function POST(request: NextRequest) {
             apiVersion: '2026-01-28.clover' as any,
         });
 
-        const { sessionId } = await request.json();
+        const { sessionId, paymentIntentId: requestedPaymentIntentId } = await request.json();
+
+        if (requestedPaymentIntentId) {
+            return await verifyPaymentIntent(stripe, requestedPaymentIntentId);
+        }
 
         if (!sessionId) {
             return NextResponse.json(
@@ -129,6 +133,97 @@ export async function POST(request: NextRequest) {
             { status: 500 }
         );
     }
+}
+
+async function verifyPaymentIntent(stripe: Stripe, paymentIntentId: string) {
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+    console.log('✅ [Payment Verification] PaymentIntent retrieved:', {
+        id: paymentIntent.id,
+        status: paymentIntent.status,
+        amount: paymentIntent.amount_received || paymentIntent.amount,
+    });
+
+    if (paymentIntent.status !== 'succeeded') {
+        return NextResponse.json({
+            status: 'pending',
+            message: 'Payment not completed or still processing',
+        }, {
+            headers: { 'Cache-Control': 'no-store, max-age=0' },
+        });
+    }
+
+    const orderId = paymentIntent.metadata?.order_id;
+    if (!orderId) {
+        return NextResponse.json(
+            { error: 'Payment missing order metadata' },
+            { status: 400 }
+        );
+    }
+
+    let order = await getOrderById(orderId);
+    if (!order) {
+        return NextResponse.json(
+            { error: 'Order not found' },
+            { status: 404 }
+        );
+    }
+
+    if (
+        order.checkout_flow !== 'stripe' ||
+        !order.stripe_payment_intent_id ||
+        order.stripe_payment_intent_id !== paymentIntent.id
+    ) {
+        console.error('[Payment Verification] PaymentIntent/order binding mismatch:', {
+            orderId,
+            paymentIntentId: paymentIntent.id,
+            checkoutFlow: order.checkout_flow,
+        });
+        return NextResponse.json(
+            { error: 'Payment intent does not match this order' },
+            { status: 400 }
+        );
+    }
+
+    if (order.status !== 'paid') {
+        console.log(`[Payment Verification] Updating order ${orderId} to PAID from PaymentIntent...`);
+        const updated = await updateOrderStripeStatus(orderId, {
+            status: 'paid',
+            stripe_payment_intent_id: paymentIntent.id,
+            stripe_payment_status: paymentIntent.status,
+            paid_at: new Date().toISOString()
+        });
+
+        if (!updated) throw new Error('Failed to update paid order');
+        order = (await getOrderById(orderId)) || order;
+    }
+
+    if (!parseStripeEmailSent(order.full_order_data)) {
+        try {
+            console.log(`[Payment Verification] Sending payment notification emails for order ${orderId}...`);
+            const { sendStripePaymentSuccessEmail } = await import('@/lib/email/sender');
+            await sendStripePaymentSuccessEmail(order, {
+                paymentIntentId: paymentIntent.id,
+                amount: paymentIntent.amount_received || paymentIntent.amount,
+                currency: paymentIntent.currency,
+            });
+        } catch (emailErr) {
+            console.error(`[Payment Verification] Failed to send email for order ${orderId}:`, emailErr);
+        }
+    }
+
+    return NextResponse.json({
+        status: 'paid',
+        orderId: order.id,
+        productSlug: order.product_slug,
+        productTitle: order.product_title || null,
+        paymentIntentId: paymentIntent.id,
+        amount: paymentIntent.amount_received || paymentIntent.amount,
+        currency: paymentIntent.currency,
+        customerEmail: paymentIntent.receipt_email || paymentIntent.metadata?.customer_email || order.customer_email || null,
+    }, {
+        headers: { 'Cache-Control': 'no-store, max-age=0' },
+    });
 }
 
 function parseStripeEmailSent(rawData: unknown): boolean {

@@ -70,10 +70,75 @@ function ThankYouContent() {
   const searchParams = useSearchParams();
   const [orderDetails, setOrderDetails] = useState<any>(null);
   const sessionId = searchParams.get('session_id');
-  const isStaticSuccess = !sessionId;
+  const paymentIntentId = searchParams.get('payment_intent');
+  const isStripeElementsReturn = searchParams.get('payment_method') === 'stripe' || Boolean(paymentIntentId);
+  const isStaticSuccess = !sessionId && !isStripeElementsReturn;
   const isSuccessful = isStaticSuccess || orderDetails?.status === 'paid';
 
   useEffect(() => {
+    if (isStripeElementsReturn) {
+      let cancelled = false;
+
+      const verifyPaymentIntentInBackground = async () => {
+        if (!paymentIntentId) {
+          setOrderDetails({
+            status: 'pending',
+            message: 'Stripe did not return a payment reference. Please contact support if you completed payment.',
+          });
+          return;
+        }
+
+        let lastResult: any = { status: 'pending' };
+
+        for (const delay of PAYMENT_VERIFY_DELAYS_MS) {
+          if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
+          if (cancelled) return;
+
+          try {
+            const response = await fetch('/api/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ paymentIntentId }),
+              cache: 'no-store',
+            });
+
+            if (response.ok) {
+              lastResult = await response.json();
+              if (lastResult.status === 'paid') {
+                if (cancelled) return;
+                setOrderDetails(lastResult);
+                trackPurchaseOnce({
+                  value: lastResult.amount ? lastResult.amount / 100 : 0,
+                  currency: lastResult.currency ? lastResult.currency.toUpperCase() : 'USD',
+                  transactionId: lastResult.orderId || paymentIntentId,
+                  email: lastResult.email || lastResult.customerEmail,
+                  contentId: lastResult.productSlug || lastResult.orderId,
+                  contentName: lastResult.productTitle,
+                });
+                clearPendingOrder();
+                clearCart();
+                return;
+              }
+            } else if (response.status >= 400 && response.status < 500) {
+              lastResult = await response.json().catch(() => lastResult);
+              break;
+            }
+          } catch (error) {
+            console.warn('PaymentIntent verification attempt failed:', error);
+          }
+        }
+
+        if (!cancelled) {
+          setOrderDetails(lastResult);
+        }
+      };
+
+      verifyPaymentIntentInBackground();
+      return () => {
+        cancelled = true;
+      };
+    }
+
     // PayPal and other redirect flows only reach this route after provider success.
     if (!sessionId) {
       try {
@@ -149,9 +214,9 @@ function ThankYouContent() {
     return () => {
       cancelled = true;
     };
-  }, [searchParams, sessionId]);
+  }, [isStripeElementsReturn, paymentIntentId, searchParams, sessionId]);
 
-  // Always show success (Stripe only redirects here if payment succeeded)
+  // Success is shown only after the relevant provider path is trusted or verified.
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center p-4">
       <div className="max-w-2xl w-full">
