@@ -28,6 +28,54 @@ interface ProductPageClientProps {
 const PRODUCT_IMAGE_QUALITY = 95;
 const COLLAPSED_FAQ_COUNT = 2;
 
+function StripeProductWalletCtas({
+  isLoading,
+  onClick,
+}: {
+  isLoading: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <div className="hidden lg:flex flex-col gap-2">
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={isLoading}
+        className="flex w-full items-center justify-center rounded-xl bg-[#00d66f] px-6 py-4 text-base font-semibold text-black transition hover:brightness-95 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+        aria-label="Pay securely with Link"
+      >
+        {isLoading ? (
+          <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-black" />
+        ) : (
+          <span className="inline-flex items-center gap-2">
+            Pay securely with
+            <span className="inline-flex items-center gap-1 text-xl font-black">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-black text-xs text-[#00d66f]">›</span>
+              link
+            </span>
+          </span>
+        )}
+      </button>
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={isLoading}
+        className="flex w-full items-center justify-center rounded-xl bg-black px-6 py-4 text-base font-semibold text-white transition hover:bg-gray-900 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+        aria-label="Pay with Google Pay"
+      >
+        {isLoading ? (
+          <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-white" />
+        ) : (
+          <span className="inline-flex items-center gap-2">
+            <span className="font-bold text-blue-500">G</span>
+            <span>Pay</span>
+          </span>
+        )}
+      </button>
+    </div>
+  );
+}
+
 export default function ProductPageClient({ product: initialProduct }: ProductPageClientProps) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const router = useRouter();
@@ -747,7 +795,12 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                         {isAddingToCart ? <><div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#f0f7f2] mr-2"></div>Adding to Cart...</> : <><ShoppingCart className="h-5 w-5 mr-2" />Add to Cart</>}
                       </button>
                     </div>
-                    {(product.checkoutFlow === 'paypal-invoice' || product.checkoutFlow === 'paypal-unclaimed' || product.checkoutFlow === 'paypal-direct' || product.checkoutFlow === 'paypal-api') ? (
+                    {product.checkoutFlow === 'stripe' ? (
+                      <StripeProductWalletCtas
+                        isLoading={isAddingToCart || isBuyingNow}
+                        onClick={handleBuyNow}
+                      />
+                    ) : (product.checkoutFlow === 'paypal-invoice' || product.checkoutFlow === 'paypal-unclaimed' || product.checkoutFlow === 'paypal-direct' || product.checkoutFlow === 'paypal-api') ? (
                       <div className="hidden lg:flex flex-col gap-1.5">
                         <button
                           onClick={handleBuyNow}

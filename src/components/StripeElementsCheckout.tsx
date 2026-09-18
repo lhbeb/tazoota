@@ -3,13 +3,11 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import {
   Elements,
-  ExpressCheckoutElement,
   PaymentElement,
   useElements,
   useStripe,
 } from '@stripe/react-stripe-js';
 import { loadStripe, type Stripe } from '@stripe/stripe-js';
-import { WalletCards } from 'lucide-react';
 import type { ShippingData } from '@/lib/shipping';
 
 interface StripeElementsCheckoutProps {
@@ -86,14 +84,6 @@ function StripePaymentForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <div className="mb-4">
-          <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
-            <WalletCards className="h-4 w-4 text-[#0b2a17]" />
-            <span>Express checkout</span>
-          </div>
-          <ExpressCheckoutElement onConfirm={confirmStripePayment} />
-        </div>
-
         <div className="rounded-xl border border-gray-200 bg-white p-4">
           <PaymentElement
             options={{
