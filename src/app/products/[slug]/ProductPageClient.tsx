@@ -25,16 +25,49 @@ interface ProductPageClientProps {
   product: Product | null;
 }
 
+interface ProductActivity {
+  views: number;
+  cartAdds: number;
+}
+
+type StripeWalletButton = 'link' | 'gpay';
+
 const PRODUCT_IMAGE_QUALITY = 95;
 const COLLAPSED_FAQ_COUNT = 2;
 
+function hashActivitySeed(value: string): number {
+  let hash = 2166136261;
+
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  return hash >>> 0;
+}
+
+function getProductActivity(slug: string, date = new Date()): ProductActivity {
+  const dayKey = date.toISOString().slice(0, 10);
+  const seed = hashActivitySeed(`${slug}:${dayKey}`);
+  const views = 10 + (seed % 31);
+
+  const maximumCartAdds = Math.min(4, Math.max(1, Math.floor(views * 0.12)));
+  const cartAdds = 1 + ((seed >>> 8) % maximumCartAdds);
+
+  return { views, cartAdds };
+}
+
 function StripeProductWalletCtas({
-  isLoading,
+  isDisabled,
+  isLinkLoading,
+  isGpayLoading,
   onClick,
   placement = 'desktop',
 }: {
-  isLoading: boolean;
-  onClick: () => void;
+  isDisabled: boolean;
+  isLinkLoading: boolean;
+  isGpayLoading: boolean;
+  onClick: (wallet: StripeWalletButton) => void;
   placement?: 'desktop' | 'mobile';
 }) {
   return (
@@ -45,34 +78,34 @@ function StripeProductWalletCtas({
       </div>
       <button
         type="button"
-        onClick={onClick}
-        disabled={isLoading}
-        className="flex h-11 w-full items-center justify-center rounded-lg bg-[#00d66f] px-4 text-base font-medium text-black transition hover:brightness-95 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+        onClick={() => onClick('link')}
+        disabled={isDisabled}
+        className="wallet-lazy-button wallet-link-button flex h-11 w-full items-center justify-center rounded-lg bg-[#00d66f] px-4 text-base font-medium text-black transition hover:brightness-95 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
         aria-label="Pay securely with Link"
       >
-        {isLoading ? (
+        {isLinkLoading ? (
           <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-black" />
         ) : (
-          <span className="inline-flex items-center gap-2">
-            Pay securely with
+          <span className="wallet-link-content inline-flex items-center justify-center">
+            <span className="wallet-link-text overflow-hidden whitespace-nowrap">Pay securely with</span>
             <Image
               src="/nextpaylogo.svg"
               alt="Link"
               width={72}
               height={24}
-              className="h-5 w-auto object-contain"
+              className="wallet-link-logo ml-2 h-5 w-auto object-contain"
             />
           </span>
         )}
       </button>
       <button
         type="button"
-        onClick={onClick}
-        disabled={isLoading}
-        className="flex h-11 w-full items-center justify-center rounded-lg bg-black px-4 text-white transition hover:bg-gray-900 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+        onClick={() => onClick('gpay')}
+        disabled={isDisabled}
+        className="wallet-lazy-button wallet-gpay-button flex h-11 w-full items-center justify-center rounded-lg bg-black px-4 text-white transition hover:bg-gray-900 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
         aria-label="Pay with Google Pay"
       >
-        {isLoading ? (
+        {isGpayLoading ? (
           <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-white" />
         ) : (
           <span className="inline-flex items-center justify-center gap-3">
@@ -81,18 +114,18 @@ function StripeProductWalletCtas({
               alt="Google Pay"
               width={58}
               height={23}
-              className="h-5 w-auto object-contain"
+              className="wallet-gpay-mark h-5 w-auto object-contain"
             />
-            <span className="h-6 w-px bg-white/45" aria-hidden="true" />
+            <span className="wallet-gpay-divider h-6 w-px bg-white/45" aria-hidden="true" />
             <span className="inline-flex items-center gap-1.5" aria-hidden="true">
-              <span className="flex h-6 w-9 items-center justify-center rounded border border-white/20 bg-white">
+              <span className="wallet-gpay-card wallet-gpay-card-1 flex h-6 w-9 items-center justify-center rounded border border-white/20 bg-white">
                 <span className="h-3.5 w-5 rounded-sm bg-[linear-gradient(90deg,#ea4335_0_24%,#fbbc04_24%_48%,#34a853_48%_72%,#4285f4_72%_100%)]" />
               </span>
-              <span className="flex h-6 w-9 items-center justify-center rounded border border-white/20 bg-[#171717]">
+              <span className="wallet-gpay-card wallet-gpay-card-2 flex h-6 w-9 items-center justify-center rounded border border-white/20 bg-[#171717]">
                 <span className="h-3 w-4 rounded-sm bg-[#2f2f2f]" />
                 <span className="-ml-1 h-3 w-4 rounded-sm bg-[#f15a24]" />
               </span>
-              <span className="flex h-6 w-8 items-center justify-center rounded border border-white/45 text-lg font-light leading-none text-white">
+              <span className="wallet-gpay-card wallet-gpay-card-3 flex h-6 w-8 items-center justify-center rounded border border-white/45 text-lg font-light leading-none text-white">
                 +
               </span>
             </span>
@@ -115,7 +148,8 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
   const [showZoom, setShowZoom] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isBuyingNow, setIsBuyingNow] = useState(false);
-  const [viewedCount, setViewedCount] = useState<number | null>(null);
+  const [activeStripeWallet, setActiveStripeWallet] = useState<StripeWalletButton | null>(null);
+  const [productActivity, setProductActivity] = useState<ProductActivity | null>(null);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
   const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
@@ -164,35 +198,11 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
     return `${preview}${preview.endsWith(".") ? "" : "…"}`;
   }, [descriptionText, shouldCollapseDescription]);
 
-  // Generate viewed count that persists during session
+  // Generate a realistic activity profile that is stable for each product/day.
   useEffect(() => {
     if (!product || typeof window === 'undefined') return;
 
-    const sessionKey = `product_viewed_${product.slug}`;
-
-    // Check if we already have a count for this product in this session
-    const storedCount = sessionStorage.getItem(sessionKey);
-
-    if (storedCount) {
-      // Use the stored count
-      setViewedCount(parseInt(storedCount, 10));
-    } else {
-      // Generate a new random number based on product slug for consistency
-      let hash = 0;
-      for (let i = 0; i < product.slug.length; i++) {
-        const char = product.slug.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-      }
-
-      // Generate a random number between 27 and 123 based on hash
-      const seed = Math.abs(hash);
-      const count = 27 + (seed % 97); // 27 to 123 range (123 - 27 + 1 = 97)
-
-      // Store it in sessionStorage for this session
-      sessionStorage.setItem(sessionKey, count.toString());
-      setViewedCount(count);
-    }
+    setProductActivity(getProductActivity(product.slug));
   }, [product]);
 
   useEffect(() => {
@@ -386,7 +396,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
     }
   };
 
-  const handleBuyNow = async () => {
+  const handleBuyNow = async (wallet?: StripeWalletButton) => {
     if (!product) {
       console.error('Cannot proceed to checkout: product is null');
       return;
@@ -407,9 +417,11 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
         sizeSelectorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       setIsBuyingNow(false);
+      setActiveStripeWallet(null);
       return;
     }
 
+    setActiveStripeWallet(wallet ?? null);
     setIsBuyingNow(true);
 
     // Use a small delay to ensure the UI updates
@@ -454,6 +466,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
     } catch (error) {
       console.error('Error in buy now:', error);
       setIsBuyingNow(false);
+      setActiveStripeWallet(null);
       alert('Failed to proceed to checkout. Please try again.');
     }
   };
@@ -707,22 +720,24 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
               </div>
 
               <ClientOnly>
-                {viewedCount !== null && viewedCount > 0 && (
-                  <div className="mt-6 bg-[#2e6b3e]/10 border border-[#2e6b3e]/30 rounded-xl p-3 sm:p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2 sm:space-x-4">
-                        <div className="flex items-center text-[#2e6b3e]">
-                          <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-1.5" />
-                          <span className="text-xs sm:text-sm font-medium">
-                            {viewedCount.toLocaleString()} viewed in the last 24 hours
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-2 h-2 bg-[#2e6b3e] rounded-full animate-pulse mr-2"></div>
-                        <span className="text-xs text-[#2e6b3e] font-medium hidden sm:inline">Live activity</span>
-                      </div>
-                    </div>
+                {productActivity && (
+                  <div className="mt-4 flex items-center gap-2 overflow-x-auto whitespace-nowrap text-xs text-[#171717]/60 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <span className="inline-flex items-center gap-1.5">
+                      <Eye className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      <strong className="font-semibold text-[#171717]/80">{productActivity.views}</strong>{' '}
+                      {productActivity.views === 1 ? 'view' : 'views'}
+                    </span>
+                    <span className="text-[#171717]/25" aria-hidden="true">·</span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <ShoppingCart className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      <strong className="font-semibold text-[#171717]/80">{productActivity.cartAdds}</strong>{' '}
+                      {productActivity.cartAdds === 1 ? 'cart add' : 'cart adds'}
+                    </span>
+                    <span className="text-[#171717]/25" aria-hidden="true">·</span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
+                      Active in the last 24h
+                    </span>
                   </div>
                 )}
               </ClientOnly>
@@ -795,7 +810,9 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
               {product.checkoutFlow === 'stripe' && product.inStock !== false && (
                 <StripeProductWalletCtas
                   placement="mobile"
-                  isLoading={isBuyingNow}
+                  isDisabled={isAddingToCart || isBuyingNow}
+                  isLinkLoading={isBuyingNow && activeStripeWallet === 'link'}
+                  isGpayLoading={isBuyingNow && activeStripeWallet === 'gpay'}
                   onClick={handleBuyNow}
                 />
               )}
@@ -832,13 +849,15 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                     </div>
                     {product.checkoutFlow === 'stripe' ? (
                       <StripeProductWalletCtas
-                        isLoading={isAddingToCart || isBuyingNow}
+                        isDisabled={isAddingToCart || isBuyingNow}
+                        isLinkLoading={isBuyingNow && activeStripeWallet === 'link'}
+                        isGpayLoading={isBuyingNow && activeStripeWallet === 'gpay'}
                         onClick={handleBuyNow}
                       />
                     ) : (product.checkoutFlow === 'paypal-invoice' || product.checkoutFlow === 'paypal-unclaimed' || product.checkoutFlow === 'paypal-direct' || product.checkoutFlow === 'paypal-api') ? (
                       <div className="hidden lg:flex flex-col gap-1.5">
                         <button
-                          onClick={handleBuyNow}
+                          onClick={() => handleBuyNow()}
                           disabled={isAddingToCart || isBuyingNow}
                           className="w-full py-4 px-6 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-95 active:scale-[0.98]"
                           style={{ backgroundColor: '#EFC154' }}
@@ -868,7 +887,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                       </div>
                     ) : (
                       <button
-                        onClick={handleBuyNow}
+                        onClick={() => handleBuyNow()}
                         disabled={isAddingToCart || isBuyingNow}
                         className="hidden lg:flex w-full bg-transparent border-2 border-[#2e6b3e] hover:border-[#082317] text-[#2e6b3e] hover:text-[#082317] py-4 px-6 rounded-xl font-semibold transition-colors duration-200 items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                       >

@@ -646,3 +646,143 @@ html.modal-open {
     bottom: 88px !important;
   }
 }
+
+/* Stripe-style wallet CTA lazy reveal */
+.wallet-lazy-button {
+  animation: wallet-button-enter 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  overflow: hidden;
+}
+
+.wallet-gpay-button {
+  animation-delay: 80ms;
+}
+
+.wallet-link-text {
+  animation: wallet-link-text-reveal 440ms cubic-bezier(0.22, 1, 0.36, 1) 140ms both;
+}
+
+.wallet-link-logo {
+  animation: wallet-link-logo-slide 560ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+  transform-origin: center;
+}
+
+.wallet-gpay-mark {
+  animation: wallet-gpay-mark-in 220ms ease-out 140ms both;
+}
+
+.wallet-gpay-divider {
+  animation: wallet-gpay-divider-in 180ms ease-out 230ms both;
+  transform-origin: center;
+}
+
+.wallet-gpay-card {
+  animation: wallet-gpay-card-reveal 340ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: center;
+}
+
+.wallet-gpay-card-1 {
+  animation-delay: 300ms;
+}
+
+.wallet-gpay-card-2 {
+  animation-delay: 380ms;
+}
+
+.wallet-gpay-card-3 {
+  animation-delay: 460ms;
+}
+
+@keyframes wallet-button-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(1px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes wallet-link-text-reveal {
+  from {
+    max-width: 0;
+    opacity: 0;
+    transform: translateX(10px);
+  }
+
+  to {
+    max-width: 12rem;
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes wallet-link-logo-slide {
+  0% {
+    transform: translateX(-110px) scale(0.98);
+  }
+
+  68% {
+    transform: translateX(3px) scale(1);
+  }
+
+  100% {
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes wallet-gpay-mark-in {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes wallet-gpay-divider-in {
+  from {
+    opacity: 0;
+    transform: scaleY(0.25);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes wallet-gpay-card-reveal {
+  from {
+    opacity: 0;
+    transform: translateX(-10px) scale(0.82);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateX(2px) scale(1);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wallet-lazy-button,
+  .wallet-link-text,
+  .wallet-link-logo,
+  .wallet-gpay-mark,
+  .wallet-gpay-divider,
+  .wallet-gpay-card {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
+}
