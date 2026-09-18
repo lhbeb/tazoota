@@ -9,7 +9,7 @@ import {
   useStripe,
 } from '@stripe/react-stripe-js';
 import { loadStripe, type Stripe } from '@stripe/stripe-js';
-import { CheckCircle2, LockKeyhole, WalletCards } from 'lucide-react';
+import { CheckCircle2, WalletCards } from 'lucide-react';
 import type { ShippingData } from '@/lib/shipping';
 
 interface StripeElementsCheckoutProps {
@@ -85,48 +85,37 @@ function StripePaymentForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="relative">
-        <div className={!isAddressVerified ? 'pointer-events-none opacity-60' : ''}>
-          <div className="mb-4">
-            <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
-              <WalletCards className="h-4 w-4 text-[#0b2a17]" />
-              <span>Express checkout</span>
-            </div>
-            <ExpressCheckoutElement onConfirm={confirmStripePayment} />
+      <div>
+        <div className="mb-4">
+          <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
+            <WalletCards className="h-4 w-4 text-[#0b2a17]" />
+            <span>Express checkout</span>
           </div>
-
-          <div className="rounded-xl border border-gray-200 bg-white p-4">
-            <PaymentElement
-              options={{
-                layout: {
-                  type: 'accordion',
-                  defaultCollapsed: false,
-                  radios: false,
-                  spacedAccordionItems: true,
-                },
-              }}
-            />
-          </div>
+          <ExpressCheckoutElement onConfirm={confirmStripePayment} />
         </div>
 
-        {!isAddressVerified && (
-          <button
-            type="button"
-            onClick={onLockedPaymentAttempt}
-            className="absolute inset-0 z-10 flex min-h-[220px] items-center justify-center rounded-xl border border-dashed border-[#0b2a17]/30 bg-white/75 p-4 text-center backdrop-blur-[1px]"
-          >
-            <span className="inline-flex max-w-xs flex-col items-center gap-2 text-sm font-semibold text-[#0b2a17]">
-              <LockKeyhole className="h-6 w-6" />
-              Verify your delivery address before paying.
-            </span>
-          </button>
-        )}
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <PaymentElement
+            options={{
+              layout: {
+                type: 'accordion',
+                defaultCollapsed: false,
+                radios: false,
+                spacedAccordionItems: true,
+              },
+            }}
+          />
+        </div>
       </div>
 
-      {isAddressVerified && (
+      {isAddressVerified ? (
         <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
           <CheckCircle2 className="h-4 w-4" />
           <span>Address verified. Payment is available below.</span>
+        </div>
+      ) : (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
+          Verify your delivery address to unlock the Pay button.
         </div>
       )}
 
