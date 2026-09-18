@@ -9,6 +9,7 @@ import CheckoutNotifier from '@/components/CheckoutNotifier';
 import CountrySelect from '@/components/CountrySelect';
 import PaypalApiRedirectButton from '@/components/PaypalApiRedirectButton';
 import PaypalRedirectButton from '@/components/PaypalRedirectButton';
+import StripeElementsCheckout from '@/components/StripeElementsCheckout';
 import type { CartItem } from '@/utils/cart';
 import type { CheckoutFormController } from './useCheckoutForm';
 import type { PaypalApiInitializationResult, PaypalPaymentInitializationResult } from './types';
@@ -25,6 +26,10 @@ interface CheckoutShippingStepProps {
   onPaypalApiBeforePayment: () => Promise<PaypalApiInitializationResult>;
   onClearCart: () => void;
   onDismissCheckoutError: () => void;
+  stripeClientSecret?: string | null;
+  isStripeAddressVerified?: boolean;
+  onLockedStripePaymentAttempt?: () => void;
+  onStripePaymentError?: (message: string) => void;
 }
 
 interface MobileCheckoutCTAProps {
@@ -363,9 +368,13 @@ function AddressFields({
 function ContinueButton({
   isSendingEmail,
   isRedirecting,
+  label = 'Continue to Payment',
+  loadingLabel,
 }: {
   isSendingEmail: boolean;
   isRedirecting: boolean;
+  label?: string;
+  loadingLabel?: string;
 }) {
   const isBusy = isSendingEmail || isRedirecting;
 
@@ -382,11 +391,11 @@ function ContinueButton({
         <>
           <div className="animate-spin rounded-full h-6 w-6 border-b-3 border-white mr-3" />
           <span className="text-xl font-bold">
-            {isSendingEmail ? 'Confirming Address...' : 'Redirecting...'}
+            {isSendingEmail ? (loadingLabel || 'Confirming Address...') : 'Redirecting...'}
           </span>
         </>
       ) : (
-        <span className="text-xl font-bold">Continue to Payment</span>
+        <span className="text-xl font-bold">{label}</span>
       )}
     </button>
   );
@@ -460,10 +469,15 @@ export default function CheckoutShippingStep({
   onPaypalApiBeforePayment,
   onClearCart,
   onDismissCheckoutError,
+  stripeClientSecret,
+  isStripeAddressVerified = false,
+  onLockedStripePaymentAttempt = () => {},
+  onStripePaymentError,
 }: CheckoutShippingStepProps) {
   const [showMobileOrderSummary, setShowMobileOrderSummary] = useState(false);
   const { product } = cartItem;
   const price = formatPrice(cartItem, product.price);
+  const isStripeFlow = product.checkoutFlow === 'stripe';
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 pb-40 lg:pb-4">
@@ -564,7 +578,12 @@ export default function CheckoutShippingStep({
                           disabled={isSendingEmail || !form.isFormValid}
                         />
                       ) : (
-                        <ContinueButton isSendingEmail={isSendingEmail} isRedirecting={isRedirecting} />
+                        <ContinueButton
+                          isSendingEmail={isSendingEmail}
+                          isRedirecting={isRedirecting}
+                          label={isStripeFlow ? 'Verify Address' : 'Continue to Payment'}
+                          loadingLabel={isStripeFlow ? 'Verifying Address...' : undefined}
+                        />
                       )}
                     </div>
                   </form>
@@ -651,6 +670,18 @@ export default function CheckoutShippingStep({
                     </div>
                   </div>
 
+                  {isStripeFlow && stripeClientSecret && (
+                    <div className="border-t border-gray-100 px-6 py-5">
+                      <StripeElementsCheckout
+                        clientSecret={stripeClientSecret}
+                        isAddressVerified={isStripeAddressVerified}
+                        shippingData={form.shippingData}
+                        onLockedPaymentAttempt={onLockedStripePaymentAttempt}
+                        onPaymentError={onStripePaymentError}
+                      />
+                    </div>
+                  )}
+
                 </div>
               </div>
             </div>
@@ -676,7 +707,27 @@ export default function CheckoutShippingStep({
                   </div>
                 )}
 
-                {product.checkoutFlow !== 'paypal-direct' && product.checkoutFlow !== 'paypal-api' && (
+                {isStripeFlow && (
+                  <div className="space-y-4">
+                    <ContinueButton
+                      isSendingEmail={isSendingEmail}
+                      isRedirecting={isRedirecting}
+                      label="Verify Address"
+                      loadingLabel="Verifying Address..."
+                    />
+                    {stripeClientSecret && (
+                      <StripeElementsCheckout
+                        clientSecret={stripeClientSecret}
+                        isAddressVerified={isStripeAddressVerified}
+                        shippingData={form.shippingData}
+                        onLockedPaymentAttempt={onLockedStripePaymentAttempt}
+                        onPaymentError={onStripePaymentError}
+                      />
+                    )}
+                  </div>
+                )}
+
+                {!isStripeFlow && product.checkoutFlow !== 'paypal-direct' && product.checkoutFlow !== 'paypal-api' && (
                   <MobileCheckoutCTA
                     disabled={isSendingEmail || isRedirecting}
                     isLoading={isSendingEmail || isRedirecting}

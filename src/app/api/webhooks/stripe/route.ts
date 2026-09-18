@@ -67,11 +67,15 @@ export async function POST(request: NextRequest) {
                 break;
 
             case 'payment_intent.succeeded':
-                console.log('[Stripe Webhook] Payment succeeded:', (event.data.object as Stripe.PaymentIntent).id);
+                await handlePaymentSucceeded(event.data.object as Stripe.PaymentIntent);
                 break;
 
             case 'payment_intent.payment_failed':
                 await handlePaymentFailed(event.data.object as Stripe.PaymentIntent);
+                break;
+
+            case 'payment_intent.canceled':
+                await handlePaymentCanceled(event.data.object as Stripe.PaymentIntent);
                 break;
 
             default:
@@ -134,6 +138,15 @@ async function handleCheckoutExpired(session: Stripe.Checkout.Session) {
     console.log('[Stripe Webhook] ✅ Checkout session EXPIRED:', session.id);
     
     if (session.metadata?.order_id) {
+        const order = await getOrderById(session.metadata.order_id);
+        if (!order) {
+            throw new Error(`Order ${session.metadata.order_id} not found for expiry update`);
+        }
+        if (order.status === 'paid') {
+            console.log('[Stripe Webhook] Order already paid; ignoring expired session:', session.metadata.order_id);
+            return;
+        }
+
         const updated = await updateOrderStripeStatus(session.metadata.order_id, {
             status: 'expired'
         });
@@ -191,7 +204,101 @@ async function handleAsyncPaymentFailed(session: Stripe.Checkout.Session) {
 async function handlePaymentFailed(paymentIntent: Stripe.PaymentIntent) {
     console.log('[Stripe Webhook] Payment failed:', paymentIntent.id);
     console.log('[Stripe Webhook] Failure reason:', paymentIntent.last_payment_error?.message);
-    
-    // We typically handle failures via checkout.session.async_payment_failed
-    // but this gives more detail
+
+    const orderId = paymentIntent.metadata?.order_id;
+    if (!orderId) {
+        console.log('[Stripe Webhook] PaymentIntent failed without order_id metadata:', paymentIntent.id);
+        return;
+    }
+
+    const order = await getOrderById(orderId);
+    if (!order) {
+        throw new Error(`Order ${orderId} not found for payment failure update`);
+    }
+    if (order.status === 'paid') {
+        console.log('[Stripe Webhook] Order already paid; ignoring payment failure:', orderId);
+        return;
+    }
+
+    const updated = await updateOrderStripeStatus(orderId, {
+        status: 'payment_failed',
+        stripe_payment_intent_id: paymentIntent.id,
+        stripe_payment_status: 'failed',
+        payment_last_error: paymentIntent.last_payment_error?.message || undefined,
+    });
+    if (!updated) {
+        throw new Error(`Failed to mark order ${orderId} as payment_failed`);
+    }
+}
+
+async function handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent) {
+    console.log('[Stripe Webhook] Payment succeeded:', paymentIntent.id);
+
+    const orderId = paymentIntent.metadata?.order_id;
+    if (!orderId) {
+        console.log('[Stripe Webhook] PaymentIntent succeeded without order_id metadata:', paymentIntent.id);
+        return;
+    }
+
+    const order = await getOrderById(orderId);
+    if (!order) {
+        throw new Error(`Order ${orderId} not found for payment success update`);
+    }
+
+    if (order.status !== 'paid') {
+        const updated = await updateOrderStripeStatus(orderId, {
+            status: 'paid',
+            stripe_payment_intent_id: paymentIntent.id,
+            stripe_payment_status: paymentIntent.status,
+            paid_at: new Date().toISOString(),
+        });
+        if (!updated) {
+            throw new Error(`Failed to mark order ${orderId} as paid from PaymentIntent`);
+        }
+    } else {
+        console.log('[Stripe Webhook] Order already paid; keeping idempotent success:', orderId);
+    }
+
+    const { sendStripePaymentSuccessEmail } = await import('@/lib/email/sender');
+    const latestOrder = await getOrderById(orderId);
+    if (!latestOrder) {
+        throw new Error(`Order ${orderId} not found for payment notification`);
+    }
+
+    const emailResult = await sendStripePaymentSuccessEmail(latestOrder, {
+        paymentIntentId: paymentIntent.id,
+        amount: paymentIntent.amount_received || paymentIntent.amount,
+        currency: paymentIntent.currency,
+    });
+    if (!emailResult.success) {
+        throw new Error(`Payment notification email failed for order ${orderId}: ${emailResult.error}`);
+    }
+}
+
+async function handlePaymentCanceled(paymentIntent: Stripe.PaymentIntent) {
+    console.log('[Stripe Webhook] Payment canceled:', paymentIntent.id);
+
+    const orderId = paymentIntent.metadata?.order_id;
+    if (!orderId) {
+        console.log('[Stripe Webhook] PaymentIntent canceled without order_id metadata:', paymentIntent.id);
+        return;
+    }
+
+    const order = await getOrderById(orderId);
+    if (!order) {
+        throw new Error(`Order ${orderId} not found for payment cancellation update`);
+    }
+    if (order.status === 'paid') {
+        console.log('[Stripe Webhook] Order already paid; ignoring payment cancellation:', orderId);
+        return;
+    }
+
+    const updated = await updateOrderStripeStatus(orderId, {
+        status: 'canceled',
+        stripe_payment_intent_id: paymentIntent.id,
+        stripe_payment_status: 'canceled',
+    });
+    if (!updated) {
+        throw new Error(`Failed to mark order ${orderId} as canceled`);
+    }
 }
