@@ -32,6 +32,15 @@ interface CheckoutShippingStepProps {
   onStripePaymentError?: (message: string) => void;
 }
 
+const PAYMENT_LOGOS = [
+  { src: '/payment-logos/visa.svg', alt: 'Visa', width: 46, height: 30 },
+  { src: '/payment-logos/mastercard.svg', alt: 'Mastercard', width: 46, height: 30 },
+  { src: '/payment-logos/american-express.svg', alt: 'American Express', width: 46, height: 30 },
+  { src: '/payment-logos/discover.svg', alt: 'Discover', width: 46, height: 30 },
+  { src: '/payment-logos/apple-pay.svg', alt: 'Apple Pay', width: 54, height: 30 },
+  { src: '/payment-logos/google-pay.svg', alt: 'Google Pay', width: 58, height: 30 },
+];
+
 interface MobileCheckoutCTAProps {
   onClick?: (event: MouseEvent) => void;
   disabled?: boolean;
@@ -406,13 +415,15 @@ function AddressVerifiedNotice({ mobile = false }: { mobile?: boolean }) {
     <div
       role="status"
       aria-live="polite"
-      className={`flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50 ${mobile ? 'p-4' : 'p-4'} text-emerald-800`}
+      className={`flex items-start gap-3 rounded-xl border border-[#0b2a17]/15 bg-[#f6f3e8] ${mobile ? 'p-4' : 'p-4'} text-[#0b2a17] shadow-[0_1px_0_rgba(11,42,23,0.04)]`}
     >
-      <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
+      <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#0b2a17] text-[#f6f3e8]">
+        <CheckCircle2 className="h-4 w-4" strokeWidth={2.5} />
+      </span>
       <div>
-        <p className="text-sm font-bold">Address verified</p>
-        <p className="mt-0.5 text-sm font-medium text-emerald-700">
-          Your delivery details are saved. You can pay securely now.
+        <p className="text-sm font-bold tracking-[-0.01em]">Delivery address confirmed</p>
+        <p className="mt-0.5 text-sm font-medium leading-5 text-[#0b2a17]/75">
+          Your shipping details are saved. Complete secure payment now to reserve your order.
         </p>
       </div>
     </div>
@@ -423,22 +434,26 @@ function SecureCheckoutInfo({ mobile = false }: { mobile?: boolean }) {
   return (
     <div className={`${mobile ? 'lg:hidden mt-4 mb-4 space-y-2' : 'hidden lg:block mt-8 space-y-4'} flex flex-col items-center justify-center text-center w-full`}>
       <div className="text-sm text-gray-600">
-        <span className="font-medium text-[#0b2a17]">Secure Checkout</span> - SSL Encrypted
+        <span className="font-medium text-[#0b2a17]">Secure payment</span>
       </div>
       <p className="text-xs text-gray-500 max-w-sm mx-auto text-center">
-        Shop with confidence - Your payment information is protected by industry-leading encryption
+        Your payment details stay encrypted and private.
       </p>
-      <div className="flex items-center justify-center">
-        <Image
-          src="/secure-checkout.png"
-          alt="Secure Checkout"
-          width={192}
-          height={192}
-          className="h-12 w-auto"
-          quality={100}
-          priority
-          style={{ imageRendering: 'crisp-edges' }}
-        />
+      <div className="flex max-w-sm flex-wrap items-center justify-center gap-2">
+        {PAYMENT_LOGOS.map((logo) => (
+          <span
+            key={logo.src}
+            className="flex h-8 min-w-[3.25rem] items-center justify-center rounded-lg border border-[#0b2a17]/10 bg-white px-2 shadow-[0_1px_2px_rgba(11,42,23,0.06)]"
+          >
+            <Image
+              src={logo.src}
+              alt={logo.alt}
+              width={logo.width}
+              height={logo.height}
+              className="max-h-5 w-auto object-contain"
+            />
+          </span>
+        ))}
       </div>
       <div className={`flex flex-wrap items-center justify-center text-xs text-gray-500 mt-2 ${mobile ? 'gap-2 px-4' : 'gap-3'}`}>
         <Link href="/terms" className="hover:text-[#0b2a17] hover:underline transition-colors">
@@ -600,8 +615,8 @@ export default function CheckoutShippingStep({
                         <ContinueButton
                           isSendingEmail={isSendingEmail}
                           isRedirecting={isRedirecting}
-                          label={isStripeFlow ? 'Verify Address' : 'Continue to Payment'}
-                          loadingLabel={isStripeFlow ? 'Verifying Address...' : undefined}
+                          label={isStripeFlow ? 'Save delivery address' : 'Continue to Payment'}
+                          loadingLabel={isStripeFlow ? 'Saving delivery address...' : undefined}
                         />
                       )}
                     </div>
@@ -707,7 +722,7 @@ export default function CheckoutShippingStep({
           </div>
 
           <div className="lg:hidden">
-            <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+            <div className="bg-white rounded-2xl shadow-sm px-4 py-6 border border-gray-100">
               <h2 className="text-xl font-bold text-[#262626] mb-6">Delivery Address</h2>
               <form onSubmit={onSubmit} className="space-y-6">
                 <AddressFields form={form} mobile />
@@ -733,17 +748,20 @@ export default function CheckoutShippingStep({
                     <ContinueButton
                       isSendingEmail={isSendingEmail}
                       isRedirecting={isRedirecting}
-                      label="Verify Address"
-                      loadingLabel="Verifying Address..."
+                      label="Save delivery address"
+                      loadingLabel="Saving delivery address..."
                     />
                     {stripeClientSecret && (
-                      <StripeElementsCheckout
-                        clientSecret={stripeClientSecret}
-                        isAddressVerified={isStripeAddressVerified}
-                        shippingData={form.shippingData}
-                        onLockedPaymentAttempt={onLockedStripePaymentAttempt}
-                        onPaymentError={onStripePaymentError}
-                      />
+                      <div className="-mx-4 sm:mx-0">
+                        <StripeElementsCheckout
+                          clientSecret={stripeClientSecret}
+                          isAddressVerified={isStripeAddressVerified}
+                          shippingData={form.shippingData}
+                          onLockedPaymentAttempt={onLockedStripePaymentAttempt}
+                          onPaymentError={onStripePaymentError}
+                          compact
+                        />
+                      </div>
                     )}
                   </div>
                 )}

@@ -17,6 +17,7 @@ interface StripeElementsCheckoutProps {
   onLockedPaymentAttempt: () => void;
   onPaymentStarted?: () => void;
   onPaymentError?: (message: string) => void;
+  compact?: boolean;
 }
 
 function StripePaymentForm({
@@ -25,6 +26,7 @@ function StripePaymentForm({
   onLockedPaymentAttempt,
   onPaymentStarted,
   onPaymentError,
+  compact = false,
 }: Omit<StripeElementsCheckoutProps, 'clientSecret'>) {
   const stripe = useStripe();
   const elements = useElements();
@@ -82,25 +84,23 @@ function StripePaymentForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div>
-        <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <PaymentElement
-            options={{
-              layout: {
-                type: 'accordion',
-                defaultCollapsed: false,
-                radios: false,
-                spacedAccordionItems: true,
-              },
-            }}
-          />
-        </div>
+    <form onSubmit={handleSubmit} className={compact ? 'space-y-4' : 'space-y-5'}>
+      <div className={compact ? 'w-full' : 'rounded-xl border border-gray-200 bg-white p-4'}>
+        <PaymentElement
+          options={{
+            layout: {
+              type: 'accordion',
+              defaultCollapsed: false,
+              radios: false,
+              spacedAccordionItems: !compact,
+            },
+          }}
+        />
       </div>
 
       {!isAddressVerified && (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
-          Verify your delivery address to unlock the Pay button.
+        <div className="rounded-xl border border-[#0b2a17]/15 bg-[#f6f3e8] px-4 py-3 text-sm font-medium leading-5 text-[#0b2a17]">
+          Confirm your delivery address first, then complete secure payment to reserve your order.
         </div>
       )}
 
@@ -198,6 +198,7 @@ export default function StripeElementsCheckout(props: StripeElementsCheckoutProp
         onLockedPaymentAttempt={props.onLockedPaymentAttempt}
         onPaymentStarted={props.onPaymentStarted}
         onPaymentError={props.onPaymentError}
+        compact={props.compact}
       />
     </Elements>
   );

@@ -49,10 +49,11 @@ function hashActivitySeed(value: string): number {
 function getProductActivity(slug: string, date = new Date()): ProductActivity {
   const dayKey = date.toISOString().slice(0, 10);
   const seed = hashActivitySeed(`${slug}:${dayKey}`);
-  const views = 10 + (seed % 31);
+  const baseViews = 180 + (seed % 181);
+  const views = Math.round(baseViews * 1.5);
 
-  const maximumCartAdds = Math.min(4, Math.max(1, Math.floor(views * 0.12)));
-  const cartAdds = 1 + ((seed >>> 8) % maximumCartAdds);
+  const baseCartAdds = 12 + ((seed >>> 8) % 18);
+  const cartAdds = Math.round(baseCartAdds * 1.5);
 
   return { views, cartAdds };
 }
