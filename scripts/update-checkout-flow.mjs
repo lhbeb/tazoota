@@ -12,6 +12,7 @@ const ALLOWED_FLOWS = new Set([
   'external',
   'stripe',
   'stripe-hosted',
+  'shopify',
   'paypal-invoice',
   'paypal-unclaimed',
   'paypal-direct',

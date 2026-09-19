@@ -17,7 +17,7 @@ interface CheckoutFlowViewProps {
   paypalConfirmationVariant: 'invoice' | 'unclaimed';
   paypalConfirmationOrderId: string | null;
   isRedirecting: boolean;
-  redirectingProvider: 'paypal' | 'external';
+  redirectingProvider: 'paypal' | 'external' | 'shopify';
   showPaypalDirect: boolean;
   paypalDirectEmail: string;
   paypalDirectOrderId: string | null;
@@ -28,7 +28,7 @@ interface CheckoutFlowViewProps {
 
 interface ExternalCheckoutRedirectProps {
   shippingData: ShippingData;
-  provider: 'paypal' | 'external';
+  provider: 'paypal' | 'external' | 'shopify';
 }
 
 function ExternalCheckoutRedirect({ shippingData, provider }: ExternalCheckoutRedirectProps) {
@@ -85,7 +85,9 @@ function ExternalCheckoutRedirect({ shippingData, provider }: ExternalCheckoutRe
           <span className="text-base text-gray-700 font-medium">
             {provider === 'paypal'
               ? 'Connecting to PayPal…'
-              : 'Finalizing Your Checkout. This Won\'t Take Long…'}
+              : provider === 'shopify'
+                ? 'Connecting to Shopify Checkout…'
+                : 'Finalizing Your Checkout. This Won\'t Take Long…'}
           </span>
         </div>
       </div>
