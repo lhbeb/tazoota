@@ -119,17 +119,35 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-[#f0f7f2]/20 mt-12 pt-8">
-          <div className="flex flex-col items-center space-y-4">
-            <div className="flex items-center justify-center">
-              <Image
-                src="/secure-checkout.png"
-                alt="Secure Checkout"
-                width={400}
-                height={64}
-                className="h-16 w-auto max-w-full object-contain brightness-110 contrast-110"
-              />
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+            <p className="text-center sm:text-left">© 2025 Tazoota. All rights reserved.</p>
+            <div className="flex flex-wrap items-center justify-center sm:justify-end gap-1.5">
+              {[
+                { src: '/payment-logos/visa.svg',             alt: 'Visa' },
+                { src: '/payment-logos/mastercard.svg',       alt: 'Mastercard' },
+                { src: '/payment-logos/american-express.svg', alt: 'American Express' },
+                { src: '/payment-logos/discover.svg',         alt: 'Discover' },
+                { src: '/payment-logos/maestro.svg',          alt: 'Maestro' },
+                { src: '/payment-logos/jcb.svg',              alt: 'JCB' },
+                { src: '/payment-logos/unionpay.svg',         alt: 'UnionPay' },
+                { src: '/payment-logos/diners.svg',           alt: 'Diners Club' },
+                { src: '/payment-logos/apple-pay.svg',        alt: 'Apple Pay' },
+                { src: '/payment-logos/google-pay.svg',       alt: 'Google Pay' },
+              ].map((logo) => (
+                <span
+                  key={logo.src}
+                  className="flex h-9 min-w-[3.5rem] items-center justify-center rounded-md bg-white px-2"
+                >
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={52}
+                    height={32}
+                    className="max-h-6 w-auto object-contain"
+                  />
+                </span>
+              ))}
             </div>
-            <p className="text-center">© 2025 Tazoota. All rights reserved.</p>
           </div>
         </div>
       </div>
