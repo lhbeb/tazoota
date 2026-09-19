@@ -218,6 +218,9 @@ const CheckoutPage: React.FC = () => {
           images: product.images,
           checkoutLink: product.checkoutLink,
           checkoutFlow: product.checkoutFlow,
+          // meta must be included so the API can read shopify_variant_id for
+          // Shopify checkout link generation on the server side.
+          meta: product.meta || {},
           selectedSize: (product as ProductWithSelectedSize).selectedSize || null,
         },
       };

@@ -263,9 +263,29 @@ export async function POST(request: NextRequest) {
 
     if (checkoutFlow === 'shopify') {
       try {
+        // If the client didn't send meta (or meta lacks the variant ID), fetch it
+        // fresh from the database so createShopifyCheckoutLink always has what it needs.
+        const hasMeta = product.meta && typeof product.meta === 'object';
+        const metaObj = hasMeta ? (product.meta as Record<string, unknown>) : {};
+        const hasVariantId = metaObj.shopify_variant_id || metaObj.shopifyVariantId ||
+          metaObj.variant_id || metaObj.variantId;
+
+        let productForCheckout = product;
+        if (!hasVariantId) {
+          console.log('⚠️ [Shopify] meta.shopify_variant_id missing from request — fetching from DB');
+          const { data: dbProduct } = await supabaseAdmin
+            .from('products')
+            .select('meta, checkout_link')
+            .eq('slug', product.slug)
+            .single();
+          if (dbProduct) {
+            productForCheckout = { ...product, meta: dbProduct.meta || {}, checkoutLink: dbProduct.checkout_link || product.checkoutLink };
+          }
+        }
+
         assignedCheckoutLink = createShopifyCheckoutLink({
           orderId,
-          product,
+          product: productForCheckout,
           shippingData,
         });
 
