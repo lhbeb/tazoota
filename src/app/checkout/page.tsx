@@ -478,7 +478,12 @@ const CheckoutPage: React.FC = () => {
       console.log('📧 [Checkout] Calling sendShippingEmail...');
       const orderResult = await sendShippingEmail({ ...form.shippingData }, product);
       const orderId = orderResult?.orderId || null;
-      const checkoutLink = orderResult?.checkoutLink || product.checkoutLink;
+      // Shopify links are generated server-side from the mapped variant ID.
+      // Do not fall back to database checkout_link: older rows may contain
+      // unrelated legacy Koiboni URLs.
+      const checkoutLink = product.checkoutFlow === 'shopify'
+        ? (orderResult?.checkoutLink || '')
+        : (orderResult?.checkoutLink || product.checkoutLink);
       setAssignedCheckoutLink(checkoutLink || null);
       console.log('📧 [Checkout] sendShippingEmail returned:', orderResult);
 

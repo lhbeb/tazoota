@@ -69,15 +69,9 @@ function extractVariantId(product: Product): string {
 }
 
 function getStoreDomain(product: Product): string {
-  const meta = getProductMeta(product);
-  return normalizeShopifyDomain(firstNonEmpty([
-    meta.shopify_store_domain,
-    meta.shopifyStoreDomain,
-    meta.shop_domain,
-    process.env.SHOPIFY_STORE_DOMAIN,
-    process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN,
-    product.checkoutLink,
-  ]));
+  // Tazoota's checkout flow must never inherit a hostname from legacy
+  // checkout_link values or unrelated environment/product metadata.
+  return normalizeShopifyDomain('tazoota.myshopify.com');
 }
 
 function splitName(fullName: string, email: string): { firstName: string; lastName: string } {
