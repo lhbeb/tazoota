@@ -62,10 +62,16 @@ function extractVariantId(product: Product): string {
     if (match) return match[1];
   }
 
-  // Existing cart permalinks are also a safe source of the variant ID.
+  // Existing Shopify cart permalinks are also a safe source of the variant ID.
+  // Only consider URLs that belong to a myshopify.com domain — never koiboni.com
+  // or any other unrelated storefront that may have been imported as legacy data.
   const existingLink = typeof product.checkoutLink === 'string' ? product.checkoutLink : '';
-  const match = existingLink.match(/\/cart\/(?:[^/?#]*\/)?(\d+):\d+/);
-  return match?.[1] || '';
+  const isShopifyCartLink = existingLink.includes('myshopify.com') || existingLink.match(/^https?:\/\/[^/]*\/cart\//);
+  if (isShopifyCartLink) {
+    const match = existingLink.match(/\/cart\/(?:[^/?#]*\/)?(\d+):\d+/);
+    if (match) return match[1];
+  }
+  return '';
 }
 
 function getStoreDomain(product: Product): string {
