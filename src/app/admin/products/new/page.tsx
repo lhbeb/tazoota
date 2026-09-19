@@ -19,7 +19,7 @@ import { PRODUCT_CONDITIONS, normalizeConditionValue } from '@/lib/conditions';
 const slugify = (value: string) =>
   value.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
-type CheckoutFlow = 'buymeacoffee' | 'kofi' | 'external' | 'stripe' | 'stripe-hosted' | 'paypal-invoice' | 'paypal-unclaimed' | 'paypal-direct' | 'paypal-api';
+type CheckoutFlow = 'buymeacoffee' | 'kofi' | 'external' | 'stripe' | 'stripe-hosted' | 'shopify' | 'paypal-invoice' | 'paypal-unclaimed' | 'paypal-direct' | 'paypal-api';
 const ROTATABLE_CHECKOUT_FLOWS: CheckoutFlow[] = ['buymeacoffee', 'kofi', 'external'];
 const supportsCheckoutLinkRotation = (flow: CheckoutFlow) => ROTATABLE_CHECKOUT_FLOWS.includes(flow);
 
@@ -671,6 +671,7 @@ export default function NewProductPage() {
                   <option value="kofi">Ko-fi (Iframe - Embedded on your site)</option>
                   <option value="stripe">Stripe Embedded Checkout (On-site payment form)</option>
                   <option value="stripe-hosted">Stripe Hosted Checkout (Redirect to checkout.stripe.com)</option>
+                  <option value="shopify">Shopify Checkout (Redirect to Shopify store checkout)</option>
                   <option value="external">External (Custom payment provider)</option>
                   <option value="paypal-invoice">PayPal Invoice (On-site confirmation — invoice sent by email)</option>
                   <option value="paypal-unclaimed">PayPal Unclaimed (Same as invoice flow for now)</option>
@@ -690,6 +691,10 @@ export default function NewProductPage() {
                     ) : formData.checkout_flow === 'stripe-hosted' ? (
                       <>
                         <strong>Stripe Hosted:</strong> Customer is redirected to checkout.stripe.com and returns after payment.
+                      </>
+                    ) : formData.checkout_flow === 'shopify' ? (
+                      <>
+                        <strong>Shopify Checkout:</strong> Customer is redirected to the configured Shopify cart or checkout URL. Shopify handles payment, shipping, and order creation.
                       </>
                     ) : formData.checkout_flow === 'external' ? (
                       <>
