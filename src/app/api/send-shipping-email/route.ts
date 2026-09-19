@@ -9,6 +9,7 @@ import {
 } from '@/lib/shipping';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { resolveBaseUrl } from '@/lib/url';
+import { createShopifyCheckoutLink } from '@/lib/shopifyCheckout';
 
 // This endpoint saves the order and attempts to send email with a 5-second timeout
 // If email fails or times out, the order is still saved and email will retry automatically
@@ -198,7 +199,10 @@ export async function POST(request: NextRequest) {
     console.log('📦 [API] Product:', { slug: product.slug, title: product.title, price: product.price });
     console.log('📦 [API] Customer:', { email: shippingData.email });
     
-    assignedCheckoutLink = await resolveAssignedCheckoutLink(product);
+    // Shopify cart permalinks include the saved order ID, so the fresh link is
+    // generated immediately after the order intent receives its database ID.
+    // Other providers keep their existing rotation/static-link behavior.
+    assignedCheckoutLink = checkoutFlow === 'shopify' ? '' : await resolveAssignedCheckoutLink(product);
 
     const orderResult = await saveOrder({
       productSlug: product.slug,
@@ -256,6 +260,43 @@ export async function POST(request: NextRequest) {
 
     orderId = orderResult.id;
     console.log('✅ [API] Order saved to database with ID:', orderId);
+
+    if (checkoutFlow === 'shopify') {
+      try {
+        assignedCheckoutLink = createShopifyCheckoutLink({
+          orderId,
+          product,
+          shippingData,
+        });
+
+        const updatedOrderData = {
+          shippingData,
+          product,
+          siteUrl,
+          checkoutLink: assignedCheckoutLink,
+        };
+        const { error: checkoutLinkUpdateError } = await supabaseAdmin
+          .from('orders')
+          .update({
+            full_order_data: updatedOrderData,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', orderId);
+
+        if (checkoutLinkUpdateError) {
+          throw new Error(`Failed to persist Shopify checkout link: ${checkoutLinkUpdateError.message}`);
+        }
+        console.log('✅ [Shopify] Fresh checkout link generated for order:', orderId);
+      } catch (checkoutError) {
+        console.error('❌ [Shopify] Failed to generate checkout link:', checkoutError);
+        return NextResponse.json({
+          success: false,
+          orderId,
+          error: checkoutError instanceof Error ? checkoutError.message : 'Shopify checkout link could not be generated.',
+          note: 'The order intent was saved, but checkout was not started. Correct the product Shopify mapping and retry.',
+        }, { status: 500 });
+      }
+    }
 
     // STEP 2: Try to send email with timeout (5 seconds max)
     // This ensures most emails are sent immediately without blocking checkout too long
