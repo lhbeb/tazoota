@@ -121,6 +121,7 @@ ALTER TABLE public.products
             'external',
             'stripe',
             'stripe-hosted',
+            'shopify',
             'paypal-invoice',
             'paypal-unclaimed',
             'paypal-direct',
@@ -157,7 +158,7 @@ ALTER TABLE public.products
             // Fallback: try via an exec_sql rpc function if it exists
             try {
                 const { error: rpcError } = await (supabaseAdmin as any).rpc('exec_sql', {
-                    sql: `ALTER TABLE public.products DROP CONSTRAINT IF EXISTS products_checkout_flow_check; ALTER TABLE public.products ADD CONSTRAINT products_checkout_flow_check CHECK (checkout_flow IS NULL OR checkout_flow IN ('buymeacoffee','kofi','external','stripe','stripe-hosted','paypal-invoice','paypal-unclaimed','paypal-direct','paypal-api','lemon-squeezy'));`
+                    sql: `ALTER TABLE public.products DROP CONSTRAINT IF EXISTS products_checkout_flow_check; ALTER TABLE public.products ADD CONSTRAINT products_checkout_flow_check CHECK (checkout_flow IS NULL OR checkout_flow IN ('buymeacoffee','kofi','external','stripe','stripe-hosted','shopify','paypal-invoice','paypal-unclaimed','paypal-direct','paypal-api','lemon-squeezy'));`
                 });
                 if (!rpcError) {
                     constraintFixed = true;
