@@ -60,7 +60,7 @@ export default function ShopifySyncPage() {
         <div className="bg-white rounded-2xl border border-gray-200 p-6">
           <h2 className="font-semibold text-lg mb-1">Step 1 — Connect Shopify</h2>
           <p className="text-sm text-gray-500 mb-4">
-            Authorize access to <strong>tazoota.myshopify.com</strong>. After authorizing, you'll receive an
+            Authorize access to <strong>tazoota.myshopify.com</strong>. After authorizing, you&apos;ll receive an
             access token — add it to your Vercel environment variables as{' '}
             <code className="bg-gray-100 px-1 rounded">SHOPIFY_API_ACCESS_TOKEN</code>.
           </p>
@@ -82,7 +82,7 @@ export default function ShopifySyncPage() {
           <ul className="text-sm text-gray-600 list-disc list-inside mb-4 space-y-1">
             <li>Match existing Shopify products by title → save variant ID to Supabase</li>
             <li>Create missing products in Shopify → save new variant ID to Supabase</li>
-            <li>Set <code className="bg-gray-100 px-1 rounded">checkout_flow = 'shopify'</code> on all synced products</li>
+            <li>Set <code className="bg-gray-100 px-1 rounded">checkout_flow = &apos;shopify&apos;</code> on all synced products</li>
           </ul>
           <button
             onClick={handleSync}
