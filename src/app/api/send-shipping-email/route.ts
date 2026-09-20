@@ -309,10 +309,14 @@ export async function POST(request: NextRequest) {
         console.log('✅ [Shopify] Fresh checkout link generated for order:', orderId);
       } catch (checkoutError) {
         console.error('❌ [Shopify] Failed to generate checkout link:', checkoutError);
+        const errorMsg = checkoutError instanceof Error ? checkoutError.message : 'Shopify checkout link could not be generated.';
+        const isVariantMissing = errorMsg.includes('variant ID is missing');
         return NextResponse.json({
           success: false,
           orderId,
-          error: checkoutError instanceof Error ? checkoutError.message : 'Shopify checkout link could not be generated.',
+          error: isVariantMissing
+            ? 'This product is not yet available for purchase. Please contact support.'
+            : errorMsg,
           note: 'The order intent was saved, but checkout was not started. Correct the product Shopify mapping and retry.',
         }, { status: 500 });
       }

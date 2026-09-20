@@ -25,7 +25,8 @@ import {
   CreditCard,
   FlaskConical,
   ChevronDown,
-  MoreHorizontal
+  MoreHorizontal,
+  ShoppingBag
 } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import { lockScroll, unlockScroll } from '@/utils/scrollUtils';
@@ -52,6 +53,7 @@ const getMainNavItems = (ordersCount: number): NavItem[] => [
 // Items bundled under the "More" dropdown
 const moreNavItems: NavItem[] = [
   { name: 'Payment Settings', path: '/admin/payment-settings', icon: CreditCard, description: 'Manage Stripe keys' },
+  { name: 'Shopify Sync', path: '/admin/shopify-sync', icon: ShoppingBag, description: 'Sync products with Shopify' },
   { name: 'Tracking Test', path: '/admin/tracking-test', icon: FlaskConical, description: 'Verify Google Ads events' },
   { name: 'Scripts', path: '/admin/scripts', icon: Terminal, description: 'Run DB scripts' },
   { name: 'Error Log', path: '/admin/errors', icon: AlertTriangle, description: 'View client crashes' },
