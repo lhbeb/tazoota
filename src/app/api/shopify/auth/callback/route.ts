@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Missing code parameter' }, { status: 400 });
   }
 
-  const clientId = process.env.SHOPIFY_CLIENT_ID!;
+  const clientId = process.env.SHOPIFY_CLIENT_ID || '916b65bb7ed7933693da18119c145cd9';
   const clientSecret = process.env.SHOPIFY_CLIENT_SECRET!;
 
   // Exchange code for access token
