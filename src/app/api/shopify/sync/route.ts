@@ -13,10 +13,10 @@ function shopifyHeaders() {
 // Fetch all products from Shopify with pagination
 async function fetchAllShopifyProducts(): Promise<any[]> {
   const products: any[] = [];
-  let url: string | null = `https://${SHOPIFY_DOMAIN}/admin/api/2024-01/products.json?limit=250&fields=id,title,variants`;
+  let nextUrl: string | null = `https://${SHOPIFY_DOMAIN}/admin/api/2024-01/products.json?limit=250&fields=id,title,variants`;
 
-  while (url) {
-    const res = await fetch(url, { headers: shopifyHeaders() });
+  while (nextUrl) {
+    const res: Response = await fetch(nextUrl, { headers: shopifyHeaders() });
     if (!res.ok) throw new Error(`Shopify API error: ${res.status} ${await res.text()}`);
     const data = await res.json();
     products.push(...(data.products || []));
@@ -24,7 +24,7 @@ async function fetchAllShopifyProducts(): Promise<any[]> {
     // Check for next page via Link header
     const linkHeader = res.headers.get('Link') || '';
     const nextMatch = linkHeader.match(/<([^>]+)>;\s*rel="next"/);
-    url = nextMatch ? nextMatch[1] : null;
+    nextUrl = nextMatch ? nextMatch[1] : null;
   }
 
   return products;
