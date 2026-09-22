@@ -43,6 +43,7 @@ export async function POST(req: NextRequest) {
       'ResizeObserver loop',
       'Non-Error promise rejection',
       'Script error',
+      'M_ID', // Tracking script error
     ];
     if (ignoredMessages.some((m) => message.includes(m))) {
       return Response.json({ ok: true, ignored: true });
