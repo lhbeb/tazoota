@@ -33,15 +33,28 @@ export default function LiveChatWidget() {
   }
 
   return (
-    <Script
-      id="tazoota-livechat-script"
-      src="https://chatapppay-rust.vercel.app/livechat.js"
-      strategy="afterInteractive"
-      data-color="#2e6b3e"
-      data-position="bottom-right"
-      data-button-size="60"
-      data-label="Chat with us"
-      data-brand="Tazoota"
-    />
+    <>
+      {/* Push the live chat widget above the mobile sticky Add-to-Cart bar (~72px)
+          and above the cart drawer CTA footer (~160px) on small screens.
+          On desktop the bar is not fixed so no offset is needed. */}
+      <style>{`
+        @media (max-width: 1023px) {
+          #lc-container {
+            bottom: 88px !important;
+            transition: bottom 0.3s ease;
+          }
+        }
+      `}</style>
+      <Script
+        id="tazoota-livechat-script"
+        src="https://chatapppay-rust.vercel.app/livechat.js"
+        strategy="afterInteractive"
+        data-color="#2e6b3e"
+        data-position="bottom-right"
+        data-button-size="60"
+        data-label="Chat with us"
+        data-brand="Tazoota"
+      />
+    </>
   );
 }

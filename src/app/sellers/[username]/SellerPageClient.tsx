@@ -70,7 +70,7 @@ export default function SellerPageClient({ seller }: Props) {
     <div className="min-h-screen bg-[#f0f7f2] flex flex-col font-sans">
       
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-[#2e6b3e] to-[#2e6b3e] text-[#f0f7f2] pt-24 pb-12 rounded-b-[40px] shadow-lg relative overflow-hidden">
+      <div className="bg-gradient-to-br from-[#2e6b3e] to-[#1f4729] text-white pt-24 pb-12 shadow-lg relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#2e6b3e] rounded-full filter blur-[120px] opacity-10 -translate-y-1/2 translate-x-1/2"></div>
         
@@ -78,12 +78,12 @@ export default function SellerPageClient({ seller }: Props) {
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-8">
             
             {/* Avatar */}
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-[#f0f7f2]/20 overflow-hidden flex-shrink-0 bg-[#f0f7f2]/5 relative z-20 shadow-2xl">
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white/30 overflow-hidden flex-shrink-0 bg-white/10 relative z-20 shadow-2xl">
               {seller.avatarUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={seller.avatarUrl} alt={seller.name} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-[#2e6b3e] to-[#2e6b3e] flex items-center justify-center text-5xl font-bold text-[#f0f7f2]">
+                <div className="w-full h-full bg-gradient-to-br from-[#3d8452] to-[#2e6b3e] flex items-center justify-center text-5xl font-bold text-white">
                   {seller.name.charAt(0).toUpperCase()}
                 </div>
               )}
@@ -92,9 +92,9 @@ export default function SellerPageClient({ seller }: Props) {
             {/* Info */}
             <div className="flex-1 text-center md:text-left">
               <div className="flex flex-col md:flex-row items-center md:items-end gap-3 mb-2">
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tight">{seller.name}</h1>
+                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-white">{seller.name}</h1>
                 <div className="relative group flex">
-                  <div className="cursor-help flex items-center gap-1.5 bg-[#2e6b3e] text-white px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-sm border border-[#2e6b3e]/50 transition-colors hover:bg-[#2e6b3e]/90">
+                  <div className="cursor-help flex items-center gap-1.5 bg-yellow-400 text-gray-900 px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-sm border border-yellow-300/50 transition-colors hover:bg-yellow-300">
                     <Star className="w-3 h-3 fill-current" />
                     Star Seller
                   </div>
@@ -102,36 +102,36 @@ export default function SellerPageClient({ seller }: Props) {
                   {/* Tooltip */}
                   <div className="absolute top-full mt-3 left-0 md:left-auto md:right-auto w-72 p-4 bg-white text-gray-600 text-sm leading-relaxed rounded-2xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top translate-y-2 group-hover:translate-y-0">
                     <div className="font-bold mb-1.5 flex items-center gap-1.5 text-[#262626]">
-                      <Star className="w-4 h-4 text-[#2e6b3e] fill-[#2e6b3e]" /> Star Seller
+                      <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" /> Star Seller
                     </div>
                     Star Sellers have an outstanding track record for providing a great customer experience – they consistently earned 5-star reviews, dispatched orders on time, and replied quickly to any messages they received.
                   </div>
                 </div>
               </div>
               
-              <p className="text-[#f0f7f2]/75 font-medium mb-4 flex items-center justify-center md:justify-start gap-2">
+              <p className="text-white/80 font-medium mb-4 flex items-center justify-center md:justify-start gap-2">
                 @{seller.username}
               </p>
               
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-y-2 gap-x-6 text-sm text-[#f0f7f2]/80 mb-6">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-y-2 gap-x-6 text-sm text-white/90 mb-6">
                 {(seller.location || 'United States') && (
                   <div className="flex items-center gap-1.5">
-                    <MapPin className="w-4 h-4 text-[#2e6b3e]" />
+                    <MapPin className="w-4 h-4 text-yellow-300" />
                     <span>{seller.location || 'United States'}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4 text-[#2e6b3e]" />
+                  <Calendar className="w-4 h-4 text-yellow-300" />
                   <span>Joined {seller.memberSince || new Date(seller.createdAt || Date.now()).getFullYear()}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Package className="w-4 h-4 text-[#2e6b3e]" />
+                  <Package className="w-4 h-4 text-yellow-300" />
                   <span>{products.length} Items Listed</span>
                 </div>
               </div>
 
               {seller.bio && (
-                <div className="bg-[#f0f7f2]/10 p-4 rounded-2xl backdrop-blur-md border border-[#f0f7f2]/15 text-[#f0f7f2]/90 text-sm md:text-base leading-relaxed max-w-2xl">
+                <div className="bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/20 text-white/95 text-sm md:text-base leading-relaxed max-w-2xl">
                   {seller.bio}
                 </div>
               )}
@@ -145,16 +145,16 @@ export default function SellerPageClient({ seller }: Props) {
                         key={i}
                         className={`h-4 w-4 ${
                           i < Math.floor(seller.averageRating ?? 0)
-                            ? 'text-[#2e6b3e] fill-[#2e6b3e]'
+                            ? 'text-yellow-300 fill-yellow-300'
                             : 'text-white/30'
                         }`}
                       />
                     ))}
                   </div>
-                  <span className="text-[#f0f7f2]/85 text-sm font-medium">
+                  <span className="text-white font-medium text-sm">
                     {(seller.averageRating ?? 0).toFixed(1)}
                   </span>
-                  <span className="text-[#f0f7f2]/60 text-sm">
+                  <span className="text-white/70 text-sm">
                     ({seller.totalReviews} review{seller.totalReviews !== 1 ? 's' : ''})
                   </span>
                 </div>
@@ -194,13 +194,13 @@ export default function SellerPageClient({ seller }: Props) {
                 </div>
               </div>
               
-              <div className="bg-gradient-to-br from-[#2e6b3e] to-[#2e6b3e] p-6 rounded-3xl border border-[#2e6b3e]/10 flex flex-col items-center text-center text-[#f0f7f2] shadow-sm">
-                <div className="w-12 h-12 bg-[#2e6b3e]/15 text-[#2e6b3e] rounded-full flex items-center justify-center mb-3">
+              <div className="bg-gradient-to-br from-[#3d8452] to-[#2e6b3e] p-6 rounded-3xl border border-[#2e6b3e]/10 flex flex-col items-center text-center text-white shadow-sm">
+                <div className="w-12 h-12 bg-white/20 text-white rounded-full flex items-center justify-center mb-3">
                   <HelpCircle className="w-6 h-6" />
                 </div>
-                <h3 className="font-semibold text-[#f0f7f2] mb-2">Have a question?</h3>
-                <p className="text-sm text-[#f0f7f2]/80 mb-4">You can reach out to our dedicated support team regarding any items sold by {seller.name}.</p>
-                <Link href="/contact" className="w-full px-4 py-2.5 bg-[#2e6b3e] text-white font-medium rounded-xl hover:bg-[#2e6b3e]/90 transition-colors shadow-sm text-sm">
+                <h3 className="font-semibold text-white mb-2">Have a question?</h3>
+                <p className="text-sm text-white/90 mb-4">You can reach out to our dedicated support team regarding any items sold by {seller.name}.</p>
+                <Link href="/contact" className="w-full px-4 py-2.5 bg-white text-[#2e6b3e] font-medium rounded-xl hover:bg-gray-100 transition-colors shadow-sm text-sm">
                   Contact Support
                 </Link>
               </div>

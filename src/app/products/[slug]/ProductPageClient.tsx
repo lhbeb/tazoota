@@ -8,7 +8,7 @@ import ClientOnly from '@/components/ClientOnly';
 import RecommendedProducts from '@/components/RecommendedProducts';
 import SameDayShipping from '@/components/SameDayShipping';
 import SellerBadge from '@/components/SellerBadge';
-import { addToCart } from '@/utils/cart';
+import { addToCart, getCartItem } from '@/utils/cart';
 import { preventScrollOnClick } from '@/utils/scrollUtils';
 import { debugNavigation, debugError, debugLog } from '@/utils/debug';
 import { trackPixelEvent } from '@/lib/pixel';
@@ -160,6 +160,24 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
   const [selectedSizeRange, setSelectedSizeRange] = useState<'mens' | 'womens' | null>(null);
   const [sizeError, setSizeError] = useState<boolean>(false);
   const sizeSelectorRef = useRef<HTMLDivElement | null>(null);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+
+  // Track cart drawer open/close to hide the mobile sticky bar when drawer is visible
+  useEffect(() => {
+    const handleOpen = () => setIsCartDrawerOpen(true);
+    const handleClose = () => setIsCartDrawerOpen(false);
+    const handleCartUpdated = () => {
+      if (!getCartItem()) setIsCartDrawerOpen(false);
+    };
+    window.addEventListener('openCart', handleOpen);
+    window.addEventListener('cartDrawerClosed', handleClose);
+    window.addEventListener('cartUpdated', handleCartUpdated);
+    return () => {
+      window.removeEventListener('openCart', handleOpen);
+      window.removeEventListener('cartDrawerClosed', handleClose);
+      window.removeEventListener('cartUpdated', handleCartUpdated);
+    };
+  }, []);
 
   useEffect(() => {
     if (product?.meta) {
@@ -841,7 +859,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
               )}
 
               {/* Mobile Sticky Buttons */}
-              <div className="lg:mt-8 lg:space-y-3 fixed bottom-0 left-0 right-0 z-50 lg:relative lg:z-auto bg-white border-t border-gray-200 lg:border-0 lg:bg-transparent px-4 py-3 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:space-y-3 space-y-2">
+              <div className={`lg:mt-8 lg:space-y-3 fixed bottom-0 left-0 right-0 z-30 lg:relative lg:z-auto bg-white border-t border-gray-200 lg:border-0 lg:bg-transparent px-4 py-3 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:space-y-3 space-y-2 transition-transform duration-300 ${isCartDrawerOpen ? 'translate-y-full lg:translate-y-0' : 'translate-y-0'}`}>
                 {product && product.inStock === false ? (
                   /* Sold Out / Offer Expired Message */
                   <div className="w-full bg-gray-100 rounded-lg py-3 px-4 text-center">
