@@ -355,6 +355,17 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
       // Small delay to ensure localStorage is updated
       await new Promise(resolve => setTimeout(resolve, 100));
 
+      // For shopify flow: open the cart drawer instead of navigating to the checkout form
+      if (product.checkoutFlow === 'shopify') {
+        debugNavigation('handleAddToCart', 'Shopify flow — opening cart drawer');
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('openCart'));
+        }
+        setIsAddingToCart(false);
+        debugLog('handleAddToCart', 'SUCCESS - Cart drawer opened', 'log');
+        return;
+      }
+
       debugNavigation('handleAddToCart', 'Attempting navigation to /checkout');
 
       // Redirect to checkout - client-side navigation only
@@ -459,11 +470,22 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
       });
 
       // Redirect to checkout after adding to cart
-      setTimeout(() => {
-        preventScrollOnClick(() => {
-          goToCheckout();
-        }, true);
-      }, 200);
+      // For shopify flow: open the cart drawer instead of navigating
+      if (product.checkoutFlow === 'shopify') {
+        setTimeout(() => {
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('openCart'));
+          }
+          setIsBuyingNow(false);
+          setActiveStripeWallet(null);
+        }, 200);
+      } else {
+        setTimeout(() => {
+          preventScrollOnClick(() => {
+            goToCheckout();
+          }, true);
+        }, 200);
+      }
     } catch (error) {
       console.error('Error in buy now:', error);
       setIsBuyingNow(false);
