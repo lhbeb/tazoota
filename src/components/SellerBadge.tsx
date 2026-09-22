@@ -33,16 +33,16 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
     );
   }
 
-  const displaySeller = {
+  const displaySeller = seller || {
     id: 'tazoota',
     name: 'Tazoota',
     username: 'tazoota',
     avatarUrl: fallbackAvatarUrl,
   };
 
-  const isTazoota = true;
-  const href = '/';
-  const hasAvatar = false;
+  const isTazoota = !seller || displaySeller.username === 'tazoota';
+  const href = seller ? `/sellers/${seller.username}` : '/sellers/tazoota';
+  const hasAvatar = !!(seller?.avatarUrl);
 
   /* ── sm (product cards) ─────────────────────────────────────────────────── */
   if (size === 'sm') {
@@ -52,6 +52,18 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
         onClick={(e) => e.stopPropagation()}
         className="inline-flex items-center gap-1.5 mt-2 group w-fit"
       >
+        {/* Small avatar thumbnail */}
+        <div className="w-4 h-4 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center flex-shrink-0 ring-1 ring-gray-100">
+          {hasAvatar ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={seller!.avatarUrl} alt={displaySeller.name} className="w-full h-full object-cover" />
+          ) : isTazoota ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={fallbackAvatarUrl} alt="Tazoota" className="w-full h-full object-contain p-0.5" />
+          ) : (
+            <User className="w-2.5 h-2.5 text-gray-400" />
+          )}
+        </div>
         <span className="text-[11px] text-gray-400">Sold by</span>
         <span className="text-[11px] font-medium text-gray-600 group-hover:text-[#0b2a17] transition-colors">
           {displaySeller.name}
@@ -72,14 +84,15 @@ export default function SellerBadge({ sellerId, size = 'sm' }: SellerBadgeProps)
       className="inline-flex items-center gap-2 mt-2 group w-fit"
     >
       {/* Avatar / icon */}
-      <div className="w-5 h-5 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center flex-shrink-0 ring-1 ring-gray-200 group-hover:ring-[#0b2a17]/30 transition-all">
+      <div className="w-6 h-6 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center flex-shrink-0 ring-1 ring-gray-200 group-hover:ring-[#0b2a17]/30 transition-all">
         {hasAvatar ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={displaySeller.avatarUrl} alt={displaySeller.name} className="w-full h-full object-cover" />
+          <img src={seller!.avatarUrl} alt={displaySeller.name} className="w-full h-full object-cover" />
         ) : isTazoota ? (
-          <ShieldCheck className="w-3 h-3 text-[#0b2a17]" />
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={fallbackAvatarUrl} alt="Tazoota" className="w-full h-full object-contain p-0.5" />
         ) : (
-          <User className="w-3 h-3 text-gray-400" />
+          <User className="w-4 h-4 text-gray-400" />
         )}
       </div>
 
