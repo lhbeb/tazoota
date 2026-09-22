@@ -859,7 +859,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
               )}
 
               {/* Mobile Sticky Buttons */}
-              <div className={`lg:mt-8 lg:space-y-3 fixed bottom-0 left-0 right-0 z-30 lg:relative lg:z-auto bg-white border-t border-gray-200 lg:border-0 lg:bg-transparent px-4 py-3 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:space-y-3 space-y-2 transition-transform duration-300 ${isCartDrawerOpen ? 'translate-y-full lg:translate-y-0' : 'translate-y-0'}`}>
+              <div className={`lg:mt-8 lg:space-y-3 fixed bottom-0 left-0 right-0 z-30 lg:relative lg:z-auto bg-white border-t border-gray-200 lg:border-0 lg:bg-transparent px-4 py-3 lg:px-0 lg:py-0 shadow-lg lg:shadow-none lg:space-y-3 space-y-2 transition-all duration-300 ${isCartDrawerOpen ? 'translate-y-full lg:translate-y-0 opacity-0 lg:opacity-100 pointer-events-none lg:pointer-events-auto' : 'translate-y-0 opacity-100'}`}>
                 {product && product.inStock === false ? (
                   /* Sold Out / Offer Expired Message */
                   <div className="w-full bg-gray-100 rounded-lg py-3 px-4 text-center">
