@@ -41,7 +41,8 @@ async function createShopifyProduct(product: any): Promise<{ shopifyId: string; 
       status: 'active',
       variants: [{
         price: String(product.price || '0.00'),
-        inventory_management: null,
+        inventory_management: null,     // do not track quantity
+        inventory_policy: 'continue',   // allow purchase even when qty = 0
         fulfillment_service: 'manual',
         requires_shipping: true,
       }],
