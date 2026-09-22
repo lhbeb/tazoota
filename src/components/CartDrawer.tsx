@@ -222,7 +222,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               {isCheckingOut ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Connecting to Shopify…
+                  Loading checkout…
                 </>
               ) : (
                 <>
