@@ -4,21 +4,15 @@ import SameDayShipping from '@/components/SameDayShipping';
 import HomeReviews from '@/components/HomeReviews';
 import CategorySection from '@/components/CategorySection';
 import PopularCategories from '@/components/PopularCategories';
-import { getFeaturedProducts } from '@/lib/data';
+import { getProducts } from '@/lib/data';
 import { homeReviews, homeReviewsStats } from '@/lib/homeReviews';
 import ScrollToTop from '@/components/ScrollToTop';
-import { FEATURED_PRODUCT_LIMIT } from '@/config/products';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   try {
-    // Treat featured status as the homepage's data boundary. Keeping this
-    // defensive check here prevents any future data-source regression from
-    // leaking a non-featured product into a homepage section.
-    const featuredProducts = (await getFeaturedProducts()).filter(
-      (product) => product.isFeatured === true,
-    );
+    const products = await getProducts();
 
   return (
     <>
@@ -27,14 +21,14 @@ export default async function HomePage() {
       </Suspense>
       <Hero />
 
-      <PopularCategories products={featuredProducts} />
+      <PopularCategories products={products} />
 
       <CategorySection
         sectionId="products"
-        products={featuredProducts}
+        products={products}
         title="Featured Equipment"
         subtitle="A considered selection of reliable tools and outdoor essentials."
-        maxDisplay={FEATURED_PRODUCT_LIMIT}
+        maxDisplay={products.length}
         shuffleForVisitor
         visitorShuffleKey="home-featured"
       />

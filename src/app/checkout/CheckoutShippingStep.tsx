@@ -439,7 +439,7 @@ function SecureCheckoutInfo({ mobile = false }: { mobile?: boolean }) {
       <p className="text-xs text-gray-500 max-w-sm mx-auto text-center">
         Your payment details stay encrypted and private.
       </p>
-      <div className="flex max-w-sm flex-wrap items-center justify-center gap-2">
+      <div className="mx-auto flex w-full max-w-[30rem] flex-wrap items-center justify-center gap-2 px-2">
         {PAYMENT_LOGOS.map((logo) => (
           <span
             key={logo.src}

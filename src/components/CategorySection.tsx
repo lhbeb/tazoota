@@ -24,10 +24,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
   shuffleForVisitor = false,
   visitorShuffleKey = 'home-power-tools',
 }) => {
-  const featuredProducts = useMemo(
-    () => products.filter((product) => product.isFeatured === true),
-    [products],
-  );
+  const featuredProducts = useMemo(() => products, [products]);
 
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>(() =>
     featuredProducts.slice(0, maxDisplay),

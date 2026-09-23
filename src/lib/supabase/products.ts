@@ -39,43 +39,41 @@ export function transformProduct(row: any): Product {
   };
 }
 
+const PRODUCT_PAGE_SIZE = 1000;
+
+async function fetchAllProductRows(
+  createQuery: (from: number, to: number) => any,
+): Promise<any[]> {
+  const rows: any[] = [];
+
+  for (let page = 0; ; page += 1) {
+    const from = page * PRODUCT_PAGE_SIZE;
+    const to = from + PRODUCT_PAGE_SIZE - 1;
+    const { data, error } = await createQuery(from, to);
+
+    if (error) throw error;
+    if (!data || data.length === 0) break;
+
+    rows.push(...data);
+    if (data.length < PRODUCT_PAGE_SIZE) break;
+  }
+
+  return rows;
+}
+
 /**
  * Get all products from Supabase
  * @param includeDrafts - If true, includes draft products. Defaults to false (only published products).
  */
 export async function getProducts(includeDrafts: boolean = false): Promise<Product[]> {
   try {
-    let allRows: any[] = [];
-    let page = 0;
-    const pageSize = 1000;
-    let hasMore = true;
-
-    while (hasMore) {
-      const from = page * pageSize;
-      const to = from + pageSize - 1;
-
-      const { data, error } = await supabaseAdmin
+    const allRows = await fetchAllProductRows((from, to) =>
+      supabaseAdmin
         .from('products')
         .select('*')
         .order('created_at', { ascending: false })
-        .range(from, to);
-
-      if (error) {
-        console.error('Error fetching products batch:', error);
-        break;
-      }
-
-      if (data && data.length > 0) {
-        allRows = allRows.concat(data);
-        if (data.length < pageSize) {
-          hasMore = false;
-        } else {
-          page++;
-        }
-      } else {
-        hasMore = false;
-      }
-    }
+        .range(from, to),
+    );
 
     const products = allRows.map(transformProduct);
 
@@ -142,16 +140,14 @@ export async function getProductBySlug(slug: string, includeDrafts: boolean = fa
  */
 export async function getProductsByCategory(category: string): Promise<Product[]> {
   try {
-    const { data, error } = await supabaseAdmin
-      .from('products')
-      .select('*')
-      .eq('category', category)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching products by category:', error);
-      return [];
-    }
+    const data = await fetchAllProductRows((from, to) =>
+      supabaseAdmin
+        .from('products')
+        .select('*')
+        .eq('category', category)
+        .order('created_at', { ascending: false })
+        .range(from, to),
+    );
 
     const products = (data || []).map(transformProduct);
 
@@ -240,16 +236,14 @@ export async function getRecommendedProducts(
  */
 export async function getProductsByCollection(collection: string): Promise<Product[]> {
   try {
-    const { data, error } = await supabaseAdmin
-      .from('products')
-      .select('*')
-      .contains('collections', [collection])
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching products by collection:', error);
-      return [];
-    }
+    const data = await fetchAllProductRows((from, to) =>
+      supabaseAdmin
+        .from('products')
+        .select('*')
+        .contains('collections', [collection])
+        .order('created_at', { ascending: false })
+        .range(from, to),
+    );
 
     const products = (data || []).map(transformProduct);
     
@@ -272,16 +266,14 @@ export async function searchProducts(query: string): Promise<Product[]> {
       return [];
     }
 
-    const { data, error } = await supabaseAdmin
-      .from('products')
-      .select('*')
-      .or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,brand.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%,slug.ilike.%${searchTerm}%`)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error searching products:', error);
-      return [];
-    }
+    const data = await fetchAllProductRows((from, to) =>
+      supabaseAdmin
+        .from('products')
+        .select('*')
+        .or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,brand.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%,slug.ilike.%${searchTerm}%`)
+        .order('created_at', { ascending: false })
+        .range(from, to),
+    );
 
     const products = (data || []).map(transformProduct);
 

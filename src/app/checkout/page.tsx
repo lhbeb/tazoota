@@ -127,45 +127,6 @@ const CheckoutPage: React.FC = () => {
     }
   }, [isRedirecting]);
 
-  useEffect(() => {
-    const product = cartItem?.product;
-    if (!product || product.checkoutFlow !== 'stripe') return;
-
-    let cancelled = false;
-
-    const initializeStripeIntent = async () => {
-      try {
-        const response = await fetch('/api/create-payment-intent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ productSlug: product.slug }),
-        });
-        const data = await response.json();
-
-        if (cancelled) return;
-
-        if (!response.ok || !data.clientSecret || !data.paymentIntentId) {
-          setCheckoutError(data.error || 'Card payment is temporarily unavailable. Please try again.');
-          return;
-        }
-
-        setStripeElementsClientSecret(data.clientSecret);
-        setStripePaymentIntentId(data.paymentIntentId);
-      } catch (error) {
-        if (!cancelled) {
-          console.error('Failed to initialize Stripe PaymentIntent:', error);
-          setCheckoutError('Card payment is temporarily unavailable. Please try again.');
-        }
-      }
-    };
-
-    initializeStripeIntent();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [cartItem?.product]);
-
   const stripeAddressSignature = JSON.stringify({
     fullName: form.shippingData.fullName || '',
     countryCode: form.shippingData.countryCode || '',
