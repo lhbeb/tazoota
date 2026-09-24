@@ -29,7 +29,7 @@ export default async function HomePage() {
         products={products}
         title="Featured Equipment"
         subtitle="A considered selection of reliable tools and outdoor essentials."
-        maxDisplay={products.length}
+        maxDisplay={16}
         shuffleForVisitor
         visitorShuffleKey="home-featured"
       />
