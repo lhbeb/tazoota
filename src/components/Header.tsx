@@ -10,15 +10,7 @@ import type { Product } from '@/types/product';
 import ClientOnly from './ClientOnly';
 import SearchBar from './SearchBar';
 import CartDrawer from './CartDrawer';
-
-const catalogNavigation = [
-  { label: 'All', href: '/#products' },
-  { label: 'Blowers', href: '/search?category=Blowers' },
-  { label: 'Lawn Mowers', href: '/search?category=Lawn%20Mowers' },
-  { label: 'Pressure Washers', href: '/search?category=Pressure%20Washers' },
-  { label: 'Vacuum Cleaners', href: '/search?category=Vacuum%20Cleaners' },
-  { label: 'Hardware', href: '/search?category=Hardware' },
-] as const;
+import { CATALOG_NAVIGATION } from '@/lib/catalogClusters';
 
 const desktopNavLinkClass =
   'relative py-1 text-sm font-bold text-[#efefef] transition-colors duration-200 hover:text-[#e3e823] focus-visible:text-[#e3e823] focus-visible:outline-none after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-[#e3e823] after:transition-transform after:duration-200 hover:after:scale-x-100 focus-visible:after:scale-x-100';
@@ -325,7 +317,7 @@ const Header = () => {
         <div suppressHydrationWarning={true} className="hidden lg:block bg-[#2e6b3e]">
           <div suppressHydrationWarning={true} className="container mx-auto px-4">
             <nav className="flex items-center gap-6 bg-[#2e6b3e] py-3 font-sans">
-              {catalogNavigation.map((item) => (
+              {CATALOG_NAVIGATION.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
@@ -355,7 +347,7 @@ const Header = () => {
           <div className="lg:hidden bg-white border-t border-gray-200">
             <div className="container mx-auto px-4 py-4">
               <nav className="flex flex-col bg-white font-sans">
-                {catalogNavigation.map((item) => (
+                {CATALOG_NAVIGATION.map((item) => (
                   <Link
                     key={`mobile-${item.label}`}
                     href={item.href}
@@ -394,7 +386,7 @@ const Header = () => {
         <div suppressHydrationWarning={true} className="lg:hidden bg-[#2e6b3e] border-t border-white/10">
           <div suppressHydrationWarning={true} className="overflow-x-auto scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
             <nav className="flex min-w-max items-center gap-3 bg-[#2e6b3e] px-4 py-3">
-              {catalogNavigation.map((item) => (
+              {CATALOG_NAVIGATION.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}

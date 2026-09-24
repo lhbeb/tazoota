@@ -1,25 +1,18 @@
-export const PRODUCT_COLLECTION_OPTIONS = [
-  { value: 'lawn-garden', label: 'Lawn & Garden' },
-  { value: 'power-tools', label: 'Power Tools & Equipment' },
-  { value: 'electronics', label: 'Electronics' },
-] as const;
+import {
+  CATALOG_CLUSTERS,
+  getCatalogCollectionsForProduct,
+  type CatalogProductLike,
+} from '@/lib/catalogClusters';
+
+export const PRODUCT_COLLECTION_OPTIONS = CATALOG_CLUSTERS.map((cluster) => ({
+  value: cluster.slug,
+  label: cluster.label,
+}));
+
+export function getCollectionsForProduct(product: CatalogProductLike): string[] {
+  return getCatalogCollectionsForProduct(product);
+}
 
 export function getCollectionsForCategory(category: string): string[] {
-  const normalized = category.toLowerCase().trim();
-
-  const collections = new Set<string>();
-
-  if (/mower|bike|bicycle|ebike|e-bike|scooter|tent|pool|swimming|trimmer|blower/.test(normalized)) {
-    collections.add('lawn-garden');
-  }
-
-  if (/pressure washer|vacuum|power|generator|tool|hardware|blower|trimmer/.test(normalized)) {
-    collections.add('power-tools');
-  }
-
-  if (/console|electronic|camera/.test(normalized)) {
-    collections.add('electronics');
-  }
-
-  return collections.size > 0 ? [...collections] : ['lawn-garden'];
+  return getCatalogCollectionsForProduct({ category });
 }

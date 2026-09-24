@@ -1,30 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Product } from '@/types/product';
-
-const POPULAR_CATEGORY_NAMES = [
-  'Blowers',
-  'Hardware',
-  'Lawn Mowers',
-  'Pressure Washers',
-  'Vacuum Cleaners',
-] as const;
+import { CATALOG_CLUSTERS, matchesCatalogCluster } from '@/lib/catalogClusters';
 
 interface PopularCategoriesProps {
   products: Product[];
-}
-
-function matchesCategory(productCategory: string | undefined, categoryName: string): boolean {
-  if (!productCategory) return false;
-  const cat = productCategory.trim().toLowerCase();
-  const target = categoryName.trim().toLowerCase();
-  if (cat === target) return true;
-  if (target === 'lawn mowers') return cat.includes('mower');
-  if (target === 'blowers') return cat.includes('blower');
-  if (target === 'pressure washers') return cat.includes('pressure washer');
-  if (target === 'vacuum cleaners') return cat.includes('vacuum');
-  if (target === 'hardware') return cat.includes('hardware') || cat.includes('tool');
-  return false;
 }
 
 export default function PopularCategories({ products }: PopularCategoriesProps) {
@@ -32,20 +12,20 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
     .flatMap((product) => product.images || [])
     .filter((image): image is string => Boolean(image));
 
-  const categories = POPULAR_CATEGORY_NAMES.map((name) => {
+  const categories = CATALOG_CLUSTERS.map((cluster) => {
     const categoryProducts = products.filter((product) =>
-      matchesCategory(product.category, name),
+      matchesCatalogCluster(product, cluster.slug),
     );
 
     const chosenProduct =
       categoryProducts.find((product) => product.images?.[0]);
 
     return {
-      name,
+      name: cluster.label,
       count: categoryProducts.length,
-      image: chosenProduct?.images?.[0] || fallbackImages[POPULAR_CATEGORY_NAMES.indexOf(name)] || fallbackImages[0],
+      image: chosenProduct?.images?.[0] || fallbackImages[CATALOG_CLUSTERS.indexOf(cluster)] || fallbackImages[0],
     };
-  }).filter((category) => category.image);
+  }).filter((category) => category.count > 0 && category.image);
 
   if (categories.length === 0) return null;
 
@@ -86,10 +66,13 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
                 </div>
 
                 {/* Centered Category Banner */}
-                <div className="mt-auto flex items-center justify-center bg-[#2e6b3e] px-4 py-4 text-[#f0f7f2] transition-colors duration-300 group-hover:bg-[#0b2a17]">
+                <div className="mt-auto flex flex-col items-center justify-center bg-[#2e6b3e] px-4 py-4 text-[#f0f7f2] transition-colors duration-300 group-hover:bg-[#0b2a17]">
                   <h3 className="text-base sm:text-lg font-bold leading-tight tracking-wide text-center">
                     {category.name}
                   </h3>
+                  <p className="mt-1 text-xs font-semibold text-[#e3e823]">
+                    {category.count} items
+                  </p>
                 </div>
               </Link>
             ))}

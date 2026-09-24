@@ -5,43 +5,12 @@ import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import type { Product } from "@/types/product";
 import { Loader2 } from "lucide-react";
+import { getExactCatalogCategory, matchesCatalogCluster } from "@/lib/catalogClusters";
 
 interface SearchPageClientProps {
   initialQuery?: string;
   initialCategory?: string;
   initialCollection?: string;
-}
-
-const CATALOG_CATEGORIES = [
-  "Blowers",
-  "Hardware",
-  "Lawn Mowers",
-  "Pressure Washers",
-  "Swimming Pools",
-  "Bikes",
-  "Electric Scooters",
-  "Tents",
-  "Vacuum Cleaners",
-] as const;
-
-function getExactCatalogCategory(value: string): string {
-  const normalizedValue = value.trim().toLowerCase();
-
-  return (
-    CATALOG_CATEGORIES.find(
-      (category) => category.toLowerCase() === normalizedValue,
-    ) || ""
-  );
-}
-
-function getCategoryTokens(value: string): string[] {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((token) => (token.endsWith('s') ? token.slice(0, -1) : token));
 }
 
 function matchesCatalogCategory(product: Product, category: string): boolean {
@@ -50,27 +19,7 @@ function matchesCatalogCategory(product: Product, category: string): boolean {
     return true;
   }
 
-  // Some imported listings use singular labels or a broader category. Match
-  // the category terms against searchable product text as a fallback.
-  const productText = [product.category, product.title, product.description]
-    .filter(Boolean)
-    .join(' ');
-  const productTokens = new Set(getCategoryTokens(productText));
-
-  const categoryAliases: Record<string, string[][]> = {
-    blowers: [['blower'], ['leaf', 'blower']],
-    hardware: [['hardware'], ['tool'], ['equipment'], ['generator']],
-    'lawn mowers': [['lawn', 'mower'], ['mower']],
-    'pressure washers': [['pressure', 'washer'], ['pressure']],
-    'swimming pools': [['swimming', 'pool'], ['pool']],
-    bikes: [['bike'], ['bicycle']],
-    'electric scooters': [['electric', 'scooter'], ['scooter']],
-    tents: [['tent']],
-    'vacuum cleaners': [['vacuum'], ['cleaner']],
-  };
-  const requestedAliases = categoryAliases[category.toLowerCase()] || [getCategoryTokens(category)];
-
-  return requestedAliases.some((alias) => alias.every((token) => productTokens.has(token)));
+  return matchesCatalogCluster(product, category);
 }
 
 /**

@@ -3,7 +3,7 @@ import { supabaseAdmin } from './server';
 import type { Product } from '@/types/product';
 import { FEATURED_PRODUCT_LIMIT } from '@/config/products';
 import type { Review } from '@/types/product';
-import { getCollectionsForCategory } from '@/lib/productCollections';
+import { getCollectionsForProduct } from '@/lib/productCollections';
 
 // Transform Supabase row to Product type
 export function transformProduct(row: any): Product {
@@ -38,7 +38,12 @@ export function transformProduct(row: any): Product {
     // were imported without complete collection metadata.
     collections: Array.from(new Set([
       ...(Array.isArray(row.collections) ? row.collections : []),
-      ...getCollectionsForCategory(String(row.category || '')),
+      ...getCollectionsForProduct({
+        title: row.title,
+        category: row.category,
+        description: row.description,
+        brand: row.brand,
+      }),
     ])),
     original_price: row.original_price !== undefined ? row.original_price : (meta.original_price || meta.originalPrice || null),
     originalPrice: row.original_price !== undefined ? row.original_price : (meta.original_price || meta.originalPrice || null),
