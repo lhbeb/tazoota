@@ -26,6 +26,20 @@ const CACHE_TTL = 0; // Temporarily 0 to flush cache
 
 export async function getStripeConfig(): Promise<StripeConfig> {
     const now = Date.now();
+
+    const envPublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '';
+    const envSecretKey = process.env.STRIPE_SECRET_KEY || '';
+    if (envPublishableKey && envSecretKey) {
+        cachedConfig = {
+            publishableKey: envPublishableKey,
+            secretKey: envSecretKey,
+            webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || '',
+            mode: envSecretKey.startsWith('sk_live_') ? 'live' : 'test',
+            isActive: true
+        };
+        lastFetchTime = now;
+        return cachedConfig;
+    }
     
     // Return cached config if it's still valid
     if (cachedConfig && (now - lastFetchTime) < CACHE_TTL) {
@@ -76,11 +90,11 @@ export async function getStripeConfig(): Promise<StripeConfig> {
 
     // Fallback to environment variables
     const fallbackConfig: StripeConfig = {
-        publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '',
-        secretKey: process.env.STRIPE_SECRET_KEY || '',
+        publishableKey: envPublishableKey,
+        secretKey: envSecretKey,
         webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || '',
         mode: process.env.NODE_ENV === 'production' ? 'live' : 'test',
-        isActive: !!process.env.STRIPE_SECRET_KEY
+        isActive: !!envSecretKey
     };
 
     if (!fallbackConfig.secretKey) {

@@ -64,7 +64,7 @@ const CheckoutPage: React.FC = () => {
       }
 
       debugLog('CheckoutPage: useEffect', 'Getting cart item from localStorage', 'log');
-      const item = getCartItem();
+      let item = getCartItem();
 
       if (!item) {
         debugLog('CheckoutPage: useEffect', 'No cart item found, redirecting to home', 'warn');
@@ -78,6 +78,16 @@ const CheckoutPage: React.FC = () => {
         clearCart();
         router.push(`/products/${item.product.slug}`);
         return;
+      }
+
+      if (item.product) {
+        item = {
+          ...item,
+          product: {
+            ...item.product,
+            checkoutFlow: 'stripe',
+          },
+        };
       }
 
       debugLog(
@@ -468,7 +478,7 @@ const CheckoutPage: React.FC = () => {
         checkoutLink: product.checkoutLink,
       });
 
-      const checkoutFlow = product.checkoutFlow || 'buymeacoffee';
+      const checkoutFlow = product.checkoutFlow || 'stripe';
       console.log('🔍 [Checkout] Detected checkout flow:', checkoutFlow);
 
       if (checkoutFlow === 'kofi') {

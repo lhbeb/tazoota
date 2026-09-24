@@ -26,7 +26,7 @@ export function transformProduct(row: any): Product {
     payeeEmail: row.payee_email || '',
     currency: row.currency || 'USD',
     checkoutLink: row.checkout_link,
-    checkoutFlow: row.checkout_flow || 'buymeacoffee', // Default to buymeacoffee for backward compatibility
+    checkoutFlow: 'stripe',
     reviews: row.reviews || [],
     meta: meta,
     published: published, // Default to true unless explicitly set to false
@@ -383,7 +383,7 @@ export async function createProduct(productData: {
       brand: productData.brand,
       payee_email: productData.payee_email || '',
       checkout_link: productData.checkout_link,
-      checkout_flow: productData.checkout_flow || 'buymeacoffee',
+      checkout_flow: 'stripe',
       currency: productData.currency || 'USD',
       rating: productData.rating || 0,
       review_count: reviewCount,

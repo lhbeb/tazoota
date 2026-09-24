@@ -40,7 +40,7 @@ export function addToCart(product: Product): void {
       payeeEmail: product.payeeEmail || '',
       currency: product.currency || 'USD',
       checkoutLink: product.checkoutLink || '',
-      checkoutFlow: product.checkoutFlow || 'buymeacoffee', // Preserve checkout flow
+      checkoutFlow: 'stripe',
       rating: typeof product.rating === 'number' ? product.rating : 0,
       reviewCount: typeof product.reviewCount === 'number' ? product.reviewCount : 0,
       reviews: Array.isArray(product.reviews) ? product.reviews : [],

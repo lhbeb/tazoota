@@ -9,7 +9,7 @@ import CheckoutNotifier from '@/components/CheckoutNotifier';
 import CountrySelect from '@/components/CountrySelect';
 import PaypalApiRedirectButton from '@/components/PaypalApiRedirectButton';
 import PaypalRedirectButton from '@/components/PaypalRedirectButton';
-import StripeElementsCheckout from '@/components/StripeElementsCheckout';
+import StripeElementsCheckout, { StripeSdkPreloader } from '@/components/StripeElementsCheckout';
 import type { CartItem } from '@/utils/cart';
 import type { CheckoutFormController } from './useCheckoutForm';
 import type { PaypalApiInitializationResult, PaypalPaymentInitializationResult } from './types';
@@ -514,6 +514,7 @@ export default function CheckoutShippingStep({
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 pb-40 lg:pb-4">
+      {isStripeFlow && <StripeSdkPreloader />}
       <CheckoutNotifier />
       <main className="flex-grow py-4">
         <div className="container mx-auto px-4">

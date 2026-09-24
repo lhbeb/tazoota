@@ -20,6 +20,38 @@ interface StripeElementsCheckoutProps {
   compact?: boolean;
 }
 
+let cachedStripePromise: Promise<Stripe | null> | null = null;
+
+async function getStripeClient(): Promise<Stripe | null> {
+  if (cachedStripePromise) return cachedStripePromise;
+
+  cachedStripePromise = (async () => {
+    const response = await fetch(`/api/config/stripe?t=${Date.now()}`, { cache: 'no-store' });
+    const data = await response.json();
+
+    if (!response.ok || !data.publishableKey) {
+      throw new Error(data.error || 'Stripe is not configured');
+    }
+
+    const stripe = await loadStripe(data.publishableKey);
+    if (!stripe) throw new Error('Stripe.js returned no client instance');
+    return stripe;
+  })();
+
+  return cachedStripePromise;
+}
+
+export function StripeSdkPreloader() {
+  useEffect(() => {
+    getStripeClient().catch((error) => {
+      console.error('Failed to preload Stripe SDK:', error);
+      cachedStripePromise = null;
+    });
+  }, []);
+
+  return null;
+}
+
 function StripePaymentForm({
   isAddressVerified,
   shippingData,
@@ -137,14 +169,7 @@ export default function StripeElementsCheckout(props: StripeElementsCheckoutProp
 
     const loadConfig = async () => {
       try {
-        const response = await fetch(`/api/config/stripe?t=${Date.now()}`, { cache: 'no-store' });
-        const data = await response.json();
-
-        if (!response.ok || !data.publishableKey) {
-          throw new Error(data.error || 'Stripe is not configured');
-        }
-
-        const stripe = await loadStripe(data.publishableKey);
+        const stripe = await getStripeClient();
         if (!stripe) throw new Error('Stripe.js returned no client instance');
         if (mounted) setStripePromise(Promise.resolve(stripe));
       } catch (error) {

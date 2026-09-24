@@ -126,7 +126,7 @@ export default function EditProductPage() {
   const [formData, setFormData] = useState({
     slug: '', title: '', description: '', price: '', original_price: '',
     brand: '', category: '', condition: '', payee_email: '', checkout_link: '',
-    checkout_flow: 'buymeacoffee' as CheckoutFlow,
+    checkout_flow: 'stripe' as CheckoutFlow,
     currency: 'USD', images: '', rating: '0', review_count: '0',
     in_stock: true, is_featured: false, published: false, listed_by: '', seller_id: '',
     collections: [] as string[],
@@ -178,7 +178,7 @@ export default function EditProductPage() {
         condition: normalizeConditionValue(data.condition || ''),
         payee_email: data.payeeEmail || data.payee_email || '',
         checkout_link: data.checkoutLink || data.checkout_link || '',
-        checkout_flow: data.checkoutFlow || data.checkout_flow || 'buymeacoffee',
+        checkout_flow: 'stripe',
         currency: data.currency || 'USD',
         images: Array.isArray(data.images) ? data.images.join(', ') : data.images || '',
         rating: data.rating?.toString() || '0',
