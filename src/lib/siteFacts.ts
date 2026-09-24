@@ -21,6 +21,7 @@ export const SITE = {
     country: 'US',
     cost: 0,
     cutoffTime: '2:00 PM CST',
+    cutoffTimeISO: '14:00:00-06:00',
     handlingMin: 0,
     handlingMax: 1,
     transitMin: 5,

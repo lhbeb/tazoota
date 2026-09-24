@@ -32,6 +32,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/privacy-policy', changeFrequency: 'yearly' as const, priority: 0.3 },
     { path: '/terms', changeFrequency: 'yearly' as const, priority: 0.3 },
     { path: '/cookies', changeFrequency: 'yearly' as const, priority: 0.3 },
+    { path: '/track', changeFrequency: 'monthly' as const, priority: 0.5 },
+    { path: '/electronics', changeFrequency: 'weekly' as const, priority: 0.6 },
+    { path: '/entertainment', changeFrequency: 'weekly' as const, priority: 0.6 },
+    { path: '/fashion', changeFrequency: 'weekly' as const, priority: 0.6 },
+    { path: '/hobbies-collectibles', changeFrequency: 'weekly' as const, priority: 0.6 },
   ];
 
   const staticPages = staticRoutes.map((route) => ({

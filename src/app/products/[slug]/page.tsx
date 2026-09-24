@@ -189,6 +189,17 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 "minValue": SITE.shipping.transitMin,
                 "maxValue": SITE.shipping.transitMax,
                 "unitCode": "DAY"
+              },
+              "cutoffTime": SITE.shipping.cutoffTimeISO,
+              "businessDays": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                  "https://schema.org/Monday",
+                  "https://schema.org/Tuesday",
+                  "https://schema.org/Wednesday",
+                  "https://schema.org/Thursday",
+                  "https://schema.org/Friday"
+                ]
               }
             }
           }

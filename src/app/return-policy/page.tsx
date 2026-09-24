@@ -35,7 +35,7 @@ export default function ReturnPolicyPage() {
           'merchantReturnLink': `${SITE.domain}/return-policy`,
           'applicableCountry': ['US'],
           'returnPolicyCategory': 'https://schema.org/MerchantReturnFiniteReturnWindow',
-          'merchantReturnDays': 30,
+          'merchantReturnDays': SITE.returns.windowDays,
           'returnMethod': 'https://schema.org/ReturnByMail',
           'returnFees': 'https://schema.org/FreeReturn',
           'returnLabelSource': 'https://schema.org/ReturnLabelDownloadAndPrint',
