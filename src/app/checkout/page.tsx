@@ -487,8 +487,26 @@ const CheckoutPage: React.FC = () => {
       } else if (checkoutFlow === 'stripe') {
         console.log('💳 [Checkout] Stripe flow: Linking PaymentIntent to verified order');
         try {
-          if (!stripePaymentIntentId) {
-            throw new Error('Stripe payment is still loading. Please try again in a moment.');
+          let paymentIntentId = stripePaymentIntentId;
+
+          // Create the intent before linking it to the newly saved order. The
+          // previous flow only attempted the linking request, so the intent
+          // ID was always null on the first address submission and checkout
+          // stayed stuck in the loading state.
+          if (!paymentIntentId) {
+            const createResponse = await fetch('/api/create-payment-intent', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ productSlug: product.slug }),
+            });
+            const createData = await createResponse.json();
+
+            if (!createResponse.ok || !createData.clientSecret || !createData.paymentIntentId) {
+              throw new Error(createData.error || 'Failed to initialize Stripe payment. Please try again.');
+            }
+
+            paymentIntentId = createData.paymentIntentId;
+            setStripePaymentIntentId(paymentIntentId);
           }
 
           const response = await fetch('/api/create-payment-intent', {
@@ -496,7 +514,7 @@ const CheckoutPage: React.FC = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               orderId,
-              paymentIntentId: stripePaymentIntentId,
+              paymentIntentId,
               productSlug: product.slug,
               shippingData: form.shippingData,
             }),
