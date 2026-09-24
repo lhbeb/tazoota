@@ -29,17 +29,6 @@ export async function getStripeConfig(): Promise<StripeConfig> {
 
     const envPublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '';
     const envSecretKey = process.env.STRIPE_SECRET_KEY || '';
-    if (envPublishableKey && envSecretKey) {
-        cachedConfig = {
-            publishableKey: envPublishableKey,
-            secretKey: envSecretKey,
-            webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || '',
-            mode: envSecretKey.startsWith('sk_live_') ? 'live' : 'test',
-            isActive: true
-        };
-        lastFetchTime = now;
-        return cachedConfig;
-    }
     
     // Return cached config if it's still valid
     if (cachedConfig && (now - lastFetchTime) < CACHE_TTL) {

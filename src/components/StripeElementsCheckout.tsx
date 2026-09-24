@@ -20,14 +20,14 @@ interface StripeElementsCheckoutProps {
   compact?: boolean;
 }
 
-let cachedStripePromise: Promise<Stripe | null> | null = null;
+let cachedStripePromise: Promise<Stripe> | null = null;
 
-async function getStripeClient(): Promise<Stripe | null> {
+async function getStripeClient(): Promise<Stripe> {
   if (cachedStripePromise) return cachedStripePromise;
 
   cachedStripePromise = (async () => {
     const response = await fetch(`/api/config/stripe?t=${Date.now()}`, { cache: 'no-store' });
-    const data = await response.json();
+    const data = await response.json().catch(() => ({}));
 
     if (!response.ok || !data.publishableKey) {
       throw new Error(data.error || 'Stripe is not configured');
@@ -38,7 +38,12 @@ async function getStripeClient(): Promise<Stripe | null> {
     return stripe;
   })();
 
-  return cachedStripePromise;
+  try {
+    return await cachedStripePromise;
+  } catch (error) {
+    cachedStripePromise = null;
+    throw error;
+  }
 }
 
 export function StripeSdkPreloader() {

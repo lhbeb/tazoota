@@ -107,6 +107,11 @@ export default function RootLayout({
         )}
       </head>
       <body suppressHydrationWarning className="font-sans antialiased text-[#262626]">
+        <Script
+          id="stripe-js"
+          src="https://js.stripe.com/v3"
+          strategy="beforeInteractive"
+        />
         <GlobalErrorReporter />
         <Suspense fallback={null}>
           <FacebookPixel />
