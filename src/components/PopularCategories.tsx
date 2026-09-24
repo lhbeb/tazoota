@@ -28,6 +28,10 @@ function matchesCategory(productCategory: string | undefined, categoryName: stri
 }
 
 export default function PopularCategories({ products }: PopularCategoriesProps) {
+  const fallbackImages = products
+    .flatMap((product) => product.images || [])
+    .filter((image): image is string => Boolean(image));
+
   const categories = POPULAR_CATEGORY_NAMES.map((name) => {
     const categoryProducts = products.filter((product) =>
       matchesCategory(product.category, name),
@@ -39,9 +43,9 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
     return {
       name,
       count: categoryProducts.length,
-      image: chosenProduct?.images[0],
+      image: chosenProduct?.images?.[0] || fallbackImages[POPULAR_CATEGORY_NAMES.indexOf(name)] || fallbackImages[0],
     };
-  }).filter((category) => category.count > 0 && category.image);
+  }).filter((category) => category.image);
 
   if (categories.length === 0) return null;
 

@@ -128,22 +128,25 @@ function StripePaymentForm({
 export default function StripeElementsCheckout(props: StripeElementsCheckoutProps) {
   const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null);
   const [configError, setConfigError] = useState('');
+  const [loadAttempt, setLoadAttempt] = useState(0);
 
   useEffect(() => {
     let mounted = true;
+    setConfigError('');
+    setStripePromise(null);
 
     const loadConfig = async () => {
       try {
-        const response = await fetch(`/api/config/stripe?t=${Date.now()}`);
+        const response = await fetch(`/api/config/stripe?t=${Date.now()}`, { cache: 'no-store' });
         const data = await response.json();
 
         if (!response.ok || !data.publishableKey) {
           throw new Error(data.error || 'Stripe is not configured');
         }
 
-        if (mounted) {
-          setStripePromise(loadStripe(data.publishableKey));
-        }
+        const stripe = await loadStripe(data.publishableKey);
+        if (!stripe) throw new Error('Stripe.js returned no client instance');
+        if (mounted) setStripePromise(Promise.resolve(stripe));
       } catch (error) {
         console.error('Failed to load Stripe config:', error);
         if (mounted) {
@@ -156,7 +159,7 @@ export default function StripeElementsCheckout(props: StripeElementsCheckoutProp
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [loadAttempt]);
 
   const options = useMemo(() => ({
     clientSecret: props.clientSecret,
@@ -173,7 +176,14 @@ export default function StripeElementsCheckout(props: StripeElementsCheckoutProp
   if (configError) {
     return (
       <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-700">
-        {configError}
+        <p>{configError}</p>
+        <button
+          type="button"
+          onClick={() => setLoadAttempt((attempt) => attempt + 1)}
+          className="mt-3 rounded-lg bg-[#0b2a17] px-4 py-2 text-white hover:bg-[#3a7f4b]"
+        >
+          Retry card payment
+        </button>
       </div>
     );
   }

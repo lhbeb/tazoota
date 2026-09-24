@@ -396,6 +396,20 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Invalid Secret Key signature' }, { status: 400 });
         }
 
+        const expectsTestKeys = normalizedMode === 'test';
+        const publishableKeyIsTest = normalizedPublishableKey.startsWith('pk_test_');
+        const secretKeyIsTest = resolvedSecretKey.startsWith('sk_test_') || resolvedSecretKey.startsWith('rk_test_');
+        if (publishableKeyIsTest !== expectsTestKeys || secretKeyIsTest !== expectsTestKeys) {
+            return NextResponse.json(
+                {
+                    error: expectsTestKeys
+                        ? 'Test Mode requires matching pk_test_ and sk_test_/rk_test_ keys.'
+                        : 'Live Mode requires matching pk_live_ and sk_live_/rk_live_ keys.',
+                },
+                { status: 400 },
+            );
+        }
+
         if (resolvedWebhookSecret && !resolvedWebhookSecret.startsWith('whsec_')) {
             if (submittedWebhookSecret && isMaskedSecret(submittedWebhookSecret)) {
                 return NextResponse.json({ error: 'Please provide the full webhook signing secret before saving.' }, { status: 400 });
