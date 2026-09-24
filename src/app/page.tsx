@@ -22,6 +22,8 @@ export default async function HomePage() {
       </Suspense>
       <Hero />
 
+      <PopularCategories products={products} />
+
       <CategorySection
         sectionId="products"
         products={products}
@@ -33,8 +35,6 @@ export default async function HomePage() {
       />
 
       <FeaturedCollectionSection products={products} />
-
-      <PopularCategories products={products} />
 
       <SameDayShipping />
 
