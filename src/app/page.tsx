@@ -4,6 +4,7 @@ import SameDayShipping from '@/components/SameDayShipping';
 import HomeReviews from '@/components/HomeReviews';
 import CategorySection from '@/components/CategorySection';
 import PopularCategories from '@/components/PopularCategories';
+import FeaturedCollectionSection from '@/components/FeaturedCollectionSection';
 import { getProducts } from '@/lib/data';
 import { homeReviews, homeReviewsStats } from '@/lib/homeReviews';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -21,8 +22,6 @@ export default async function HomePage() {
       </Suspense>
       <Hero />
 
-      <PopularCategories products={products} />
-
       <CategorySection
         sectionId="products"
         products={products}
@@ -32,6 +31,10 @@ export default async function HomePage() {
         shuffleForVisitor
         visitorShuffleKey="home-featured"
       />
+
+      <FeaturedCollectionSection products={products} />
+
+      <PopularCategories products={products} />
 
       <SameDayShipping />
 

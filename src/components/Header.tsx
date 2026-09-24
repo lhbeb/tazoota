@@ -350,11 +350,24 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile menu - Only Track Order, Contact Us, and Sell Now */}
+        {/* Mobile menu */}
         {isMenuOpen && (
           <div className="lg:hidden bg-white border-t border-gray-200">
             <div className="container mx-auto px-4 py-4">
               <nav className="flex flex-col bg-white font-sans">
+                {catalogNavigation.map((item) => (
+                  <Link
+                    key={`mobile-${item.label}`}
+                    href={item.href}
+                    className={`${mobileMenuLinkClass} py-4 border-b border-gray-200`}
+                    onClick={handleMobileMenuClose}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                <Link href="/#featured" className={`${mobileMenuLinkClass} py-4 border-b border-gray-200`} onClick={handleMobileMenuClose}>
+                  Featured
+                </Link>
                 <Link href="/track" className={`${mobileMenuLinkClass} pb-4 border-b border-gray-200`} onClick={handleMobileMenuClose}>
                   Track Order
                 </Link>
@@ -386,6 +399,7 @@ const Header = () => {
                   key={item.label}
                   href={item.href}
                   className="flex-shrink-0 whitespace-nowrap rounded-full border border-white/20 px-4 py-2 text-sm font-bold text-[#efefef] transition-colors duration-300 hover:border-[#e3e823]/60 hover:bg-[#e3e823]/15"
+                  onClick={handleMobileMenuClose}
                 >
                   {item.label}
                 </Link>
@@ -393,6 +407,7 @@ const Header = () => {
               <Link
                 href="/#featured"
                 className="flex-shrink-0 px-4 py-2 border border-white/20 rounded-full text-sm font-bold text-[#efefef] hover:border-[#e3e823]/60 hover:bg-[#e3e823]/15 transition-colors duration-300 whitespace-nowrap"
+                onClick={handleMobileMenuClose}
               >
                 Featured
               </Link>

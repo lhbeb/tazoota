@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 interface SearchPageClientProps {
   initialQuery?: string;
   initialCategory?: string;
+  initialCollection?: string;
 }
 
 const CATALOG_CATEGORIES = [
@@ -31,6 +32,45 @@ function getExactCatalogCategory(value: string): string {
       (category) => category.toLowerCase() === normalizedValue,
     ) || ""
   );
+}
+
+function getCategoryTokens(value: string): string[] {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((token) => (token.endsWith('s') ? token.slice(0, -1) : token));
+}
+
+function matchesCatalogCategory(product: Product, category: string): boolean {
+  const exactCategory = String(product.category || '').trim().toLowerCase();
+  if (exactCategory === category.toLowerCase()) {
+    return true;
+  }
+
+  // Some imported listings use singular labels or a broader category. Match
+  // the category terms against searchable product text as a fallback.
+  const productText = [product.category, product.title, product.description]
+    .filter(Boolean)
+    .join(' ');
+  const productTokens = new Set(getCategoryTokens(productText));
+
+  const categoryAliases: Record<string, string[][]> = {
+    blowers: [['blower'], ['leaf', 'blower']],
+    hardware: [['hardware'], ['tool'], ['equipment'], ['generator']],
+    'lawn mowers': [['lawn', 'mower'], ['mower']],
+    'pressure washers': [['pressure', 'washer'], ['pressure']],
+    'swimming pools': [['swimming', 'pool'], ['pool']],
+    bikes: [['bike'], ['bicycle']],
+    'electric scooters': [['electric', 'scooter'], ['scooter']],
+    tents: [['tent']],
+    'vacuum cleaners': [['vacuum'], ['cleaner']],
+  };
+  const requestedAliases = categoryAliases[category.toLowerCase()] || [getCategoryTokens(category)];
+
+  return requestedAliases.some((alias) => alias.every((token) => productTokens.has(token)));
 }
 
 /**
@@ -136,14 +176,15 @@ function advancedSearch(products: Product[], query: string): Product[] {
     .map((item) => item.product);
 }
 
-export default function SearchPageClient({ initialQuery, initialCategory }: SearchPageClientProps) {
+export default function SearchPageClient({ initialQuery, initialCategory, initialCollection }: SearchPageClientProps) {
   const searchParams = useSearchParams();
   const queryParam = searchParams.get("query") || initialQuery || "";
   const categoryParam = searchParams.get("category") || initialCategory || "";
+  const collectionParam = searchParams.get("collection") || initialCollection || "";
   // Old and cached navbar links used `?query=Lawn Mowers`. Treat known catalog
   // names as exact categories so accessory copy cannot leak into the results.
   const exactCategory = categoryParam.trim() || getExactCatalogCategory(queryParam);
-  const activeTerm = exactCategory || queryParam;
+  const activeTerm = exactCategory || collectionParam || queryParam;
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -156,7 +197,7 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
   // Reset to page 1 when the search or category changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [queryParam, exactCategory]);
+  }, [queryParam, exactCategory, collectionParam]);
 
   // Fetch and search products
   useEffect(() => {
@@ -180,12 +221,13 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
 
         const allProducts: Product[] = await response.json();
 
-        const filteredProducts = exactCategory
-          ? allProducts.filter(
-              (product) =>
-                String(product.category || '').trim().toLowerCase() ===
-                exactCategory.toLowerCase(),
+        const normalizedCollection = collectionParam.trim().toLowerCase();
+        const filteredProducts = normalizedCollection
+          ? allProducts.filter((product) =>
+              product.collections?.some((collection) => collection.toLowerCase() === normalizedCollection),
             )
+          : exactCategory
+          ? allProducts.filter((product) => matchesCatalogCategory(product, exactCategory))
           : advancedSearch(allProducts, queryParam);
 
         setProducts(filteredProducts);
@@ -199,7 +241,7 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
     };
 
     fetchAndSearch();
-  }, [queryParam, exactCategory, activeTerm]);
+  }, [queryParam, exactCategory, collectionParam, activeTerm]);
 
   // Paginated products
   const paginatedProducts = useMemo(() => {
@@ -256,7 +298,7 @@ export default function SearchPageClient({ initialQuery, initialCategory }: Sear
         <>
           <div className="container mx-auto px-4 py-8">
             <h1 className="text-2xl font-bold text-[#262626] mb-2">
-              {exactCategory ? exactCategory : <>Search Results for &quot;{queryParam}&quot;</>}
+              {collectionParam ? `Collection: ${collectionParam}` : exactCategory ? exactCategory : <>Search Results for &quot;{queryParam}&quot;</>}
             </h1>
             <p className="text-gray-600">
               Found {products.length} {products.length === 1 ? "product" : "products"}

@@ -3,6 +3,7 @@ import { supabaseAdmin } from './server';
 import type { Product } from '@/types/product';
 import { FEATURED_PRODUCT_LIMIT } from '@/config/products';
 import type { Review } from '@/types/product';
+import { getCollectionsForCategory } from '@/lib/productCollections';
 
 // Transform Supabase row to Product type
 export function transformProduct(row: any): Product {
@@ -33,7 +34,12 @@ export function transformProduct(row: any): Product {
     inStock: row.in_stock !== undefined ? Boolean(row.in_stock) : true,
     listedBy: row.listed_by || null,
     sellerId: row.seller_id || null,
-    collections: row.collections || [], // Array of collection tags
+    // Keep explicit tags and infer relevant collections for older listings that
+    // were imported without complete collection metadata.
+    collections: Array.from(new Set([
+      ...(Array.isArray(row.collections) ? row.collections : []),
+      ...getCollectionsForCategory(String(row.category || '')),
+    ])),
     original_price: row.original_price !== undefined ? row.original_price : (meta.original_price || meta.originalPrice || null),
     originalPrice: row.original_price !== undefined ? row.original_price : (meta.original_price || meta.originalPrice || null),
   };
@@ -240,7 +246,6 @@ export async function getProductsByCollection(collection: string): Promise<Produ
       supabaseAdmin
         .from('products')
         .select('*')
-        .contains('collections', [collection])
         .order('created_at', { ascending: false })
         .range(from, to),
     );
@@ -248,7 +253,12 @@ export async function getProductsByCollection(collection: string): Promise<Produ
     const products = (data || []).map(transformProduct);
     
     // Filter out drafts - only return published products
-    return products.filter(p => p.published !== false);
+    const normalizedCollection = collection.trim().toLowerCase();
+    return products.filter(
+      (product) =>
+        product.published !== false &&
+        product.collections?.some((tag) => tag.toLowerCase() === normalizedCollection),
+    );
   } catch (error) {
     console.error('Error loading products by collection:', error);
     return [];
