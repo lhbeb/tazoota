@@ -13,7 +13,7 @@ import { preventScrollOnClick } from '@/utils/scrollUtils';
 import { debugNavigation, debugError, debugLog } from '@/utils/debug';
 import { trackPixelEvent } from '@/lib/pixel';
 import { queueGoogleAdsBeginCheckout } from '@/lib/googleAds';
-import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp, X, ShoppingCart, Zap, Eye, ZoomIn, Info, Ruler, CreditCard } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp, X, ShoppingCart, Zap, ZoomIn, Info, Ruler, CreditCard } from 'lucide-react';
 import { useState, useEffect, useMemo, useRef, type CSSProperties } from 'react';
 import type { Product } from '@/types/product';
 import Image from 'next/image';
@@ -25,38 +25,10 @@ interface ProductPageClientProps {
   product: Product | null;
 }
 
-interface ProductActivity {
-  views: number;
-  cartAdds: number;
-}
-
 type StripeWalletButton = 'link' | 'gpay';
 
 const PRODUCT_IMAGE_QUALITY = 95;
 const COLLAPSED_FAQ_COUNT = 2;
-
-function hashActivitySeed(value: string): number {
-  let hash = 2166136261;
-
-  for (let index = 0; index < value.length; index += 1) {
-    hash ^= value.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-
-  return hash >>> 0;
-}
-
-function getProductActivity(slug: string, date = new Date()): ProductActivity {
-  const dayKey = date.toISOString().slice(0, 10);
-  const seed = hashActivitySeed(`${slug}:${dayKey}`);
-  const baseViews = 180 + (seed % 181);
-  const views = Math.round(baseViews * 1.5);
-
-  const baseCartAdds = 12 + ((seed >>> 8) % 18);
-  const cartAdds = Math.round(baseCartAdds * 1.5);
-
-  return { views, cartAdds };
-}
 
 function StripeProductWalletCtas({
   isDisabled,
@@ -150,7 +122,6 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isBuyingNow, setIsBuyingNow] = useState(false);
   const [activeStripeWallet, setActiveStripeWallet] = useState<StripeWalletButton | null>(null);
-  const [productActivity, setProductActivity] = useState<ProductActivity | null>(null);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
   const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
@@ -216,13 +187,6 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
     const preview = descriptionText.slice(0, 360).trimEnd();
     return `${preview}${preview.endsWith(".") ? "" : "…"}`;
   }, [descriptionText, shouldCollapseDescription]);
-
-  // Generate a realistic activity profile that is stable for each product/day.
-  useEffect(() => {
-    if (!product || typeof window === 'undefined') return;
-
-    setProductActivity(getProductActivity(product.slug));
-  }, [product]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -760,29 +724,6 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
                 )}
               </div>
 
-              <ClientOnly>
-                {productActivity && (
-                  <div className="mt-4 flex items-center gap-2 overflow-x-auto whitespace-nowrap text-xs text-[#171717]/60 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <span className="inline-flex items-center gap-1.5">
-                      <Eye className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                      <strong className="font-semibold text-[#171717]/80">{productActivity.views}</strong>{' '}
-                      {productActivity.views === 1 ? 'view' : 'views'}
-                    </span>
-                    <span className="text-[#171717]/25" aria-hidden="true">·</span>
-                    <span className="inline-flex items-center gap-1.5">
-                      <ShoppingCart className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                      <strong className="font-semibold text-[#171717]/80">{productActivity.cartAdds}</strong>{' '}
-                      {productActivity.cartAdds === 1 ? 'cart add' : 'cart adds'}
-                    </span>
-                    <span className="text-[#171717]/25" aria-hidden="true">·</span>
-                    <span className="inline-flex items-center gap-1.5">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
-                      Active in the last 24h
-                    </span>
-                  </div>
-                )}
-              </ClientOnly>
-
               {/* Size Selector Section */}
               {!!(product?.meta?.has_mens_sizes || product?.meta?.has_womens_sizes || product?.meta?.hasSizes) && (
                 <div ref={sizeSelectorRef} className="mt-6 border-t border-gray-100 pt-6">
@@ -996,7 +937,7 @@ export default function ProductPageClient({ product: initialProduct }: ProductPa
               <div className="border-b border-[#e5ede6] px-6 py-6 sm:px-8">
                 <h2 className="text-2xl font-semibold text-[#262626]">Frequently Asked Questions</h2>
                 <p className="mt-2 max-w-2xl text-sm leading-7 text-[#5d6b62]">
-                  Quick answers to the things shoppers usually want to know before placing an order.
+                  Questions about our garden and home products, ordering, delivery, or returns? Find straightforward answers here.
                 </p>
               </div>
 
