@@ -26,7 +26,7 @@ import {
 export const metadata: Metadata = {
   title: 'About Us | Tazoota',
   description:
-    'Learn about Tazoota, your trusted source for lawn mowers, power tools, portable generators, and garden essentials. Operating across the United States with fair prices and quality service.',
+    'Get to know Tazoota, a U.S. online retailer for practical garden and home products, from watering and planting essentials to tools and outdoor living.',
 };
 
 export default function AboutPage() {
@@ -39,7 +39,7 @@ export default function AboutPage() {
         'url': 'https://tazoota.com/about',
         'name': 'About Tazoota',
         'description':
-          'Tazoota is an ecommerce retailer serving customers in the United States with outdoor power equipment and garden essentials.',
+          'Tazoota is a U.S. online retailer offering practical products for gardening, home projects, and outdoor living.',
         'mainEntity': {
           '@id': 'https://tazoota.com/#organization',
         },
@@ -51,7 +51,7 @@ export default function AboutPage() {
         'url': SITE.domain,
         'logo': SITE.logo,
         'description':
-          'Ecommerce store serving the United States with lawn mowers, power tools, portable generators, and garden essentials.',
+          'Online retailer serving the United States with garden, home, and outdoor living products.',
         'email': 'contact@tazoota.com',
         'telephone': ['+19083256283'],
         'address': {
@@ -93,7 +93,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h1 className="text-5xl font-bold mb-6">About Tazoota</h1>
           <p className="text-xl text-[#f0f7f2]/85 leading-relaxed max-w-3xl mx-auto">
-            Welcome to Tazoota, your trusted source for outdoor power equipment and home project essentials. Based in the United States, we help smart shoppers find reliable lawn mowers, power tools, portable generators, and garden essentials at fair and transparent prices.
+            Tazoota is an online retailer for garden and home products that make everyday projects easier. From watering and planting to useful tools, storage, and outdoor living, we bring practical finds together with clear product information, straightforward pricing, and customer support you can reach.
           </p>
         </div>
       </div>
@@ -106,11 +106,11 @@ export default function AboutPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#2e6b3e] text-white">
                 <MapPin className="h-6 w-6" />
               </div>
-              <h2 className="mt-4 text-2xl font-bold text-[#262626]">Proudly US-based</h2>
+              <h2 className="mt-4 text-2xl font-bold text-[#262626]">A U.S. retailer, here to help</h2>
             </div>
             <div className="space-y-4 text-base leading-7 text-gray-700">
               <p>
-                Tazoota operates out of Rock Springs, Wyoming, serving customers across the United States. Our central warehouse and fulfillment operations are designed to get your order to you fast.
+                Tazoota is based in Rock Springs, Wyoming, and serves customers across the United States. We make garden and home shopping simple, with helpful product information and support throughout your order.
               </p>
               <p>
                 Eligible products can be collected locally from our Rock Springs location. Our team confirms the available pickup address and collection time for each order before you travel.
@@ -125,10 +125,10 @@ export default function AboutPage() {
         {/* How We Keep Prices Low */}
         <div className="bg-white rounded-2xl shadow-lg border border-[#2e6b3e]/10 p-8 mb-12">
           <div className="mb-6">
-            <h2 className="text-3xl font-bold text-[#262626]">How We Source Products Responsibly</h2>
+            <h2 className="text-3xl font-bold text-[#262626]">Useful finds for garden and home</h2>
           </div>
           <p className="text-gray-700 mb-8 text-lg">
-            Tazoota operates as an independent ecommerce retailer and reseller. We purchase inventory through established wholesale, distributor, closeout, and overstock channels, then list products with clear pricing, product details, and support policies.
+            We bring together practical products for the spaces you care for every day: gardens, patios, workshops, and around the home. Our range includes watering supplies, planting and garden tools, outdoor storage, and other useful home-and-garden essentials.
           </p>
 
           <div className="space-y-6">
@@ -138,9 +138,9 @@ export default function AboutPage() {
                   1
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#262626] mb-2">We buy through established supply channels</h3>
+                  <h3 className="text-xl font-bold text-[#262626] mb-2">Products chosen for everyday projects</h3>
                   <p className="text-gray-700">
-                    Our team sources from wholesale suppliers, authorized distributors where available, overstock programs, and closeout inventory. This helps us offer practical prices without hiding who is responsible for the order.
+                    Explore useful options for watering, planting, garden care, home projects, and outdoor living, with products suited to a range of needs and budgets.
                   </p>
                 </div>
               </div>
@@ -152,9 +152,9 @@ export default function AboutPage() {
                   2
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#262626] mb-2">We verify inventory before listing</h3>
+                  <h3 className="text-xl font-bold text-[#262626] mb-2">Clear information for confident shopping</h3>
                   <p className="text-gray-700">
-                    Products are reviewed for condition, key specifications, images, and shipping readiness before they are published. If an item cannot be verified, we do not list it for sale.
+                    Product pages bring key details, specifications, images, and delivery information together so you can compare options and choose what works for your project.
                   </p>
                 </div>
               </div>
@@ -166,12 +166,12 @@ export default function AboutPage() {
                   3
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#262626] mb-2">We partner with authorized distributors and manufacturers</h3>
+                  <h3 className="text-xl font-bold text-[#262626] mb-2">A straightforward experience</h3>
                   <p className="text-gray-700 mb-2">
-                    When possible, we obtain inventory directly from authorized distributors and major brands. By purchasing in large volumes and taking advantage of closeout deals and overstock inventory, we secure significant discounts.
+                    From browsing to delivery, Tazoota is your retailer and point of contact. We aim to make product details, pricing, and store policies easy to understand.
                   </p>
                   <p className="text-gray-700">
-                    Every product is brand new and carefully handled before being shipped to our customers.
+                    Need help with an item or order? Our customer support team is here to assist.
                   </p>
                 </div>
               </div>
@@ -183,9 +183,9 @@ export default function AboutPage() {
                   4
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#262626] mb-2">We negotiate strategic wholesale agreements</h3>
+                  <h3 className="text-xl font-bold text-[#262626] mb-2">Made for real homes and gardens</h3>
                   <p className="text-gray-700">
-                    Our team regularly attends industry trade shows and negotiates with national wholesalers. This allows us to discover unique product lines and high-value items that are often marked up in traditional stores.
+                    Whether you are tending plants, organizing outdoor spaces, or taking on a home project, we want it to be easier to find the supplies you need in one place.
                   </p>
                 </div>
               </div>
@@ -197,9 +197,9 @@ export default function AboutPage() {
                   5
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#262626] mb-2">Fair pricing keeps our store competitive</h3>
+                  <h3 className="text-xl font-bold text-[#262626] mb-2">Straightforward prices and policies</h3>
                   <p className="text-gray-700">
-                    Instead of adding heavy markups, we focus on fair margins and fast turnover. This approach keeps our prices consistent, honest, and genuinely competitive.
+                    We keep pricing clear and make our shipping, returns, and customer-support information available before you buy.
                   </p>
                 </div>
               </div>
@@ -207,38 +207,38 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Private Sellers Section */}
+        {/* Customer Support Section */}
         <div className="bg-white rounded-2xl shadow-lg border border-[#2e6b3e]/10 p-8 mb-12">
           <div className="flex items-center gap-4 mb-6">
             <div className="p-3 bg-[#2e6b3e]/10 rounded-xl">
               <Users className="h-8 w-8 text-[#2e6b3e]" />
             </div>
-            <h2 className="text-3xl font-bold text-[#262626]">A Key Addition to Our Model: Verified Wholesale Partners</h2>
+            <h2 className="text-3xl font-bold text-[#262626]">Support from one store</h2>
           </div>
           <p className="text-gray-700 mb-4 text-lg">
-            Tazoota works with vetted wholesale and fulfillment partners to support product availability while keeping one clear customer experience.
+            Tazoota is the retailer for the products you order here. We work to make the details and next steps clear, with one customer-support contact for your shopping experience.
           </p>
           <p className="text-gray-700 mb-6">
-            Before products are offered to customers, our team reviews product information and fulfillment readiness, which includes:
+            When comparing products, you can review the information that matters for your purchase:
           </p>
 
           <div className="grid md:grid-cols-3 gap-4 mb-6">
             <div className="bg-[#f0f7f2] rounded-lg p-4 border border-[#2e6b3e]/10">
               <CheckCircle2 className="h-6 w-6 text-[#2e6b3e] mb-2" />
-              <p className="text-gray-700 font-medium">verifying brand new condition</p>
+              <p className="text-gray-700 font-medium">product condition and included items</p>
             </div>
             <div className="bg-[#f0f7f2] rounded-lg p-4 border border-[#2e6b3e]/10">
               <Zap className="h-6 w-6 text-[#2e6b3e] mb-2" />
-              <p className="text-gray-700 font-medium">confirming factory-sealed packaging</p>
+              <p className="text-gray-700 font-medium">key features and specifications</p>
             </div>
             <div className="bg-[#f0f7f2] rounded-lg p-4 border border-[#2e6b3e]/10">
               <DollarSign className="h-6 w-6 text-[#2e6b3e] mb-2" />
-              <p className="text-gray-700 font-medium">validating that the price reflects real market value</p>
+              <p className="text-gray-700 font-medium">price, shipping, and store policies</p>
             </div>
           </div>
 
           <p className="text-gray-700 mb-6 bg-[#f0f7f2] rounded-lg p-4 border border-[#2e6b3e]/10">
-            Only after the inspection is complete does the item become available for purchase.
+            Check the product listing for item-specific details, availability, and delivery information.
           </p>
 
           <div className="bg-[#f0f7f2] rounded-lg p-6 border border-[#2e6b3e]/10">
@@ -247,13 +247,13 @@ export default function AboutPage() {
               How it works for customers
             </h3>
             <p className="text-gray-700 mb-3">
-              When you place an order through Tazoota, Tazoota remains your point of contact for order support, shipping updates, returns, and refunds.
+              When you place an order through Tazoota, contact us for help with your order, shipping updates, returns, and refunds.
             </p>
             <p className="text-gray-700 mb-3">
-              This process protects buyers and keeps the shopping experience consistent regardless of the supply source behind the item.
+              Our goal is to make it easy to understand who you are buying from and where to go when you need assistance.
             </p>
             <p className="text-gray-700">
-              Customers benefit from a broader equipment catalog while still having one store responsible for support and policies.
+              Browse practical products for gardening, home projects, and outdoor living, backed by clear store policies and customer support.
             </p>
           </div>
         </div>
@@ -265,10 +265,10 @@ export default function AboutPage() {
           </div>
           <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
           <p className="text-xl text-[#f0f7f2]/85 mb-4">
-            To give every homeowner and professional access to quality outdoor and power equipment at honest prices.
+            To help people care for their homes and outdoor spaces with practical garden and home products, clear information, and straightforward service.
           </p>
           <p className="text-lg text-[#f0f7f2]/85">
-            Whether you need a ride mower, pressure washer, generator, or set of power tools, you should not have to pay more than necessary.
+            From watering and planting to organizing and improving your space, Tazoota brings useful everyday products together in one place.
           </p>
         </div>
 
@@ -285,9 +285,9 @@ export default function AboutPage() {
             <div className="bg-[#f0f7f2] rounded-xl p-6 border border-[#2e6b3e]/10">
               <div className="flex items-center gap-3 mb-3">
                 <Package className="h-6 w-6 text-[#2e6b3e]" />
-                <h3 className="text-xl font-bold text-[#262626]">Curated Inventory</h3>
+                <h3 className="text-xl font-bold text-[#262626]">Practical Selection</h3>
               </div>
-              <p className="text-gray-700">Every product is carefully inspected and verified before it is shipped to the customer.</p>
+              <p className="text-gray-700">Find useful products for gardening, home projects, outdoor care, and everyday organization.</p>
             </div>
 
             <div className="bg-[#f0f7f2] rounded-xl p-6 border border-[#2e6b3e]/10">
@@ -295,7 +295,7 @@ export default function AboutPage() {
                 <Eye className="h-6 w-6 text-[#2e6b3e]" />
                 <h3 className="text-xl font-bold text-[#262626]">Transparent Product Details</h3>
               </div>
-              <p className="text-gray-700">We provide detailed, accurate descriptions and high-quality images for all our new products. Customers always know exactly what they are buying.</p>
+              <p className="text-gray-700">We bring product descriptions, specifications, and images together to help you make an informed choice.</p>
             </div>
 
             <div className="bg-[#f0f7f2] rounded-xl p-6 border border-[#2e6b3e]/10">
@@ -303,7 +303,7 @@ export default function AboutPage() {
                 <DollarSign className="h-6 w-6 text-[#2e6b3e]" />
                 <h3 className="text-xl font-bold text-[#262626]">Real Value</h3>
               </div>
-              <p className="text-gray-700">We constantly compare and track market prices to ensure every listing is a genuine deal.</p>
+              <p className="text-gray-700">Clear prices and store policies help you know what to expect before placing an order.</p>
             </div>
 
             <div className="bg-[#f0f7f2] rounded-xl p-6 border border-[#2e6b3e]/10">
@@ -311,7 +311,7 @@ export default function AboutPage() {
                 <Headphones className="h-6 w-6 text-[#2e6b3e]" />
                 <h3 className="text-xl font-bold text-[#262626]">Customer Focus</h3>
               </div>
-              <p className="text-gray-700">We offer fast and free shipping within the United States, a 30-day return policy, and reliable human support.</p>
+              <p className="text-gray-700">We offer free shipping within the United States, a 30-day return policy, and customer support when you need it.</p>
             </div>
 
             <div className="bg-[#f0f7f2] rounded-xl p-6 border border-[#2e6b3e]/10 md:col-span-2">
@@ -319,7 +319,7 @@ export default function AboutPage() {
                 <Leaf className="h-6 w-6 text-[#2e6b3e]" />
                 <h3 className="text-xl font-bold text-[#262626]">Sustainable Shopping</h3>
               </div>
-              <p className="text-gray-700">By optimizing our supply chain and purchasing overstock goods, we help reduce retail waste and support a more efficient and sustainable buying cycle.</p>
+              <p className="text-gray-700">We encourage thoughtful purchases by sharing product details and helping customers choose items suited to their needs.</p>
             </div>
           </div>
         </div>
