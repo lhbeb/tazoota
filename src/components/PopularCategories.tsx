@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Product } from '@/types/product';
 
-const MAX_POPULAR_CATEGORIES = 8;
+const MAX_POPULAR_CATEGORIES = 5;
 
 interface PopularCategoriesProps {
   products: Product[];
