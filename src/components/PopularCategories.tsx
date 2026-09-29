@@ -1,31 +1,38 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Product } from '@/types/product';
-import { CATALOG_CLUSTERS, matchesCatalogCluster } from '@/lib/catalogClusters';
+
+const MAX_POPULAR_CATEGORIES = 8;
 
 interface PopularCategoriesProps {
   products: Product[];
 }
 
 export default function PopularCategories({ products }: PopularCategoriesProps) {
-  const fallbackImages = products
-    .flatMap((product) => product.images || [])
-    .filter((image): image is string => Boolean(image));
+  const categoryProducts = new Map<string, Product[]>();
 
-  const categories = CATALOG_CLUSTERS.map((cluster) => {
-    const categoryProducts = products.filter((product) =>
-      matchesCatalogCluster(product, cluster.slug),
-    );
+  for (const product of products) {
+    const name = product.category?.trim();
+    if (!name || /^all products$/i.test(name)) continue;
 
-    const chosenProduct =
-      categoryProducts.find((product) => product.images?.[0]);
+    const key = name.toLocaleLowerCase();
+    const group = categoryProducts.get(key);
+    if (group) group.push(product);
+    else categoryProducts.set(key, [product]);
+  }
 
-    return {
-      name: cluster.label,
-      count: categoryProducts.length,
-      image: chosenProduct?.images?.[0] || fallbackImages[CATALOG_CLUSTERS.indexOf(cluster)] || fallbackImages[0],
-    };
-  }).filter((category) => category.count > 0 && category.image);
+  const categories = Array.from(categoryProducts.values())
+    .map((group) => {
+      const representative = group.find((product) => product.images?.[0]);
+      return {
+        name: group[0].category!.trim(),
+        count: group.length,
+        image: representative?.images?.[0],
+      };
+    })
+    .filter((category): category is { name: string; count: number; image: string } => Boolean(category.image))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+    .slice(0, MAX_POPULAR_CATEGORIES);
 
   if (categories.length === 0) return null;
 
@@ -41,11 +48,10 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
               Explore Popular Categories
             </h2>
             <p className="mt-3 text-base sm:text-lg text-gray-600 max-w-3xl mx-auto text-center">
-              Browse our top-rated equipment collections engineered for strength and reliability.
+              Explore equipment, garden essentials, and outdoor tools from our current collection.
             </p>
           </div>
 
-          {/* Centered cards container */}
           <div className="flex flex-wrap items-stretch justify-center gap-5 sm:gap-6 w-full">
             {categories.map((category) => (
               <Link
@@ -54,10 +60,9 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
                 className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#2e6b3e]/15 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#2e6b3e]/40 w-full sm:w-[calc(50%-12px)] lg:w-[calc(20%-20px)] max-w-[280px] sm:max-w-none"
                 aria-label={`View featured ${category.name} products`}
               >
-                {/* Centered Image Container */}
                 <div className="relative aspect-[4/3] sm:aspect-square w-full overflow-hidden bg-white p-4 sm:p-6 flex items-center justify-center">
                   <Image
-                    src={category.image!}
+                    src={category.image}
                     alt={`${category.name} collection`}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -65,14 +70,10 @@ export default function PopularCategories({ products }: PopularCategoriesProps) 
                   />
                 </div>
 
-                {/* Centered Category Banner */}
                 <div className="mt-auto flex flex-col items-center justify-center bg-[#2e6b3e] px-4 py-4 text-[#f0f7f2] transition-colors duration-300 group-hover:bg-[#0b2a17]">
-                  <h3 className="text-base sm:text-lg font-bold leading-tight tracking-wide text-center">
+                  <h3 className="text-base sm:text-lg font-bold leading-tight text-center">
                     {category.name}
                   </h3>
-                  <p className="mt-1 text-xs font-semibold text-[#e3e823]">
-                    {category.count} items
-                  </p>
                 </div>
               </Link>
             ))}

@@ -1,121 +1,163 @@
-"use client";
-
 import Image from 'next/image';
-import React, { useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import type { Product } from '@/types/product';
 
+const categoryPriority = [
+  'garden hose reels',
+  'lawn sprinklers',
+  'garden hoses',
+  'garden hose storage',
+  'plant supports & trellises',
+  'raised garden beds',
+  'water pump hoses',
+];
 
-const Hero = () => {
-  const typingTextRef = useRef<HTMLSpanElement>(null);
-  const placeholder = '\u00a0';
+const categoryHeadlines: Record<string, string> = {
+  'garden hose reels': 'Make watering easier',
+  'lawn sprinklers': 'Water every corner',
+  'garden hoses': 'Reach the whole garden',
+  'garden hose storage': 'Keep your garden tidy',
+  'plant supports & trellises': 'Give climbing plants room',
+  'raised garden beds': 'Make space to grow',
+  'water pump hoses': 'Move water with confidence',
+};
 
-  // TYPING ANIMATION - PRESERVED EXACTLY
-  useEffect(() => {
-    const element = typingTextRef.current;
-    if (!element) return;
+function categoryHref(category: string) {
+  return `/search?category=${encodeURIComponent(category)}`;
+}
 
-    const words = ['Lawn Mowers', 'Power Tools', 'Portable Generators', 'Garden Essentials'];
-    let isAnimating = true;
-    let currentIndex = 0;
+function getCategoryTitle(category: string) {
+  return categoryHeadlines[category.toLowerCase()] || `Explore ${category.toLowerCase()}`;
+}
 
-    const sleep = (duration: number) =>
-      new Promise<void>((resolve) => setTimeout(resolve, duration));
+export default function Hero({ products }: { products: Product[] }) {
+  const grouped = new Map<string, Product[]>();
 
-    const typeWord = async (word: string) => {
-      element.textContent = '';
-      const letters = word.split('');
-      for (const letter of letters) {
-        if (!isAnimating) return;
-        element.textContent = `${element.textContent}${letter}`;
-        await sleep(90);
-      }
-    };
+  for (const product of products) {
+    const category = product.category?.trim();
+    if (!category || /^all products$/i.test(category) || !product.images?.[0]) continue;
 
-    const deleteWord = async () => {
-      while (isAnimating && (element.textContent?.length ?? 0) > 0) {
-        element.textContent = element.textContent?.slice(0, -1) ?? '';
-        await sleep(40);
-      }
-      element.textContent = placeholder;
-    };
+    const key = category.toLowerCase();
+    const group = grouped.get(key);
+    if (group) group.push(product);
+    else grouped.set(key, [product]);
+  }
 
-    const animateLoop = async () => {
-      element.textContent = placeholder;
+  const categories = Array.from(grouped.values())
+    .map((group) => ({
+      name: group[0].category.trim(),
+      count: group.length,
+      product: group.reduce((best, current) =>
+        (current.images?.length || 0) > (best.images?.length || 0) ? current : best,
+      ),
+    }))
+    .sort((a, b) => {
+      const aPriority = categoryPriority.indexOf(a.name.toLowerCase());
+      const bPriority = categoryPriority.indexOf(b.name.toLowerCase());
+      const aRank = aPriority === -1 ? categoryPriority.length : aPriority;
+      const bRank = bPriority === -1 ? categoryPriority.length : bPriority;
+      return b.count - a.count || aRank - bRank || a.name.localeCompare(b.name);
+    })
+    .slice(0, 4);
 
-      while (isAnimating) {
-        const word = words[currentIndex];
-
-        await typeWord(word);
-        if (!isAnimating) break;
-
-        await sleep(2000);
-        if (!isAnimating) break;
-
-        await deleteWord();
-        if (!isAnimating) break;
-
-        await sleep(350);
-        if (!isAnimating) break;
-
-        currentIndex = (currentIndex + 1) % words.length;
-      }
-    };
-
-    animateLoop();
-
-    return () => {
-      isAnimating = false;
-    };
-  }, []);
+  const [primaryCategory, secondaryCategory, ...smallCategories] = categories;
+  if (!primaryCategory) return null;
 
   return (
-    <section className="relative overflow-hidden bg-white">
-      <div className="container relative z-10 mx-auto px-4 py-8 md:py-10">
-        <div className="mx-auto grid w-full max-w-7xl overflow-hidden rounded-xl shadow-xl md:min-h-[420px] md:grid-cols-[0.9fr_1.1fr] md:items-stretch">
-          {/* Content panel */}
-          <div className="order-2 flex w-full flex-col justify-center bg-[#2e6b3e] p-6 sm:p-8 md:order-1 md:p-10 lg:p-12">
-            {/* Heading with typing animation - PRESERVED */}
-            <h1 className="max-w-[620px] text-2xl font-bold leading-tight text-[#f0f7f2] md:text-3xl lg:text-[38px]">
-              <span
-                ref={typingTextRef}
-                className="mb-1 block h-[1.2em] text-[#f0f7f2]"
-              >
-                {placeholder}
-              </span>
-              <span className="block leading-tight">
-                Get Every Outdoor and Home Project Done with Confidence
-              </span>
-            </h1>
-
-            {/* Description - PRESERVED content */}
-            <p className="mt-4 max-w-[580px] text-sm leading-relaxed text-[#f0f7f2]/90 md:text-base">
-              Find dependable lawn and garden equipment, hard-working power tools, portable generators, and ride-on mowers built to perform from start to finish.
-            </p>
-
-            {/* Shop Now Button - PRESERVED href */}
-            <a
-              href="#products"
-              className="mt-6 inline-flex w-fit items-center justify-center rounded-lg bg-[#e3e823] px-7 py-3 text-sm font-medium text-[#2e6b3e] shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#e3e823]/90 hover:shadow-lg"
-            >
-              Explore the Collection
-            </a>
-          </div>
-
-          {/* Image panel — equal height to the content panel on desktop */}
-          <div className="relative order-1 min-h-[280px] overflow-hidden md:order-2 md:min-h-0">
+    <section className="bg-[#f4f7f5] py-4 sm:py-5" aria-labelledby="home-hero-title">
+      <div className="container mx-auto px-4">
+        <div className="grid w-full gap-3 lg:grid-cols-[1.08fr_1fr]">
+          <Link
+            href={categoryHref(primaryCategory.name)}
+            className="group relative flex min-h-[300px] overflow-hidden rounded-xl bg-[#173a24] shadow-sm sm:min-h-[360px] lg:min-h-[420px]"
+          >
             <Image
-              src="/mower2.png"
-              alt="Lawn mower in use on a landscaped yard"
+              src={primaryCategory.product.images[0]}
+              alt={primaryCategory.product.title}
               fill
               priority
-              sizes="(max-width: 767px) 100vw, 45vw"
-              className="object-cover object-center"
+              unoptimized
+              sizes="(max-width: 1023px) 100vw, 52vw"
+              className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#2e6b3e]/25 via-transparent to-transparent" aria-hidden="true" />
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-[#173a24]/95 via-[#173a24]/75 to-[#173a24]/10"
+              aria-hidden="true"
+            />
+            <div className="relative z-10 flex max-w-[620px] flex-col justify-end p-6 text-white sm:p-8 md:p-10">
+              <p className="text-sm font-semibold text-[#e3e823]">{primaryCategory.name}</p>
+              <h1 id="home-hero-title" className="mt-2 text-3xl font-bold leading-tight sm:text-4xl lg:text-[2.75rem]">
+                Make more of your outdoor space
+              </h1>
+              <p className="mt-3 max-w-lg text-sm leading-relaxed text-white/90 sm:text-base">
+                Find practical gear for watering, growing, and caring for your garden.
+              </p>
+              <span className="mt-5 inline-flex w-fit items-center gap-2 rounded-lg bg-[#e3e823] px-5 py-3 text-sm font-bold text-[#173a24] transition-colors group-hover:bg-white">
+                Explore the collection
+                <ArrowUpRight size={17} aria-hidden="true" />
+              </span>
+            </div>
+          </Link>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+            {secondaryCategory && (
+              <Link
+                href={categoryHref(secondaryCategory.name)}
+                className="group col-span-full grid min-h-[174px] grid-cols-[1fr_0.56fr] overflow-hidden rounded-xl bg-white shadow-sm transition-shadow hover:shadow-md lg:min-h-[204px] lg:grid-cols-[1fr_0.72fr]"
+              >
+                <div className="flex flex-col justify-center p-5 sm:p-6">
+                  <p className="text-sm font-semibold text-[#2e6b3e]">{secondaryCategory.name}</p>
+                  <h2 className="mt-2 text-xl font-bold leading-tight text-[#202923] sm:text-2xl">
+                    {getCategoryTitle(secondaryCategory.name)}
+                  </h2>
+                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-[#2e6b3e]">
+                    Browse {secondaryCategory.name} <ArrowUpRight size={16} aria-hidden="true" />
+                  </span>
+                </div>
+                <div className="relative overflow-hidden bg-[#f1f5ec] p-3 sm:p-4">
+                  <Image
+                    src={secondaryCategory.product.images[0]}
+                    alt={secondaryCategory.product.title}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 1023px) 40vw, 24vw"
+                    className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              </Link>
+            )}
+
+            {smallCategories.map((category) => (
+              <Link
+                key={category.name}
+                href={categoryHref(category.name)}
+                className="group grid min-h-[164px] grid-cols-[1fr_88px] overflow-hidden rounded-xl bg-white shadow-sm transition-shadow hover:shadow-md sm:grid-cols-[1fr_100px]"
+              >
+                <div className="flex flex-col justify-center p-4 sm:p-5">
+                  <p className="text-xs font-semibold text-[#2e6b3e] sm:text-sm">{category.name}</p>
+                  <h2 className="mt-2 text-lg font-bold leading-tight text-[#202923] sm:text-xl">
+                    {getCategoryTitle(category.name)}
+                  </h2>
+                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-[#2e6b3e]">
+                    Browse <ArrowUpRight size={15} aria-hidden="true" />
+                  </span>
+                </div>
+                <div className="relative overflow-hidden bg-[#e3e823] p-2">
+                  <Image
+                    src={category.product.images[0]}
+                    alt={category.product.title}
+                    fill
+                    unoptimized
+                    sizes="100px"
+                    className="object-contain p-1 transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

@@ -20,7 +20,7 @@ export default async function HomePage() {
       <Suspense fallback={null}>
         <ScrollToTop />
       </Suspense>
-      <Hero />
+      <Hero products={products} />
 
       <PopularCategories products={products} />
 
@@ -49,7 +49,7 @@ export default async function HomePage() {
     console.error('Error loading homepage:', error);
     return (
       <>
-        <Hero />
+        <Hero products={[]} />
         <div className="container mx-auto px-4 py-16 text-center">
           <h2 className="text-2xl font-bold text-[#262626] mb-4">Unable to load products</h2>
           <p className="text-gray-600">Please refresh the page or try again later.</p>

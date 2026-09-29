@@ -10,7 +10,15 @@ import type { Product } from '@/types/product';
 import ClientOnly from './ClientOnly';
 import SearchBar from './SearchBar';
 import CartDrawer from './CartDrawer';
-import { CATALOG_NAVIGATION } from '@/lib/catalogClusters';
+
+const MAX_NAV_CATEGORIES = 4;
+const initialCatalogNavigation = [
+  { label: 'All', href: '/#products' },
+  ...['Garden Hose Reels', 'Garden Hose Storage', 'Garden Hoses', 'Lawn Sprinklers'].map((label) => ({
+    label,
+    href: `/search?category=${encodeURIComponent(label)}`,
+  })),
+];
 
 const desktopNavLinkClass =
   'relative py-1 text-sm font-bold text-[#efefef] transition-colors duration-200 hover:text-[#e3e823] focus-visible:text-[#e3e823] focus-visible:outline-none after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-[#e3e823] after:transition-transform after:duration-200 hover:after:scale-x-100 focus-visible:after:scale-x-100';
@@ -23,6 +31,7 @@ const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [catalogNavigation, setCatalogNavigation] = useState(initialCatalogNavigation);
   const [isSticky, setIsSticky] = useState(false);
   const [currentAnnouncement, setCurrentAnnouncement] = useState(0);
   const router = useRouter();
@@ -30,6 +39,43 @@ const Header = () => {
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
   const announcementIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch('/api/products', { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error('Unable to load product categories');
+        return response.json() as Promise<Product[]>;
+      })
+      .then((products) => {
+        const categories = new Map<string, { label: string; count: number }>();
+        for (const product of products) {
+          const label = product.category?.trim();
+          if (!label || /^all products$/i.test(label)) continue;
+
+          const key = label.toLowerCase();
+          const existing = categories.get(key);
+          if (existing) existing.count += 1;
+          else categories.set(key, { label, count: 1 });
+        }
+
+        const categoryLinks = Array.from(categories.values())
+          .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
+          .slice(0, MAX_NAV_CATEGORIES)
+          .map(({ label }) => ({
+            label,
+            href: `/search?category=${encodeURIComponent(label)}`,
+          }));
+
+        setCatalogNavigation([{ label: 'All', href: '/#products' }, ...categoryLinks]);
+      })
+      .catch((error) => {
+        if (error.name !== 'AbortError') console.error('Unable to load navigation categories:', error);
+      });
+
+    return () => controller.abort();
+  }, []);
 
   // Check if we're on the checkout page
   const isCheckoutPage = pathname === '/checkout';
@@ -317,7 +363,7 @@ const Header = () => {
         <div suppressHydrationWarning={true} className="hidden lg:block bg-[#2e6b3e]">
           <div suppressHydrationWarning={true} className="container mx-auto px-4">
             <nav className="flex items-center gap-6 bg-[#2e6b3e] py-3 font-sans">
-              {CATALOG_NAVIGATION.map((item) => (
+              {catalogNavigation.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
@@ -347,7 +393,7 @@ const Header = () => {
           <div className="lg:hidden bg-white border-t border-gray-200">
             <div className="container mx-auto px-4 py-4">
               <nav className="flex flex-col bg-white font-sans">
-                {CATALOG_NAVIGATION.map((item) => (
+                {catalogNavigation.map((item) => (
                   <Link
                     key={`mobile-${item.label}`}
                     href={item.href}
@@ -386,7 +432,7 @@ const Header = () => {
         <div suppressHydrationWarning={true} className="lg:hidden bg-[#2e6b3e] border-t border-white/10">
           <div suppressHydrationWarning={true} className="overflow-x-auto scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
             <nav className="flex min-w-max items-center gap-3 bg-[#2e6b3e] px-4 py-3">
-              {CATALOG_NAVIGATION.map((item) => (
+              {catalogNavigation.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}

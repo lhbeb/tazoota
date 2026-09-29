@@ -107,14 +107,6 @@ export const CATALOG_CLUSTERS: CatalogCluster[] = [
   },
 ] as const;
 
-export const CATALOG_NAVIGATION = [
-  { label: 'All', href: '/#products' },
-  ...CATALOG_CLUSTERS.slice(0, 6).map((cluster) => ({
-    label: cluster.label,
-    href: `/search?category=${encodeURIComponent(cluster.label)}`,
-  })),
-] as const;
-
 function normalize(value: string): string {
   return value.trim().toLowerCase();
 }
