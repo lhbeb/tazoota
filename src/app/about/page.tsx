@@ -378,7 +378,7 @@ export default function AboutPage() {
               <div className="text-[#f0f7f2]/80 text-sm">business day processing</div>
             </div>
             <div className="text-center p-6 bg-[#f0f7f2]/10 backdrop-blur-sm rounded-xl border border-[#f0f7f2]/20">
-              <div className="text-4xl font-bold mb-2">6</div>
+              <div className="text-4xl font-bold mb-2">5</div>
               <div className="text-[#f0f7f2]/80 text-sm">support days weekly</div>
             </div>
           </div>
@@ -427,8 +427,7 @@ export default function AboutPage() {
               </div>
               <div className="text-gray-600 ml-8 space-y-1">
                 <div>Monday to Friday, 9:00 AM to 5:00 PM CST</div>
-                <div>Saturday, 10:00 AM to 3:00 PM CST</div>
-                <div>Sunday, Closed</div>
+                <div>Saturday and Sunday, Closed</div>
               </div>
             </div>
           </div>

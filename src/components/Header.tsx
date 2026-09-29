@@ -217,7 +217,7 @@ const Header = () => {
                   aria-label="Open live chat"
                 >
                   <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" aria-hidden="true" />
-                  <span className="whitespace-nowrap">Inquiries? <span className="font-bold">Live Chat Available 24/7</span></span>
+                  <span className="whitespace-nowrap">Inquiries? <span className="font-bold">Chat support Monday-Friday, 9 AM-5 PM CST</span></span>
                   <span className="underline whitespace-nowrap font-bold">Chat With Us</span>
                 </button>
               </div>
