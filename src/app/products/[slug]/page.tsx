@@ -111,7 +111,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
     const p = product!;
     const inStock = p.inStock !== false;
-    const hasReviews = (p.reviewCount || 0) > 0 && (p.rating || 0) > 0;
+    const hasReviews =
+      Array.isArray(p.reviews) &&
+      p.reviews.length > 0 &&
+      (p.reviewCount || 0) > 0 &&
+      (p.rating || 0) > 0;
 
     // priceValidUntil: 1 year from today — expected by Google Merchant Center
     const priceValidUntil = new Date();
@@ -207,8 +211,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       },
     };
 
-    // Only add aggregateRating when there ARE real reviews —
-    // Google rejects / ignores ratings with reviewCount=0
+    // Ratings require actual review records so schema cannot expose orphaned counts.
     if (hasReviews) {
       productSchema["aggregateRating"] = {
         "@type": "AggregateRating",

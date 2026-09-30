@@ -66,7 +66,7 @@ const NewsletterSection = () => {
           </h2>
 
           <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Be first to discover new lawn mowers, garden equipment, power tools, and limited-time offers—useful ideas for your next project, without the inbox clutter.
+            Get updates about garden watering, irrigation, hose storage, garden tools, and new outdoor essentials, without the inbox clutter.
           </p>
 
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">

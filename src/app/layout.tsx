@@ -26,9 +26,9 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Tazoota - Power Your Outdoor and Home Projects With Confidence",
-  description: "Shop lawn mowers, power tools, portable generators, and garden essentials at Tazoota. Reliable outdoor equipment for every task. Fast shipping, fair prices, and secure checkout.",
-  keywords: "Tazoota, lawn mowers, power tools, portable generators, garden equipment, outdoor power equipment, ride mowers, garden essentials, outdoor tools, home improvement, power equipment",
+  title: "Tazoota | Garden Watering, Tools & Outdoor Essentials",
+  description: "Shop garden hoses, hose reels and storage, watering and irrigation supplies, trellises, raised garden beds, and outdoor tools at Tazoota.",
+  keywords: "Tazoota, garden hoses, hose reels, hose storage, watering supplies, irrigation, lawn sprinklers, garden tools, trellises, raised garden beds, outdoor garden decor",
   authors: [{ name: "Tazoota" }],
   creator: "Tazoota",
   publisher: "Tazoota",
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL("https://tazoota.com"),
   openGraph: {
-    title: "Tazoota - Power Your Outdoor and Home Projects With Confidence",
-    description: "Shop lawn mowers, power tools, portable generators, and garden essentials at Tazoota. Reliable outdoor equipment for every task.",
+    title: "Tazoota | Garden Watering, Tools & Outdoor Essentials",
+    description: "Shop garden hoses, hose reels and storage, watering and irrigation supplies, trellises, raised garden beds, and outdoor tools at Tazoota.",
     url: "https://tazoota.com",
     siteName: "Tazoota",
     images: [
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
         url: "/g7x.jpeg",
         width: 1200,
         height: 630,
-        alt: "Tazoota - Outdoor Power Equipment & Garden Essentials",
+        alt: "Tazoota garden watering and outdoor essentials",
       },
     ],
     locale: "en_US",
@@ -56,8 +56,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tazoota - Power Your Outdoor and Home Projects With Confidence",
-    description: "Shop lawn mowers, power tools, portable generators, and garden essentials at Tazoota. Reliable outdoor equipment for every task.",
+    title: "Tazoota | Garden Watering, Tools & Outdoor Essentials",
+    description: "Shop garden hoses, hose reels and storage, watering and irrigation supplies, trellises, raised garden beds, and outdoor tools at Tazoota.",
     images: ["/g7x.jpeg"],
   },
   robots: {
@@ -134,7 +134,7 @@ export default function RootLayout({
                 "name": "Tazoota",
                 "url": "https://tazoota.com",
                 "logo": "https://tazoota.com/logosvg.svg",
-                "description": "Tazoota - Power Your Outdoor and Home Projects With Confidence. Discover reliable lawn mowers, power tools, generators, and garden essentials.",
+                "description": "Tazoota offers garden hoses, hose reels and storage, watering and irrigation supplies, trellises, raised garden beds, and outdoor tools.",
                 "sameAs": [
                   "https://www.tiktok.com/@tazoota",
                   "https://www.instagram.com/tazoota_official/",
@@ -173,7 +173,7 @@ export default function RootLayout({
                 "@type": "WebSite",
                 "name": "Tazoota",
                 "url": "https://tazoota.com",
-                "description": "Tazoota - Power Your Outdoor and Home Projects With Confidence. Discover reliable lawn mowers, power tools, generators, and garden essentials.",
+                "description": "Tazoota offers garden hoses, hose reels and storage, watering and irrigation supplies, trellises, raised garden beds, and outdoor tools.",
                 "potentialAction": {
                   "@type": "SearchAction",
                   "target": {

@@ -22,7 +22,7 @@ const Footer = () => {
               />
             </Link>
             <p className="mb-4 text-[#f0f7f2]">
-              Dependable lawn mowers, power tools, generators, and garden essentials for projects of every size.
+              Garden hoses, watering and irrigation supplies, hose storage, trellises, garden beds, and tools for everyday garden care.
             </p>
             <div className="space-y-2">
               <div className="flex items-center">

@@ -28,14 +28,30 @@ const SHIPPING_BY_COUNTRY: Record<FeedCountry, {
  * Full taxonomy: https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt
  */
 const GOOGLE_PRODUCT_CATEGORY_MAP: Record<string, string> = {
-  'Lawn Mowers': '2962',
-  'Ride Mowers': '2962',
+  'Lawn Mowers': '694',
+  'Ride Mowers': '3311',
   'Power Tools': '1167',
-  'Generators': '696',
-  'Garden Equipment': '4217',
-  'Garden Tools': '4217',
-  'Pressure Washers': '2211',
-  'Outdoor Power Equipment': '2211',
+  'Generators': '1218',
+  'Garden Equipment': '689',
+  'Garden Tools': '3173',
+  'Pressure Washers': '1226',
+  'Outdoor Power Equipment': '3798',
+  'Tree Watering Supplies': '3568',
+  'Garden Hoses': '2313',
+  'Garden Hose Storage': '4199',
+  'Garden Hose Reels': '4199',
+  'Garden Hand Tools': '3173',
+  'Irrigation Fittings': '4718',
+  'Pressure Washer Accessories': '6328',
+  'Plant Supports & Trellises': '499894',
+  'Plant Watering Accessories': '3568',
+  'Raised Garden Beds': '2962',
+  'Water Pump Hoses': '2570',
+  'Kids Gardening Tools': '3616',
+  'Artificial Greenery & Decor': '6265',
+  'Lawn Sprinklers': '7561',
+  'Pruning Tools': '3173',
+  'Irrigation Controllers': '1302',
   'Electronics': '222',
   'Fashion': '1604',
   'Hobbies': '8',
@@ -44,11 +60,22 @@ const GOOGLE_PRODUCT_CATEGORY_MAP: Record<string, string> = {
   'default': '536',
 };
 
-function getGoogleProductCategory(category: string | undefined): string {
+function getGoogleProductCategory(category: string | undefined, title?: string): string {
   if (!category) return GOOGLE_PRODUCT_CATEGORY_MAP['default'];
+
+  const normalizedCategory = category.trim().toLowerCase();
+  const normalizedTitle = title?.toLowerCase() ?? '';
+
+  if (normalizedCategory === 'plant supports & trellises') {
+    return normalizedTitle.includes('trellis') ? '703' : '499894';
+  }
+  if (normalizedCategory === 'water pump hoses' && normalizedTitle.includes('backwash')) {
+    return '2832';
+  }
+
   const exactMatch = GOOGLE_PRODUCT_CATEGORY_MAP[category];
   if (exactMatch) return exactMatch;
-  const lowerCategory = category.toLowerCase();
+  const lowerCategory = normalizedCategory;
   for (const [key, value] of Object.entries(GOOGLE_PRODUCT_CATEGORY_MAP)) {
     if (key !== 'default' && lowerCategory.includes(key.toLowerCase())) {
       return value;
@@ -198,10 +225,14 @@ export async function GET(request: NextRequest) {
             ? product.meta.product_type.trim()
             : product.category || 'Home & Garden',
         );
-        const googleProductCategory = escapeXml(
-          typeof product.meta?.google_product_category === 'string' && product.meta.google_product_category.trim()
+        const categoryOverride =
+          typeof product.meta?.google_product_category === 'string'
             ? product.meta.google_product_category.trim()
-            : getGoogleProductCategory(product.category),
+            : '';
+        const googleProductCategory = escapeXml(
+          categoryOverride && categoryOverride !== GOOGLE_PRODUCT_CATEGORY_MAP['default']
+            ? categoryOverride
+            : getGoogleProductCategory(product.category, product.title),
         );
         const gender = escapeXml(
           typeof product.meta?.gender === 'string' && product.meta.gender.trim()

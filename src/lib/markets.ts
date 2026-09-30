@@ -115,15 +115,24 @@ export function formatMarketPrice(price: number, market: MarketConfig): string {
   return `${market.currencySymbol}${formatted}`;
 }
 
-/**
- * Get estimated delivery date range string for a market.
- */
+function addBusinessDays(date: Date, businessDays: number): Date {
+  const result = new Date(date);
+  let addedDays = 0;
+
+  while (addedDays < businessDays) {
+    result.setDate(result.getDate() + 1);
+    const day = result.getDay();
+    if (day !== 0 && day !== 6) addedDays += 1;
+  }
+
+  return result;
+}
+
+/** Get an estimated delivery date range, counting weekdays only. */
 export function getDeliveryRange(market: MarketConfig): string {
   const today = new Date();
-  const start = new Date(today);
-  const end = new Date(today);
-  start.setDate(today.getDate() + market.deliveryDaysMin);
-  end.setDate(today.getDate() + market.deliveryDaysMax);
+  const start = addBusinessDays(today, market.deliveryDaysMin);
+  const end = addBusinessDays(today, market.deliveryDaysMax);
 
   const locale = market.locale;
   if (start.getMonth() === end.getMonth()) {
