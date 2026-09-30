@@ -10,6 +10,8 @@ const SUPPORTED_CURRENCIES = ['USD'] as const;
 const GMC_TITLE_MAX_LENGTH = 150;
 const GMC_DESCRIPTION_MAX_LENGTH = 5000;
 const SUPPORTED_IMAGE_EXTENSIONS = /\.(?:jpe?g|png|webp|gif|bmp|tiff?)(?:$|\?)/i;
+const STORAGE_IMAGE_MARKER = '/storage/v1/object/public/product-images/';
+const PRODUCT_IMAGE_PROXY = '/api/product-images/';
 
 type FeedCountry = (typeof SUPPORTED_COUNTRIES)[number];
 type FeedCurrency = (typeof SUPPORTED_CURRENCIES)[number];
@@ -117,6 +119,21 @@ function normalizeImageUrl(value: unknown): string | null {
     const url = new URL(String(value ?? '').trim(), BASE_URL);
     if (url.protocol !== 'https:' && url.protocol !== 'http:') return null;
     if (!SUPPORTED_IMAGE_EXTENSIONS.test(`${url.pathname}${url.search}`)) return null;
+
+    const proxyIndex = url.pathname.indexOf(PRODUCT_IMAGE_PROXY);
+    if (proxyIndex >= 0 && url.origin === BASE_URL) return url.toString();
+
+    const storageIndex = url.pathname.indexOf(STORAGE_IMAGE_MARKER);
+    if (storageIndex >= 0) {
+      const supabaseOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+      if (!supabaseOrigin || url.host !== new URL(supabaseOrigin).host) return null;
+
+      const storagePath = decodeURIComponent(url.pathname.slice(storageIndex + STORAGE_IMAGE_MARKER.length));
+      const encodedPath = storagePath.split('/').filter(Boolean).map(encodeURIComponent).join('/');
+      if (!encodedPath || encodedPath.split('/').some((segment) => segment === '..')) return null;
+      return `${BASE_URL}${PRODUCT_IMAGE_PROXY}${encodedPath}`;
+    }
+
     return url.toString();
   } catch {
     return null;
