@@ -115,14 +115,14 @@ export default function Hero({ products }: { products: Product[] }) {
                     Browse {secondaryCategory.name} <ArrowUpRight size={16} aria-hidden="true" />
                   </span>
                 </div>
-                <div className="relative overflow-hidden bg-[#f1f5ec] p-3 sm:p-4">
+                <div className="relative overflow-hidden bg-[#f1f5ec]">
                   <Image
                     src={secondaryCategory.product.images[0]}
                     alt={secondaryCategory.product.title}
                     fill
                     unoptimized
                     sizes="(max-width: 1023px) 40vw, 24vw"
-                    className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
               </Link>
@@ -143,14 +143,14 @@ export default function Hero({ products }: { products: Product[] }) {
                     Browse <ArrowUpRight size={15} aria-hidden="true" />
                   </span>
                 </div>
-                <div className="relative overflow-hidden bg-[#e3e823] p-2">
+                <div className="relative overflow-hidden bg-[#e3e823]">
                   <Image
                     src={category.product.images[0]}
                     alt={category.product.title}
                     fill
                     unoptimized
                     sizes="100px"
-                    className="object-contain p-1 transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
               </Link>
