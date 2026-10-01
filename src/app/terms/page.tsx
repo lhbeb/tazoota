@@ -167,9 +167,10 @@ const TermsPage = () => {
             <h2 className="text-3xl font-bold text-[#262626] mt-10 mb-4">8. Returns and Satisfaction Guarantee</h2>
             <p className="mb-4">Your satisfaction is our priority.</p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Eligible items may be submitted for return within 30 calendar days of delivery. Return requests must be authorized before the item is sent.</li>
+              <li>Request a return for eligible items within 30 calendar days of delivery. No case-by-case approval is required; request a prepaid label and return instructions before shipping.</li>
               <li>Items must be returned in the same condition received.</li>
               <li>Refunds are issued after the item passes inspection at our warehouse.</li>
+              <li>Eligible returns receive a full refund of the item price; no restocking fee or condition-based partial deduction is charged.</li>
               <li>Exchanges are available when inventory permits.</li>
               <li>We work quickly to resolve any concerns, disputes, or issues.</li>
             </ul>

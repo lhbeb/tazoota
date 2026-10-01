@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const timeline = [
-    ['Processing and dispatch', `Allow ${SITE.shipping.handlingMin}–${SITE.shipping.handlingMax} business day`],
+    ['Processing and dispatch', `${SITE.shipping.handlingMin}–${SITE.shipping.handlingMax} business days (same or next business day)`],
     ['Transit time after dispatch', `${SITE.shipping.transitMin}–${SITE.shipping.transitMax} business days`],
     ['Total estimated delivery', `${SITE.shipping.totalMin}–${SITE.shipping.totalMax} business days (Free Standard Shipping)`],
 ];
@@ -118,7 +118,7 @@ export default function ShippingPolicyPage() {
             <Clock className="mb-4 h-6 w-6 text-[#2e6b3e]" />
             <h2 className="text-lg font-bold text-[#262626]">Processing & Dispatch</h2>
             <p className="mt-2 text-sm leading-6 text-gray-600">
-              Allow up to 1 business day for processing and dispatch. Orders placed on weekends or holidays begin processing on the next business day.
+              Allow 0-1 business days for processing and dispatch (most orders ship the same or next business day). Orders placed on weekends or holidays begin processing on the next business day.
             </p>
           </div>
           <div className="rounded-xl border border-[#2e6b3e]/10 bg-white p-5 shadow-sm">

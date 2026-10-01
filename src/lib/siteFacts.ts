@@ -30,7 +30,7 @@ export const SITE = {
   returnPolicyLabel: 'default',
   returns: {
     windowDays: 30,
-    refundTiming: 'within 5 business days after inspection and approval',
+    refundTiming: 'within 5 business days after inspection',
     inspectionTiming: '1-2 business days after we receive your return',
   },
 } as const;

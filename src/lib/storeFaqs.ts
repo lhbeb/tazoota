@@ -45,7 +45,7 @@ export const STORE_FAQS: readonly StoreFaq[] = [
   {
     question: 'Can I exchange an item?',
     answer:
-      'Exchanges may be available for eligible items when replacement inventory is available. Contact our support team within 30 days of delivery and wait for authorization before sending anything back.',
+      'Exchanges may be available for eligible items when replacement inventory is available. Contact our support team within 30 days of delivery for return instructions and a prepaid label; no case-by-case approval is required for eligible returns.',
   },
   {
     question: 'Is local pickup available?',

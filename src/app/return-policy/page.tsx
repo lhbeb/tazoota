@@ -19,7 +19,7 @@ import {
 export const metadata: Metadata = {
   title: 'Return & Exchange Policy | Tazoota',
   description:
-    'Request a return within 30 days of delivery for eligible items. Approved eligible US returns receive a prepaid label. After the return arrives, allow 1–2 business days for inspection and up to 5 business days for an approved refund to be issued.',
+    'Request a return within 30 days of delivery for eligible items. Eligible US returns receive a prepaid label within 1 business day of your request. After the return arrives, allow 1–2 business days for inspection and up to 5 business days for a refund to be issued.',
 };
 
 export default function ReturnPolicyPage() {
@@ -143,13 +143,13 @@ export default function ReturnPolicyPage() {
               <div className="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200">
                 <h3 className="font-bold text-emerald-900 text-base mb-1">Defective & Damaged Items</h3>
                 <p className="text-sm text-emerald-800">
-                  If your order arrives damaged, defective, or incorrect, contact us within 30 days of delivery. Once the return is authorized, we provide a prepaid label for the eligible US return.
+                  If your order arrives damaged, defective, or incorrect, contact us within 30 days of delivery. We&apos;ll provide return instructions and a prepaid label for US returns within 1 business day.
                 </p>
               </div>
               <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200">
                 <h3 className="font-bold text-blue-900 text-base mb-1">Change of Mind</h3>
                 <p className="text-sm text-blue-800">
-                  For eligible items, contact us within 30 days of delivery to request a return. We provide a prepaid label for authorized US returns. Eligible change-of-mind returns must be unused and in their original condition.
+                  For eligible items, contact us within 30 days of delivery to request a return. We&apos;ll provide a prepaid label for US returns within 1 business day; no case-by-case approval is required. Change-of-mind returns must be unused and in their original condition.
                 </p>
               </div>
             </div>
@@ -164,7 +164,7 @@ export default function ReturnPolicyPage() {
             <p><strong>Yes, we accept exchanges.</strong> If you&apos;d like a different size, colour, or model:</p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Contact us within <strong>30 days</strong> of receiving your delivery.</li>
-              <li>Wait for return authorization and use the prepaid return label and instructions we email you.</li>
+              <li>Request the prepaid return label and use the return instructions we email you.</li>
               <li>Once received, your replacement will be dispatched right away.</li>
             </ul>
           </div>
@@ -175,7 +175,7 @@ export default function ReturnPolicyPage() {
               <Clock className="w-6 h-6 text-[#0b2a17]" />
               <h2 className="text-2xl font-bold text-[#0b2a17]">3. 30-Day Return Window</h2>
             </div>
-            <p>Contact us to request a return within <strong>30 calendar days</strong> of delivery. The return must be authorized before you send the item; the return-shipping time is separate from the refund-processing time.</p>
+            <p>Contact us to request a return within <strong>30 calendar days</strong> of delivery. No case-by-case approval is required for returns that meet the conditions below. Wait for the prepaid label and return instructions before shipping; return-shipping time is separate from refund-processing time.</p>
             <p className="font-semibold text-gray-900">Your item should be:</p>
             <ul className="list-disc pl-6 space-y-2">
               <li>For change-of-mind returns, unused and in original condition with original packaging where possible. Contact us about damaged, defective, or incorrect items.</li>
@@ -196,13 +196,13 @@ export default function ReturnPolicyPage() {
                 <strong>Contact us</strong> at <a href="mailto:contact@tazoota.com" className="text-blue-600 hover:underline font-semibold">contact@tazoota.com</a> or call <span className="font-semibold">+19083256283</span>.
               </li>
               <li>
-                <strong>Wait for authorization and your return label.</strong> For eligible US returns, we&apos;ll email a prepaid label after approving the request. Please do not send an item before receiving return instructions.
+                <strong>Request your prepaid label.</strong> For eligible US returns requested within 30 days of delivery, we&apos;ll email the label and return instructions within 1 business day. No case-by-case approval is required.
               </li>
               <li>
                 <strong>Ship the item back.</strong> Return transit time depends on the carrier and is not included in the refund-processing estimate.
               </li>
               <li>
-                <strong>Get your refund.</strong> After we receive and inspect the return, we issue an approved refund within 5 business days. Your bank or payment provider may take additional time to post it.
+                <strong>Get your refund.</strong> After we receive and inspect an eligible return, we issue the refund within 5 business days. Your bank or payment provider may take additional time to post it.
               </li>
             </ol>
           </div>
@@ -215,7 +215,7 @@ export default function ReturnPolicyPage() {
             </div>
             <div className="p-4 rounded-xl bg-gray-50 border border-gray-200">
               <p className="font-medium text-gray-800">
-                We do <strong>not</strong> charge a restocking fee. Eligible returns are refunded to the original payment method after inspection and approval. Items that do not meet the stated return conditions may be declined; contact us before sending an item back.
+                We charge <strong>no restocking fee</strong> and do not reduce an eligible refund with a restocking or condition-based partial deduction. Eligible returns that meet this policy receive a full refund of the item price to the original payment method after inspection. Change-of-mind items that do not meet the stated condition requirements are not eligible for return; contact us about damaged, defective, or incorrect items.
               </p>
             </div>
           </div>
@@ -230,7 +230,7 @@ export default function ReturnPolicyPage() {
             <ul className="list-disc pl-6 space-y-2">
               <li><strong>Return transit:</strong> Varies by carrier and is separate from processing time.</li>
               <li><strong>Inspection:</strong> Allow 1–2 business days after we receive your return.</li>
-              <li><strong>Refund issued:</strong> Within <strong>5 business days after inspection and approval</strong>. Your payment provider may require additional time to post the credit.</li>
+              <li><strong>Refund issued:</strong> Within <strong>5 business days after inspection</strong>. Your payment provider may require additional time to post the credit.</li>
             </ul>
           </div>
 
@@ -241,7 +241,7 @@ export default function ReturnPolicyPage() {
               <h2 className="text-2xl font-bold text-[#0b2a17]">7. Products Sourced by Tazoota</h2>
             </div>
             <p>
-              Products sold through Tazoota follow the same 30-day return policy unless a product page clearly states a specific exception required by law or product type. Returns are reviewed by our team so the experience stays consistent for customers.
+              Products sold through Tazoota follow the same 30-day return policy unless a product page clearly states a specific exception required by law or product type. Return eligibility follows the conditions stated above; our support team can help with return instructions and questions.
             </p>
           </div>
 

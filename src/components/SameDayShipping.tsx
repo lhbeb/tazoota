@@ -77,7 +77,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
                 Simple 30-Day Returns
               </h3>
               <p className="text-gray-600 text-sm">
-                Request a return within 30 days of delivery. Eligible US returns receive a prepaid label after authorization.
+                Request a return within 30 days of delivery. Eligible US returns receive a prepaid label within 1 business day, without case-by-case approval.
               </p>
             </div>
           </div>
