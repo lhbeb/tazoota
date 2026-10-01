@@ -136,7 +136,7 @@ const TermsPage = () => {
               Free standard shipping applies to all orders within the United States.
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Orders placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day.</li>
+              <li>Allow 0–1 business day for processing and dispatch. Orders placed on weekends or holidays begin processing on the next business day.</li>
               <li>Domestic USA transit time is estimated at 5 to 9 business days after dispatch.</li>
               <li>Total estimated delivery time is 5 to 10 business days.</li>
               <li>All orders qualify for free standard shipping with no minimum spend required.</li>
@@ -167,7 +167,7 @@ const TermsPage = () => {
             <h2 className="text-3xl font-bold text-[#262626] mt-10 mb-4">8. Returns and Satisfaction Guarantee</h2>
             <p className="mb-4">Your satisfaction is our priority.</p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>We offer a 30 day hassle free return policy.</li>
+              <li>Eligible items may be submitted for return within 30 calendar days of delivery. Return requests must be authorized before the item is sent.</li>
               <li>Items must be returned in the same condition received.</li>
               <li>Refunds are issued after the item passes inspection at our warehouse.</li>
               <li>Exchanges are available when inventory permits.</li>

@@ -2,23 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Star, CheckCircle2, X, Send, ThumbsUp, ZoomIn, Upload } from 'lucide-react';
+import { Star, CheckCircle2, X, Send, ZoomIn, Upload } from 'lucide-react';
 import type { Review } from '@/types/product';
 
 interface HomeReviewsProps {
   reviews?: Review[];
   averageRating?: number;
   totalReviews?: number;
-}
-
-function getRandomHelpful(id: string) {
-  // Use a seeded pseudo-random for stable numbers per review
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) {
-    hash = id.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const min = 9, max = 27;
-  return min + (Math.abs(hash) % (max - min + 1));
 }
 
 const approvedGenericReviewAvatar = 'https://i.ibb.co/4w8W5qG8/icon-7797704-640.png';
@@ -59,16 +49,6 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
     content: ''
   });
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
-  // Track likes per review (not persisted)
-  const [likes, setLikes] = useState<Record<string, number>>(() => {
-    const initial: Record<string, number> = {};
-    reviews.forEach(r => {
-      // Use review.helpful if it exists, otherwise use random
-      initial[r.id] = r.helpful || getRandomHelpful(r.id);
-    });
-    return initial;
-  });
-  const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // Show only 6 reviews
@@ -79,27 +59,6 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
     setReviewStats({ averageRating, totalReviews });
     setIsLoadingReviews(reviews.length === 0);
   }, [reviews, averageRating, totalReviews]);
-
-  useEffect(() => {
-    const nextLikes: Record<string, number> = {};
-
-    reviewFeed.forEach((review) => {
-      nextLikes[review.id] = review.helpful || getRandomHelpful(review.id);
-    });
-
-    setLikes(nextLikes);
-    setLiked((previous) => {
-      const nextLiked: Record<string, boolean> = {};
-
-      Object.keys(previous).forEach((id) => {
-        if (nextLikes[id] !== undefined) {
-          nextLiked[id] = previous[id];
-        }
-      });
-
-      return nextLiked;
-    });
-  }, [reviewFeed]);
 
   useEffect(() => {
     let isMounted = true;
@@ -142,12 +101,6 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
       isMounted = false;
     };
   }, []);
-
-  const handleLike = (id: string) => {
-    if (liked[id]) return;
-    setLikes(l => ({ ...l, [id]: (l[id] || 0) + 1 }));
-    setLiked(l => ({ ...l, [id]: true }));
-  };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -374,20 +327,6 @@ const HomeReviews: React.FC<HomeReviewsProps> = ({
                             {formatDate(review.date)}
                           </div>
                         </div>
-                        <button
-                          onClick={() => handleLike(review.id)}
-                          className={`flex items-center gap-1.5 px-2 py-1 rounded-md transition-colors duration-200 text-xs flex-shrink-0 ${
-                            liked[review.id] 
-                              ? 'bg-[#2e6b3e] text-[#f0f7f2]' 
-                              : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-300'
-                          }`}
-                          aria-pressed={liked[review.id]}
-                          disabled={liked[review.id]}
-                          title={liked[review.id] ? 'You found this helpful' : 'Mark as helpful'}
-                        >
-                          <ThumbsUp className="h-3.5 w-3.5" />
-                          <span className="font-medium">{likes[review.id] || 0}</span>
-                        </button>
                       </div>
                     </div>
                   </div>

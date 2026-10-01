@@ -20,8 +20,6 @@ export const SITE = {
   shipping: {
     country: 'US',
     cost: 0,
-    cutoffTime: '2:00 PM CST',
-    cutoffTimeISO: '14:00:00-06:00',
     handlingMin: 0,
     handlingMax: 1,
     transitMin: 5,
@@ -32,7 +30,7 @@ export const SITE = {
   returnPolicyLabel: 'default',
   returns: {
     windowDays: 30,
-    refundTiming: 'within 5 business days of approval',
+    refundTiming: 'within 5 business days after inspection and approval',
     inspectionTiming: '1-2 business days after we receive your return',
   },
 } as const;

@@ -266,7 +266,7 @@ function ThankYouContent() {
                 </div>
                 <div className="text-left">
                   <h3 className="font-medium text-[#262626]">Order Processing</h3>
-                  <p className="text-sm text-gray-600">Orders placed before 2:00 PM CST process same day. Otherwise within 1 business day.</p>
+                  <p className="text-sm text-gray-600">Allow 0–1 business day for processing and dispatch. Weekend and holiday orders begin processing on the next business day.</p>
                 </div>
               </div>
 

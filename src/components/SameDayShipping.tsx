@@ -31,11 +31,11 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
           {/* Right Section - Content */}
           <div className="md:w-[55%] bg-[#2e6b3e] text-[#f0f7f2] p-12 flex flex-col justify-center">
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 text-[#e3e823]">
-              Same-Day Dispatch
+              Free, Reliable Shipping
             </h1>
 
             <p className="text-lg leading-relaxed font-normal mb-12">
-              Orders placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days.
+              Allow up to 1 business day for processing and dispatch, followed by an estimated 5–9 business days in transit. The full delivery estimate is 5–10 business days.
             </p>
             <Link
               href="/shipping-policy"
@@ -57,10 +57,10 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
             </div>
             <div>
               <h3 className="font-bold text-[#262626] text-lg mb-2">
-                Same/Next Day Processing
+                Processing & Dispatch
               </h3>
               <p className="text-gray-600 text-sm">
-                Orders placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day.
+                Orders are processed and dispatched within 0–1 business day. Weekend and holiday orders begin processing on the next business day.
               </p>
             </div>
           </div>
@@ -77,7 +77,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
                 Simple 30-Day Returns
               </h3>
               <p className="text-gray-600 text-sm">
-                If an item isn&apos;t right for you, return it within 30 days through our straightforward returns process.
+                Request a return within 30 days of delivery. Eligible US returns receive a prepaid label after authorization.
               </p>
             </div>
           </div>
@@ -94,7 +94,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
                 Tracking You Can Follow
               </h3>
               <p className="text-gray-600 text-sm">
-                Our trusted carrier partners provide real-time tracking, so you can follow your package from dispatch to delivery.
+                We share tracking details when available. Carrier scans may take time to appear after dispatch.
               </p>
             </div>
           </div>
@@ -108,7 +108,7 @@ const SameDayShipping: React.FC<SameDayShippingProps> = ({ fullWidth = false, co
             Ready to get your order moving?
           </p>
           <p className="text-2xl md:text-3xl font-bold text-[#262626]">
-            Same/Next processing day, then 5-9 business days in transit
+            0–1 business day processing, then 5–9 business days in transit
           </p>
         </div>
         <a

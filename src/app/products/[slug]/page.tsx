@@ -1,6 +1,5 @@
 import { getProductBySlug } from '@/lib/data';
 import { getReviewProduct, isReviewProduct } from '@/lib/reviewProducts';
-import { getSellerById } from '@/lib/supabase/sellers';
 import { formatValidSku, mapConditionToSchema } from '@/lib/conditions';
 import { SITE } from '@/lib/siteFacts';
 import { notFound } from 'next/navigation';
@@ -84,30 +83,6 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     let product = isReviewProduct(slug) ? getReviewProduct(slug) : null;
     if (!product) product = await getProductBySlug(slug);
     if (!product) notFound();
-
-    // ── Review inheritance ─────────────────────────────────────────────────
-    const hasOwnReviews = Array.isArray(product.reviews) && product.reviews.length > 0;
-    if (!hasOwnReviews && product.sellerId) {
-      try {
-        const seller = await getSellerById(product.sellerId);
-        if (seller && seller.reviews && seller.reviews.length > 0) {
-          product = {
-            ...product,
-            reviews: seller.reviews,
-            rating: product.rating || seller.averageRating || 0,
-            reviewCount: product.reviewCount || seller.totalReviews || 0,
-            meta: {
-              ...product.meta,
-              _sellerReviews: true,
-              _sellerName: seller.name,
-              _sellerUsername: seller.username,
-            } as any,
-          };
-        }
-      } catch {
-        // Silently ignore – don't break product page if seller fetch fails
-      }
-    }
 
     const p = product!;
     const inStock = p.inStock !== false;
@@ -194,7 +169,6 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 "maxValue": SITE.shipping.transitMax,
                 "unitCode": "DAY"
               },
-              "cutoffTime": SITE.shipping.cutoffTimeISO,
               "businessDays": {
                 "@type": "OpeningHoursSpecification",
                 "dayOfWeek": [
@@ -230,7 +204,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           "worstRating": 1
         },
         "reviewBody": review.content || '',
-        "datePublished": review.date || new Date().toISOString(),
+        ...(review.date ? { "datePublished": review.date } : {}),
       }));
     }
 

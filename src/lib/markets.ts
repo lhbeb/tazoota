@@ -33,9 +33,9 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
     deliveryDaysMin: 5,
     deliveryDaysMax: 10,
     freeShippingText: 'Free standard shipping',
-    returnsText: '30-day returns',
+    returnsText: '30-day returns on eligible items',
     faqShippingAnswer:
-      'Orders placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days.',
+      'Allow 0–1 business day for processing and dispatch, followed by 5–9 business days in transit. Weekend and holiday orders begin processing on the next business day.',
     faqFreeShippingAnswer:
       'Yes, standard shipping is currently free across the United States. If faster delivery is available, you\'ll see those options at checkout.',
   },
@@ -50,9 +50,9 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
     deliveryDaysMin: 5,
     deliveryDaysMax: 10,
     freeShippingText: 'Free delivery across Europe',
-    returnsText: '30-day returns',
+    returnsText: '30-day returns on eligible items',
     faqShippingAnswer:
-      'Orders within the European Union placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days.',
+      'Allow 0–1 business day for processing and dispatch, followed by 5–9 business days in transit. Weekend and holiday orders begin processing on the next business day.',
     faqFreeShippingAnswer:
       'Yes, standard delivery is free across the European Union. Express options may be available at checkout.',
   },
@@ -67,9 +67,9 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
     deliveryDaysMin: 5,
     deliveryDaysMax: 10,
     freeShippingText: 'Free standard shipping across Canada',
-    returnsText: '30-day returns',
+    returnsText: '30-day returns on eligible items',
     faqShippingAnswer:
-      'Orders within Canada placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days.',
+      'Allow 0–1 business day for processing and dispatch, followed by 5–9 business days in transit. Weekend and holiday orders begin processing on the next business day.',
     faqFreeShippingAnswer:
       'Yes, standard shipping is free across Canada. Faster delivery options may be available at checkout.',
   },
@@ -84,9 +84,9 @@ export const MARKETS: Record<MarketKey, MarketConfig> = {
     deliveryDaysMin: 5,
     deliveryDaysMax: 10,
     freeShippingText: 'Free standard shipping across Australia',
-    returnsText: '30-day returns',
+    returnsText: '30-day returns on eligible items',
     faqShippingAnswer:
-      'Orders within Australia placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days.',
+      'Allow 0–1 business day for processing and dispatch, followed by 5–9 business days in transit. Weekend and holiday orders begin processing on the next business day.',
     faqFreeShippingAnswer:
       'Yes, standard shipping is free across Australia. Express options may be available at checkout.',
   },

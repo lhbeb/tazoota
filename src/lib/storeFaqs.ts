@@ -24,7 +24,7 @@ export const STORE_FAQS: readonly StoreFaq[] = [
   {
     question: 'Where do you ship and how long does delivery take?',
     answer:
-      'We offer free standard shipping across the United States. Orders placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days, and total delivery is estimated at 5–10 business days.',
+      'We offer free standard shipping across the United States. Allow 0–1 business day for processing and dispatch, followed by 5–9 business days in transit. Total delivery is estimated at 5–10 business days. Weekend and holiday orders begin processing on the next business day.',
     linkHref: '/shipping-policy',
     linkLabel: 'Read our Shipping Policy',
   },
@@ -45,7 +45,7 @@ export const STORE_FAQS: readonly StoreFaq[] = [
   {
     question: 'Can I exchange an item?',
     answer:
-      'Exchanges are accepted for eligible items when replacement inventory is available. Contact our support team within 30 days of delivery before sending anything back.',
+      'Exchanges may be available for eligible items when replacement inventory is available. Contact our support team within 30 days of delivery and wait for authorization before sending anything back.',
   },
   {
     question: 'Is local pickup available?',

@@ -179,7 +179,7 @@ export default function SellerPageClient({ seller }: Props) {
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-sm font-semibold text-[#262626] mb-1">Shipping</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">Free standard shipping across the United States. Orders placed before 2:00 PM CST are processed the same business day. Orders placed after the cutoff are processed within 1 business day. Transit time is 5–9 business days.</p>
+                    <p className="text-sm text-gray-600 leading-relaxed">Free standard shipping across the United States. Allow 0–1 business day for processing and dispatch, followed by 5–9 business days in transit.</p>
                   </div>
                   <div className="h-px bg-gray-100 w-full" />
                   <div>

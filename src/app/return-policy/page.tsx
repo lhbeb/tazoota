@@ -19,7 +19,7 @@ import {
 export const metadata: Metadata = {
   title: 'Return & Exchange Policy | Tazoota',
   description:
-    'Tazoota Return & Exchange Policy. We accept returns for both defective and non-defective products within 30 days. Free return label included, no restocking fee, 5-day refund processing.',
+    'Request a return within 30 days of delivery for eligible items. Approved eligible US returns receive a prepaid label. After the return arrives, allow 1–2 business days for inspection and up to 5 business days for an approved refund to be issued.',
 };
 
 export default function ReturnPolicyPage() {
@@ -118,7 +118,7 @@ export default function ReturnPolicyPage() {
               <CreditCard className="w-5 h-5 text-[#0b2a17] flex-shrink-0 mt-0.5" />
               <div>
                 <span className="block text-xs font-semibold uppercase tracking-wider text-gray-500">Refund Time</span>
-                <span className="text-sm font-bold text-gray-900">5 Business Days</span>
+                <span className="text-sm font-bold text-gray-900">After inspection</span>
               </div>
             </div>
           </div>
@@ -143,13 +143,13 @@ export default function ReturnPolicyPage() {
               <div className="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200">
                 <h3 className="font-bold text-emerald-900 text-base mb-1">Defective & Damaged Items</h3>
                 <p className="text-sm text-emerald-800">
-                  If your order arrives damaged, defective, or incorrect, we provide a <strong>100% free return</strong> with a prepaid shipping label.
+                  If your order arrives damaged, defective, or incorrect, contact us within 30 days of delivery. Once the return is authorized, we provide a prepaid label for the eligible US return.
                 </p>
               </div>
               <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200">
                 <h3 className="font-bold text-blue-900 text-base mb-1">Change of Mind</h3>
                 <p className="text-sm text-blue-800">
-                  Changed your mind or ordered the wrong item? You can return it within 30 days with a free prepaid return label for a full refund of the item price.
+                  For eligible items, contact us within 30 days of delivery to request a return. We provide a prepaid label for authorized US returns. Eligible change-of-mind returns must be unused and in their original condition.
                 </p>
               </div>
             </div>
@@ -164,7 +164,7 @@ export default function ReturnPolicyPage() {
             <p><strong>Yes, we accept exchanges.</strong> If you&apos;d like a different size, colour, or model:</p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Contact us within <strong>30 days</strong> of receiving your delivery.</li>
-              <li>Use the prepaid return label we email you to send the original item back.</li>
+              <li>Wait for return authorization and use the prepaid return label and instructions we email you.</li>
               <li>Once received, your replacement will be dispatched right away.</li>
             </ul>
           </div>
@@ -175,10 +175,10 @@ export default function ReturnPolicyPage() {
               <Clock className="w-6 h-6 text-[#0b2a17]" />
               <h2 className="text-2xl font-bold text-[#0b2a17]">3. 30-Day Return Window</h2>
             </div>
-            <p>You have <strong>30 calendar days</strong> from the date of delivery to return or exchange your item.</p>
+            <p>Contact us to request a return within <strong>30 calendar days</strong> of delivery. The return must be authorized before you send the item; the return-shipping time is separate from the refund-processing time.</p>
             <p className="font-semibold text-gray-900">Your item should be:</p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>In new, unused condition with original tags and packaging where possible.</li>
+              <li>For change-of-mind returns, unused and in original condition with original packaging where possible. Contact us about damaged, defective, or incorrect items.</li>
               <li>Accompanied by proof of purchase (order number or confirmation email).</li>
               <li>Free from post-delivery damage caused after receipt.</li>
             </ul>
@@ -196,13 +196,13 @@ export default function ReturnPolicyPage() {
                 <strong>Contact us</strong> at <a href="mailto:contact@tazoota.com" className="text-blue-600 hover:underline font-semibold">contact@tazoota.com</a> or call <span className="font-semibold">+19083256283</span>.
               </li>
               <li>
-                <strong>Get your free return label</strong>. We&apos;ll email you a prepaid label after approving your return request.
+                <strong>Wait for authorization and your return label.</strong> For eligible US returns, we&apos;ll email a prepaid label after approving the request. Please do not send an item before receiving return instructions.
               </li>
               <li>
-                <strong>Ship it back</strong> securely. Return postage is free for eligible US returns, including defective items and change-of-mind returns.
+                <strong>Ship the item back.</strong> Return transit time depends on the carrier and is not included in the refund-processing estimate.
               </li>
               <li>
-                <strong>Get your refund</strong>. Once inspected, your refund is processed within 5 business days.
+                <strong>Get your refund.</strong> After we receive and inspect the return, we issue an approved refund within 5 business days. Your bank or payment provider may take additional time to post it.
               </li>
             </ol>
           </div>
@@ -215,7 +215,7 @@ export default function ReturnPolicyPage() {
             </div>
             <div className="p-4 rounded-xl bg-gray-50 border border-gray-200">
               <p className="font-medium text-gray-800">
-                We do <strong>not</strong> charge any restocking, handling, or processing fees. You receive 100% of the purchased item price back.
+                We do <strong>not</strong> charge a restocking fee. Eligible returns are refunded to the original payment method after inspection and approval. Items that do not meet the stated return conditions may be declined; contact us before sending an item back.
               </p>
             </div>
           </div>
@@ -228,8 +228,9 @@ export default function ReturnPolicyPage() {
             </div>
             <p>Refunds are credited to your original payment method (Visa, MasterCard, PayPal, Apple Pay, etc.).</p>
             <ul className="list-disc pl-6 space-y-2">
-              <li><strong>Inspection:</strong> 1–2 business days after we receive your return.</li>
-              <li><strong>Refund issued:</strong> Within <strong>5 business days</strong> of approval.</li>
+              <li><strong>Return transit:</strong> Varies by carrier and is separate from processing time.</li>
+              <li><strong>Inspection:</strong> Allow 1–2 business days after we receive your return.</li>
+              <li><strong>Refund issued:</strong> Within <strong>5 business days after inspection and approval</strong>. Your payment provider may require additional time to post the credit.</li>
             </ul>
           </div>
 

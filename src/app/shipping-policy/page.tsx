@@ -6,13 +6,12 @@ import { SITE } from '@/lib/siteFacts';
 export const metadata: Metadata = {
   title: 'Shipping Policy | Tazoota',
   description:
-    'Official Tazoota Shipping Policy. Free standard shipping across the United States. Same-day processing before 2:00 PM CST and estimated delivery within 5–10 business days.',
+    'Free standard shipping to the United States. Orders are processed within 0–1 business day, with estimated delivery in 5–10 business days.',
 };
 
 const timeline = [
-    ['Same-day orders', `Ships same day when placed before ${SITE.shipping.cutoffTime}`],
-    ['Standard processing', `${SITE.shipping.handlingMin}–${SITE.shipping.handlingMax} business day`],
-    ['Transit time (carrier)', `${SITE.shipping.transitMin}–${SITE.shipping.transitMax} business days`],
+    ['Processing and dispatch', `Allow ${SITE.shipping.handlingMin}–${SITE.shipping.handlingMax} business day`],
+    ['Transit time after dispatch', `${SITE.shipping.transitMin}–${SITE.shipping.transitMax} business days`],
     ['Total estimated delivery', `${SITE.shipping.totalMin}–${SITE.shipping.totalMax} business days (Free Standard Shipping)`],
 ];
 
@@ -22,34 +21,29 @@ const policySections = [
     items: [
       'Free standard shipping on all orders across the United States',
       'No minimum purchase requirement',
-      'Tracked shipping via premium logistics partners (USPS, FedEx)',
+      'Tracking details are shared when the order is dispatched and tracking is available',
     ],
   },
   {
     title: 'Order Tracking',
     items: [
       'Automatic shipping confirmation email upon dispatch',
-      'Real-time package tracking link provided',
-      'Estimated delivery date visibility',
-      'Carrier milestone email updates',
+      'Carrier tracking updates may take time to appear',
+      'Delivery estimates include processing and transit time',
     ],
   },
   {
     title: 'Shipping Destinations',
     items: [
-      'We ship across all 50 US States nationwide',
-      'PO boxes supported for standard deliveries',
-      'APO/FPO/DPO military addresses fully supported',
-      'Discreet, eco-friendly, protective packaging',
+      'The checkout accepts delivery addresses in all 50 US states',
     ],
   },
   {
-    title: 'Package Protection & Safety',
+    title: 'Order Updates',
     items: [
-      '100% full shipping insurance on all packages',
-      'Signature confirmation for high-value orders over $500',
-      'Weather-resistant outer mailers',
-      'Protective bubble/foam layering for fragile items',
+      'We send an order confirmation after purchase',
+      'Dispatch confirmation and tracking details are sent when available',
+      'Contact our support team if your tracking has not updated or your delivery needs attention',
     ],
   },
 ];
@@ -64,7 +58,7 @@ export default function ShippingPolicyPage() {
         'url': 'https://tazoota.com/shipping-policy',
         'name': 'Shipping Policy | Tazoota',
         'description':
-          `Tazoota Shipping Policy: free standard shipping across the United States with same-day processing before ${SITE.shipping.cutoffTime} and estimated delivery within ${SITE.shipping.totalMin}–${SITE.shipping.totalMax} business days.`,
+          `Tazoota Shipping Policy: free standard shipping across the United States. Allow ${SITE.shipping.handlingMin}–${SITE.shipping.handlingMax} business day for processing and dispatch, followed by ${SITE.shipping.transitMin}–${SITE.shipping.transitMax} business days in transit.`,
       },
       {
         '@type': 'OfferShippingDetails',
@@ -92,7 +86,6 @@ export default function ShippingPolicyPage() {
             'maxValue': SITE.shipping.transitMax,
             'unitCode': 'DAY',
           },
-          'cutoffTime': '14:00:00-06:00',
         },
       },
     ],
@@ -116,16 +109,16 @@ export default function ShippingPolicyPage() {
             Shipping Policy
           </h1>
           <p className="mt-5 max-w-3xl text-base leading-7 text-[#f0f7f2]/80 sm:text-lg">
-            At Tazoota, we focus on fast, reliable fulfillment with transparent delivery windows, free standard shipping to the United States, and real-time tracking from warehouse to door.
+            Tazoota offers free standard shipping to the United States. The delivery estimate includes both processing and carrier transit time.
           </p>
         </section>
 
         <section className="mb-8 grid gap-4 md:grid-cols-3">
           <div className="rounded-xl border border-[#2e6b3e]/10 bg-white p-5 shadow-sm">
             <Clock className="mb-4 h-6 w-6 text-[#2e6b3e]" />
-            <h2 className="text-lg font-bold text-[#262626]">Order by 2:00 PM CST</h2>
+            <h2 className="text-lg font-bold text-[#262626]">Processing & Dispatch</h2>
             <p className="mt-2 text-sm leading-6 text-gray-600">
-              Orders placed before the 2:00 PM CST cutoff are processed, packed, and shipped the same business day.
+              Allow up to 1 business day for processing and dispatch. Orders placed on weekends or holidays begin processing on the next business day.
             </p>
           </div>
           <div className="rounded-xl border border-[#2e6b3e]/10 bg-white p-5 shadow-sm">
@@ -137,9 +130,9 @@ export default function ShippingPolicyPage() {
           </div>
           <div className="rounded-xl border border-[#2e6b3e]/10 bg-white p-5 shadow-sm">
             <ShieldCheck className="mb-4 h-6 w-6 text-[#2e6b3e]" />
-            <h2 className="text-lg font-bold text-[#262626]">Insured Deliveries</h2>
+            <h2 className="text-lg font-bold text-[#262626]">Tracking Updates</h2>
             <p className="mt-2 text-sm leading-6 text-gray-600">
-              All shipments include full insurance, protective packaging, and end-to-end tracking updates.
+              We send tracking details when they are available. Carrier scans and tracking updates may not appear immediately after dispatch.
             </p>
           </div>
         </section>
@@ -148,10 +141,10 @@ export default function ShippingPolicyPage() {
           <div className="flex flex-col gap-3 border-b border-gray-100 pb-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-2xl font-bold text-[#262626]">Delivery Timelines</h2>
-              <p className="mt-2 text-sm text-gray-600">Estimated total delivery: <strong>5–10 business days</strong> (0–1 day handling + 5–9 days transit). Same-day dispatch applies to orders placed before 2:00 PM CST on business days.</p>
+              <p className="mt-2 text-sm text-gray-600">Estimated total delivery: <strong>{SITE.shipping.totalMin}–{SITE.shipping.totalMax} business days</strong> ({SITE.shipping.handlingMin}–{SITE.shipping.handlingMax} business day processing + {SITE.shipping.transitMin}–{SITE.shipping.transitMax} business days in transit).</p>
             </div>
             <span className="inline-flex w-fit rounded-full bg-[#e3e823] px-3.5 py-1 text-sm font-semibold text-[#2e6b3e]">
-              Same-day dispatch cutoff: 2:00 PM CST
+              Free standard shipping
             </span>
           </div>
 
